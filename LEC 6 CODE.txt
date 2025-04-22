@@ -1,0 +1,575 @@
+Question No: 1
+
+Problem Statement
+
+
+
+You are developing a stock trading platform that provides real-time market data to traders. As part of the system, you need to implement a feature that sorts the stock prices in non-decreasing order based on their value.
+
+
+
+Write a program that prompts the user to enter the number of stocks and their respective prices. The program should then use the insertion sort algorithm to sort the stock prices in non-decreasing order. After each iteration of the insertion sort, the program should display the updated stock prices to reflect the current state of the sorting process.
+
+
+
+This feature will allow traders to quickly analyze and compare the stock prices, enabling them to identify potential buying or selling opportunities. It provides a visual representation of the changing order of stock prices, assisting traders in making informed decisions and maximizing their trading strategies within the platform.
+
+
+
+Note: This is a sample question asked in Infosys recruitment.
+
+Input format :
+The first line of input consists of n, the number of elements in the array.
+
+The second line of input consists of n elements of the array, separated by space.
+
+Output format :
+The first line of output prints the initial array of elements, separated by space.
+
+The following lines print the result of each iteration.
+
+The last line of output prints the final sorted array in non-decreasing order, separated by space.
+
+The numbers should be rounded off to two decimal places.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+n > 0
+
+Sample test cases :
+Input 1 :
+4
+16.37 21.51 12.90 18.80
+Output 1 :
+Initial order: 16.37 21.51 12.90 18.80 
+After Iteration 1: 16.37 21.51 12.90 18.80 
+After Iteration 2: 12.90 16.37 21.51 18.80 
+After Iteration 3: 12.90 16.37 18.80 21.51 
+Sorted order: 12.90 16.37 18.80 21.51 
+Input 2 :
+5
+30.93 19.46 21.9 33.17 36.4
+Output 2 :
+Initial order: 30.93 19.46 21.90 33.17 36.40 
+After Iteration 1: 19.46 30.93 21.90 33.17 36.40 
+After Iteration 2: 19.46 21.90 30.93 33.17 36.40 
+After Iteration 3: 19.46 21.90 30.93 33.17 36.40 
+After Iteration 4: 19.46 21.90 30.93 33.17 36.40 
+Sorted order: 19.46 21.90 30.93 33.17 36.40 
+
+
+
+
+
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+void insertionSort(double arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        double key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && key < arr[j]) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+void printArray(double arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        cout << fixed << setprecision(2) << arr[i] << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    double stockPrices[n];
+    for (int i = 0; i < n; i++) {
+        cin >> stockPrices[i];
+    }
+
+    // Print initial order
+    cout << "Initial order: ";
+    printArray(stockPrices, n);
+
+    // Apply insertion sort and print each iteration
+    for (int i = 1; i < n; i++) {
+        insertionSort(stockPrices, i + 1);
+        cout << "After Iteration " << i << ": ";
+        printArray(stockPrices, n);
+    }
+
+    // Print final sorted order
+    cout << "Sorted order: ";
+    printArray(stockPrices, n);
+
+    return 0;
+}
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Question No: 2
+
+Problem Statement
+
+
+
+You are developing a contact management system for customer relationship management (CRM) software. As part of the system, you need to implement a feature that sorts the contact names in alphabetical order.
+
+
+
+Write a program that prompts the user to enter the number of contacts and their respective names. The program should then use the insertion sort algorithm to sort the contact names in alphabetical order. After sorting, the program should display the contact names, now arranged in alphabetical order, after each iteration.
+
+
+
+This feature will assist users in easily locating specific contacts by their names, enabling efficient communication and management within the CRM system. It ensures an organized and user-friendly interface, improving productivity and customer relationship management for businesses.
+
+
+
+Note: This is a sample question asked in CTS recruitment.
+
+Input format :
+The first line of input consists of the number of contacts n.
+
+The second line of input consists of n names, separated by space.
+
+Output format :
+The first line of output prints the names in the given order, separated by space.
+
+The following lines print the result after each iteration.
+
+The last line of output prints the names in sorted order, separated by space.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Sample test cases :
+Input 1 :
+3
+Elena Damon Stefan
+Output 1 :
+Initial order: Elena Damon Stefan 
+After Iteration 1: Damon Elena Stefan 
+After Iteration 2: Damon Elena Stefan 
+Sorted order: Damon Elena Stefan 
+Input 2 :
+6
+Apple Orange Carrot Banana Grapes Kiwi
+Output 2 :
+Initial order: Apple Orange Carrot Banana Grapes Kiwi 
+After Iteration 1: Apple Orange Carrot Banana Grapes Kiwi 
+After Iteration 2: Apple Carrot Orange Banana Grapes Kiwi 
+After Iteration 3: Apple Banana Carrot Orange Grapes Kiwi 
+After Iteration 4: Apple Banana Carrot Grapes Orange Kiwi 
+After Iteration 5: Apple Banana Carrot Grapes Kiwi Orange 
+Sorted order: Apple Banana Carrot Grapes Kiwi Orange 
+
+
+
+
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+using namespace std;
+
+void insertionSort(string arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        string key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && key < arr[j]) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+void printArray(string arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        if (i > 0) {
+            cout << " ";
+        }
+        cout << arr[i];
+    }
+    cout << endl;
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    string contacts[n];
+    for (int i = 0; i < n; i++) {
+        cin >> contacts[i];
+    }
+
+    // Print initial order
+    cout << "Initial order: ";
+    printArray(contacts, n);
+
+    // Apply insertion sort and print each iteration
+    for (int i = 1; i < n; i++) {
+        insertionSort(contacts, i + 1);
+        cout << "After Iteration " << i << ": ";
+        printArray(contacts, n);
+    }
+
+    // Print final sorted order
+    cout << "Sorted order: ";
+    printArray(contacts, n);
+
+    return 0;
+}
+
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+Question No: 3
+
+Problem Statement
+
+
+
+You are given a list of integers representing the scores of students in a class. The task is to sort the scores in ascending order using the bubble sort algorithm. Additionally, you need to print all the iteration values to track the progress of the sorting process.
+
+
+
+Write a program that takes the list of scores as input and performs bubble sorting on the list. After each iteration, print the current state of the list. Finally, display the sorted list of scores.
+
+
+
+Example:
+
+
+
+Input:
+
+Scores: [89, 72, 95, 68, 82]
+
+
+
+Output:
+
+Iteration 1: [72, 89, 68, 82, 95]
+
+Iteration 2: [72, 68, 82, 89, 95]
+
+Iteration 3: [68, 72, 82, 89, 95]
+
+Iteration 4: [68, 72, 82, 89, 95]
+
+
+
+Sorted Scores: [68, 72, 82, 89, 95]
+
+
+
+Note: The iteration values represent the state of the list after each pass of the bubble sort algorithm.
+
+Input format :
+The first line of input contains an integer n, representing the number of scores in the list.
+
+The second line contains n space-separated integers, representing the scores of the students.
+
+Output format :
+The program should output the following:
+
+The original array of scores.
+
+After each iteration, the array state should be printed.
+
+The sorted array of scores.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+0 ≤ score ≤ 100 (the individual score of a student)
+
+Sample test cases :
+Input 1 :
+5
+89 72 95 68 82
+Output 1 :
+Original array: 
+89 72 95 68 82 
+Iteration 1: 72 89 68 82 95 
+Iteration 2: 72 68 82 89 95 
+Iteration 3: 68 72 82 89 95 
+Iteration 4: 68 72 82 89 95 
+Sorted array: 68 72 82 89 95 
+
+
+
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+void bubble_sort(int scores[], int n) {
+    for (int i = 0; i < n-1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (scores[j] > scores[j + 1]) {
+                swap(scores[j], scores[j + 1]);
+            }
+        }
+        cout << "Iteration " << i +1 << ": ";
+        for (int k = 0; k < n; k++) {
+            cout << scores[k] << " ";
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+    int scores[n];
+    for (int i = 0; i < n; i++) {
+        cin >> scores[i];
+    }
+
+    cout << "Original array: ";
+    for (int i = 0; i < n; i++) {
+        cout << scores[i] << " ";
+    }
+    cout << endl;
+
+    bubble_sort(scores, n);
+
+    cout << "Sorted array: ";
+    for (int i = 0; i < n; i++) {
+        cout << scores[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+Question No: 1
+
+Problem Statement
+
+
+
+You are working on a ticketing system for a popular event. As part of the system, you need to implement a feature that finds the kth smallest ticket price among all the available tickets.
+
+
+
+Write a program that takes user input for the number of tickets and their respective prices. The program should use the selection sort algorithm to sort the ticket prices in non-decreasing order.
+
+
+
+After sorting, it should display the sorted order of the ticket prices. Additionally, the program should find and display the kth smallest ticket price from the sorted list.
+
+
+
+This feature will help event organizers and attendees identify the kth cheapest ticket price, which can be useful for various purposes such as determining different pricing tiers or identifying affordable ticket options. The program provides an efficient way to sort and find the kth smallest ticket price within the ticketing system, enhancing the overall ticket-purchasing experience for event participants.
+
+
+
+Note: This is a sample question asked in Capgemini recruitment.
+
+Input format :
+The first line of input consists of the number of elements n in the array.
+
+The second line of input consists of n array elements, separated by space.
+
+The third line of input consists of the value of k.
+
+Output format :
+The first line of output prints the sorted order.
+
+The second line of output prints the kth smallest element in the given array.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+n>0
+
+k<n
+
+Sample test cases :
+Input 1 :
+5
+1 4 7 8 5
+3
+Output 1 :
+Sorted order: 1 4 5 7 8 
+The kth smallest element is: 5
+Input 2 :
+9
+7 9 6 8 4 5 3 2 1
+6
+Output 2 :
+Sorted order: 1 2 3 4 5 6 7 8 9 
+The kth smallest element is: 6
+
+
+
+
+
+// You are using GCC
+#include <iostream>
+
+using namespace std;
+
+void selection_sort(int arr[], int n) {
+    for (int i = 0; i < n; ++i) {
+        int min_idx = i;
+        for (int j = i + 1; j < n; ++j) {
+            if (arr[j] < arr[min_idx]) {
+                min_idx = j;
+            }
+        }
+        swap(arr[i], arr[min_idx]);
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    int arr[n];
+    for (int i = 0; i < n; ++i) {
+        cin >> arr[i];
+    }
+
+    int k;
+    cin >> k;
+
+    selection_sort(arr, n);
+
+    cout << "Sorted order:";
+    for (int i = 0; i < n; ++i) {
+        cout << " " << arr[i];
+    }
+    cout << endl;
+
+    cout << "The kth smallest element is: " << arr[k - 1] << endl;
+
+    return 0;
+}
+
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Question No: 2
+
+Problem Statement
+
+
+
+In a classroom, the teacher decides to shuffle all the students so that each student collaborates with other students too and she also checks that the board is visible to all students. On a bench n number of students can be seated. She calls the students and makes them stand in a line.
+
+
+
+She checks the first two people and if the first person is taller than the second person he is put in second place and second in first, i.e., their positions are swapped. After swapping, the teacher checks the second and third person's height, and if the second person is taller than the third person their positions are swapped. She repeats this till the end. She finds that the last student is the tallest student after completing one iteration.
+
+
+
+So she repeats the process for (n-1) times so that all students are sorted. She stops the process in the middle as soon as the students are sorted.
+
+
+
+Help the teacher write a program to do this task using the selection sort algorithm.
+
+Input format :
+The first line of the input consists of the size of the array N.
+
+The second line of the input consists of array elements.
+
+Output format :
+The output displays the unsorted and sorted student height order details along with swapping details.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+2 <= N <= 20
+
+Sample test cases :
+Input 1 :
+5
+26 14 33 27 54
+Output 1 :
+Unsorted heights: 26 14 33 27 54 
+Swapping 14 and 26: 14 26 33 27 54 
+Swapping 27 and 33: 14 26 27 33 54 
+Sorted heights: 14 26 27 33 54 
+
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+void selection_sort(int arr[], int n) {
+    cout << "Unsorted heights: ";
+    for (int i = 0; i < n; ++i) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+    for (int i = 0; i < n - 1; ++i) {
+        int min_idx = i;
+        for (int j = i + 1; j < n; ++j) {
+            if (arr[j] < arr[min_idx]) {
+                min_idx = j;
+            }
+        }
+        if (min_idx != i) {
+            swap(arr[i], arr[min_idx]);
+            cout << "Swapping " << arr[i] << " and " << arr[min_idx] << ": ";
+            for (int k = 0; k < n; ++k) {
+                cout << arr[k] << " ";
+            }
+            cout << endl;
+        }
+    }
+    cout << "Sorted heights: ";
+    for (int i = 0; i < n; ++i) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    int heights[n];
+    for (int i = 0; i < n; ++i) {
+        cin >> heights[i];
+    }
+    selection_sort(heights, n);
+}
+
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+

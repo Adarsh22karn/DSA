@@ -1,0 +1,543 @@
+Problem Statement
+
+
+
+You are a skilled software engineer working at a renowned financial analysis company. Your company is renowned for its expertise in analyzing stock market data to provide valuable insights and recommendations to clients. As part of your role, you have been entrusted with developing a program that filters out negative stock prices from an array of daily closing prices.
+
+
+
+Note: This kind of question will be helpful in clearing TCS recruitment.
+
+Input format :
+The first line should include the size of the array, which represents the number of closing prices.
+
+The second line should include the closing prices of the stocks, separated by spaces.
+
+Output format :
+The program will exhibit a line presenting the updated array, consisting exclusively of positive closing prices
+
+
+
+Refer to the sample input and output formatting specifications.
+
+Code constraints :
+The array size is limited to a maximum of 100.
+
+The closing prices can be positive, negative, or zero.
+
+The closing prices are represented as double values.
+
+Sample test cases :
+Input 1 :
+7
+-2.3 5.6 7.8 -4.5 9.1 -6.7 3.2
+Output 1 :
+Updated Array with Positive Closing Prices: 5.6 7.8 9.1 3.2 
+Input 2 :
+5
+10.5 -5.2 8.7 -3.9 12.3
+Output 2 :
+Updated Array with Positive Closing Prices: 10.5 8.7 12.3 
+
+
+
+
+
+
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int n,i;
+    double a[100];
+    cin>>n;
+    for (i=0;i<n;i++)
+    {
+        cin>>a[i];
+    }
+    cout<<"Updated Array with Positive Closing Prices: ";
+    for (i=0;i<n;i++)
+    {
+        if (a[i]>0)
+        {
+           cout<<a[i]<<" ";
+        }
+    }
+    //cout<<"Updated Array with Positive Closing Prices: ";
+    
+    
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Problem Statement
+
+
+
+Given an array of integers, write a program to rotate the array to the right by a specified number of positions. The program should prompt the user to enter the number of positions to rotate and then display the updated array.
+
+Input format :
+The first line of input contains an integer representing the size of the array.
+
+The second line of input contains the elements of the array, separated by a space.
+
+The last line of input contains an integer to enter the number of positions to rotate the array.
+
+Output format :
+The output displays the original array before rotation and the updated array after rotation.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+Maximum size of the array (MAX_SIZE = 100).
+
+The size of the array should be a positive integer.
+
+The elements of the array can be any integer.
+
+The number of positions to rotate the array can be positive
+
+Sample test cases :
+Input 1 :
+6
+1 2 3 4 5 6
+2
+Output 1 :
+Original array: 1 2 3 4 5 6 
+Updated array: 5 6 1 2 3 4 
+Input 2 :
+7
+12 65 34 80 38 51 72
+10
+Output 2 :
+Original array: 12 65 34 80 38 51 72 
+Updated array: 38 51 72 12 65 34 80 
+Input 3 :
+5
+8 -2 3 -4 6
+4
+Output 3 :
+Original array: 8 -2 3 -4 6 
+Updated array: -2 3 -4 6 8 
+
+
+
+
+#include<iostream>
+using namespace std;
+int main()
+{
+    int n,a[100],pos,i;
+    cin>>n;
+    for(i=0;i<n;i++)
+    {
+        cin>>a[i];
+    }
+    cin>>pos;
+    pos %=n;
+    cout<<"Original array: ";
+    for(i=0;i<n;i++)
+    {
+        cout<<a[i]<<" ";
+    }
+    cout<<endl;
+    
+    
+    cout<<"Updated array: ";
+    for (i=n-pos;i<2*n-pos;i++)
+    {
+        cout<<a[i % n]<<" ";
+    }
+    cout<<endl;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Problem Statement
+
+
+
+You are developing a program for a data analysis company that specializes in linguistic research. The company needs a program that can reverse the order of characters in an array of words. Your task is to write a program that takes user input for the size of the array and the words in the array. The program should reverse the characters in each word of the array while preserving the order of the words, and display the updated array.
+
+Input format :
+The first line of input consists of an integer that represents the size of the array.
+
+The next line of input consists of the characters in the array, separated by spaces.
+
+Output format :
+The program outputs a single line displaying the updated sentence with the characters reversed.
+
+Code constraints :
+The size of the array should be a positive integer.
+
+The array can store a maximum of 100 characters.
+
+The input characters can be any printable ASCII characters.
+
+Sample test cases :
+Input 1 :
+4
+A B C D
+Output 1 :
+Updated array: D C B A 
+Input 2 :
+10
+9 8 6 7 8 3 1 2 4 8 
+Output 2 :
+Updated array: 8 4 2 1 3 8 7 6 8 9 
+Input 3 :
+8
+S T R I N G S !
+Output 3 :
+Updated array: ! S G N I R T S 
+
+
+
+
+#include<iostream>
+#include<algorithm>
+using namespace std;
+int main()
+{
+    int s,i;
+    char a[100];
+    cin>>s;
+    for (i=0;i<s;i++)
+    {
+        cin>>a[i];
+    }
+    reverse(a,a+s);
+    
+    cout<<"Updated array: ";
+    for (i=0;i<s;i++)
+    cout<<a[i]<<" ";
+}
+
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Problem Statement
+
+
+
+You are developing a data analysis tool for a statistics company. The company needs a program that can analyze the frequency of elements in an array of integers. Your task is to write a program that takes user input for the size of the array and the elements of the array. The program should calculate the frequency of each element in the array and display the elements along with their frequencies.
+
+
+
+Note: This kind of question will be helpful in clearing AMCAT tests.
+
+Input format :
+The first line of input consists of an integer that represents the size of the array.
+
+The second line of input consists of an integer that represents the elements of the array, separated by spaces.
+
+Output format :
+The program outputs a series of lines, each representing an element and its frequency in the array.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Sample test cases :
+Input 1 :
+5
+1 2 1 3 2
+Output 1 :
+Element   Frequency
+1         2
+2         2
+3         1
+Input 2 :
+6
+4 2 4 4 6 2
+Output 2 :
+Element   Frequency
+4         3
+2         2
+6         1
+
+
+#include<iostream>
+#include<map>
+using namespace std;
+int main()
+{
+    int n,a[100],i;
+    cin>>n;
+    for(i=0;i<n;i++)
+    {
+        cin>>a[i];
+    }
+    map<int,int>frequency;
+    for (i=0;i<n;i++)
+    {
+        frequency[a[i]]++;
+    }
+    cout<<"Element  Frequency"<<endl;
+    for (i=0;i<n;i++)
+    {
+        if (frequency[a[i]]>0)
+        {
+            cout<<a[i]<<"        "<<frequency[a[i]]<<endl;
+            frequency[a[i]]=0;
+        }
+    }
+   
+}
+
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Problem Statement
+
+
+
+Imagine you are developing a text editor application, and you need to implement a feature that allows users to insert a new character at a specified position in an array of characters.
+
+
+
+Write a program that takes input from the user, including the size of the array, the characters for the array, the position for insertion, and the character to be inserted. The program should shift the elements of the array to make space for the new character and insert it at the specified position.
+
+
+
+Finally, the program should display the updated array after the insertion.
+
+Input format :
+The first line contains an integer representing the size of the array.
+
+The second line contains the characters for the array, separated by spaces.
+
+The third line contains an integer representing the position for insertion.
+
+The fourth line contains a single character representing the character to be inserted.
+
+Output format :
+The output should display the updated string after the insertion, separated by spaces.
+
+Code constraints :
+The maximum size of the array is 100.
+
+The size of the array should be a positive integer.
+
+The position for insertion should be a valid index in the range from 0 to size - 1.
+
+Sample test cases :
+Input 1 :
+5
+a b c d e
+2
+X
+Output 1 :
+Updated array after insertion: a b X c d e 
+Input 2 :
+3
+p q r
+0
+Z
+Output 2 :
+Updated array after insertion: Z p q r 
+
+
+
+
+
+
+#include<iostream>
+using namespace std;
+int main()
+{
+    int s,pos,i;
+    char a[100],v;
+    cin>>s;
+    for (i=0;i<s;i++)
+    {
+        cin>>a[i];
+    }
+    cin>>pos;
+    cin>>v;
+    for (i=s-1;i>=pos-1;i--)
+    {
+        a[i+1]=a[i];
+    }
+    a[pos]=v;
+    cout<<"Updated array after insertion: ";
+    for(i=0;i<=s;i++)
+    cout<<a[i]<<" ";
+}  
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Problem Statement
+
+
+
+﻿You are working on a scheduling application that manages the rotation of employees' shifts in a company. The application receives an array of employee IDs representing the current shift assignment. Your task is to rotate the shifts by a specified number of positions to accommodate changes in work schedules.
+
+
+
+Write a program that takes the size of the employee array, followed by the employee IDs, and the number of positions to rotate. The program should output the updated shift assignment after the rotation.
+
+Input format :
+The first line of input consists of an integer num, representing the number of employees.
+
+The second line of input consists of num space-separated integers representing the current shift assignment.
+
+The third line of input consists of an integer d, representing the number of positions to rotate.
+
+Output format :
+The output consists of a single line containing num space-separated integers, representing the updated shift assignment after rotation.
+
+Code constraints :
+The size of the employee array will not exceed 1000.
+
+The number of positions to rotate will be a non-negative integer.
+
+Sample test cases :
+Input 1 :
+5
+10 20 30 40 50
+2
+Output 1 :
+30 40 50 10 20 
+Input 2 :
+6
+10 20 30 40 50 60
+3
+Output 2 :
+40 50 60 10 20 30 
+
+
+
+
+
+
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int a[100],n,pos,i;
+    cin>>n;
+    for (int i=0;i<n;i++)
+    {
+        cin>>a[i];
+    }
+    cin>>pos;
+    int tem[100];
+    for (i=pos;i<n;i++)
+    {
+        tem[i-pos]=a[i];
+    }
+    for(i=0;i<pos;i++)
+    {
+        tem[n-pos+i]=a[i];
+    }
+    for (i=0;i<n;i++)
+    {
+        a[i]=tem[i];
+    }
+
+    for (i=0;i<n;i++)
+    {
+        cout<<a[i]<<" ";
+    }
+    
+        
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Problem Statement
+
+
+
+Write a program to delete an element from an array and shift all the elements to the left to fill the gap. The program should prompt the user to enter the position of the element to be deleted and then display the updated array.
+
+Input format :
+The first line of input contains an integer representing the size of the array.
+
+The second line of input contains the elements of the array, separated by a space.
+
+The third line of input contains an integer to indicate the position of the element to be deleted.
+
+Output format :
+The output displays the original array before deletion and the updated array after deletion.
+
+
+
+Refer to the sample output format for formatting specifications.
+
+Code constraints :
+Maximum size of the array (MAX_SIZE = 100).
+
+The size of the array should be a positive integer.
+
+The elements of the array can be any integer.
+
+The position of the element to be deleted should be a valid position within the array bounds (between 1 and size, inclusive).
+
+Sample test cases :
+Input 1 :
+5
+1 2 3 4 5
+6
+Output 1 :
+Original array: 1 2 3 4 5 
+Invalid position!
+Input 2 :
+7
+12 65 34 80 38 51 72
+5
+Output 2 :
+Original array: 12 65 34 80 38 51 72 
+Updated array: 12 65 34 80 51 72 
+Input 3 :
+5
+8 -2 3 -4 6
+4
+Output 3 :
+Original array: 8 -2 3 -4 6 
+Updated array: 8 -2 3 6 
+
+
+
+
+
+
+#include<iostream>
+using namespace std;
+int main()
+{
+    int n,a[100],i,pos;
+    cin>>n;
+    cout<<"Original array: ";
+    for (i=0;i<n;i++)
+    {
+        cin>>a[i];
+        cout<<a[i]<<" ";
+    }
+    cin>>pos;
+    cout<<endl;
+    //int len=sizeof(a)/sizeof(a[0]);
+    if (pos<n)
+    {
+        for (i=pos-1;i<n-1;i++)
+        {
+            a[i]=a[i+1];
+        }
+        n--;
+        cout<<"Updated array: ";
+        for (i=0;i<n;i++)
+        {
+            cout<<a[i]<<" ";    
+        }
+    }
+    else
+    {
+        cout<<"Invalid position!"<<endl;
+    }
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
