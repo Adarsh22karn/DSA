@@ -1,0 +1,1184 @@
+Single File Programming Question
+Problem Statement
+
+
+
+You are developing a software tool for analyzing temperature data collected from various weather stations. The tool requires a feature to reverse the order of temperature values in a linked list representing a sequence of recorded temperatures. Implement a program that allows the user to input a list of temperatures and create a doubly linked list using the temperature values. The program should then reverse the order of temperatures in the list and display the reversed list as the output.
+
+
+
+The program will prompt the user to enter the number of temperature values, followed by the temperature values themselves. It will create a doubly linked list using the entered temperature values, with each temperature value stored in a node. Next, the program will reverse the order of the temperature values in the list using the reverseList function. Finally, it will print the reversed list of temperature values.
+
+
+
+This software tool will assist meteorologists and weather analysts in examining temperature trends by providing them with a reversed sequence of recorded temperatures, enabling them to gain insights into temperature fluctuations over time.
+
+
+
+Note: This is a sample question asked in a Capgemini interview.
+
+Input format :
+The first line contains an integer 'n' representing the number of temperature values.
+
+The next line contains 'n' space-separated integers representing the temperature values.
+
+Output format :
+The first line of output consists of the original list of temperature values.
+
+The next line of output consists of a reversed list of temperature values.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+The temperature values are integers.
+
+The temperature values can be both positive and negative.
+
+The size of the linked list is determined by the user input.
+
+Sample test cases :
+Input 1 :
+3
+-5 0 5
+Output 1 :
+Original List: 5 0 -5 
+Reversed List: -5 0 5 
+Input 2 :
+5
+10 20 30 40 50
+Output 2 :
+Original List: 50 40 30 20 10 
+Reversed List: 10 20 30 40 50 
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+
+struct Node {
+    int data;
+    Node* prev;
+    Node* next;
+};
+
+void insertAtBeginning(Node** head, int newData) {
+    Node* newNode = new Node;
+    newNode->data = newData;
+    newNode->prev = nullptr;
+    newNode->next = *head;
+
+    if (*head != nullptr)
+        (*head)->prev = newNode;
+
+    *head = newNode;
+}
+
+void reverseList(Node** head) {
+    Node* current = *head;
+    Node* temp = nullptr;
+
+    while (current != nullptr) {
+        temp = current->prev;
+        current->prev = current->next;
+        current->next = temp;
+
+        current = current->prev;
+    }
+
+    if (temp != nullptr)
+        *head = temp->prev;
+}
+
+void printList(Node* head) {
+    Node* current = head;
+    while (current != nullptr) {
+        std::cout << current->data << " ";
+        current = current->next;
+    }
+    std::cout << std::endl;
+}
+
+int main() {
+    Node* head = nullptr;
+    int n, data;
+
+    std::cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        std::cin >> data;
+        insertAtBeginning(&head, data);
+    }
+
+    std::cout << "Original List: ";
+    printList(head);
+
+    reverseList(&head);
+
+    std::cout << "Reversed List: ";
+    printList(head);
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Single File Programming Question
+Problem Statement
+
+
+
+You are tasked with implementing a system that manages a student database. The database stores student information using a doubly linked list. However, the system requires the ability to split the student database into two equal halves for better management. Your task is to write a program that splits the given doubly linked list of student names into two halves, ensuring that the student information is evenly distributed between the resulting lists. The split should be done in such a way that each resulting list maintains the original order of the student records.
+
+
+
+Write a program that takes input in the specified format and splits the doubly linked list of student names into two halves using the "insertAtEnd" function.
+
+
+
+Note: This is a sample question asked in Microsoft recruitment.
+
+Input format :
+The input begins with a single integer, N, representing the number of students in the database.
+
+The following N lines contain the names of the students, one name per line.
+
+Output format :
+The program should output the following:
+
+The first half of the student names after splitting.
+
+The second half of the student names after splitting.
+
+Each list should be displayed as a space-separated string of student names.
+
+If either the first half or the second half is empty, it should be displayed as an empty string.
+
+Code constraints :
+The maximum number of students in the database is 100.
+
+Each student's name is a string of alphanumeric characters and can have a maximum length of 100 characters.
+
+The input list of student names cannot be empty.
+
+Sample test cases :
+Input 1 :
+4
+John
+Emma
+Michael
+Sophia
+Output 1 :
+John Emma 
+Michael Sophia 
+Input 2 :
+5
+Alice
+Bob
+Claire
+David
+Emily
+Output 2 :
+Alice Bob Claire 
+David Emily 
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// Node structure for the doubly linked list
+struct Node {
+    string data;
+    Node* prev;
+    Node* next;
+
+    Node(const string& name) : data(name), prev(nullptr), next(nullptr) {}
+};
+
+// Function to insert a node at the end of the linked list
+void insertAtEnd(Node*& head, Node*& tail, const string& name) {
+    Node* newNode = new Node(name);
+    if (!head) {
+        head = tail = newNode;
+    } else {
+        tail->next = newNode;
+        newNode->prev = tail;
+        tail = newNode;
+    }
+}
+
+// Function to split the doubly linked list into two halves
+void splitLinkedList(Node* head, Node*& firstHalfHead, Node*& secondHalfHead) {
+    int count = 0;
+    Node* current = head;
+
+    while (current) {
+        count++;
+        current = current->next;
+    }
+
+    int middle = count / 2;
+    current = head;
+
+    for (int i = 0; i < middle; i++) {
+        current = current->next;
+    }
+
+    firstHalfHead = head;
+    secondHalfHead = current->next;
+    current->next = nullptr;
+}
+
+int main() {
+    int N;
+    cin >> N;
+    cin.ignore(); // Clear the newline character
+
+    Node* head = nullptr;
+    Node* tail = nullptr;
+
+    for (int i = 0; i < N; i++) {
+        string name;
+        getline(cin, name);
+        insertAtEnd(head, tail, name);
+    }
+
+    Node* firstHalfHead = nullptr;
+    Node* secondHalfHead = nullptr;
+
+    splitLinkedList(head, firstHalfHead, secondHalfHead);
+
+    // Output the first half
+    Node* current = firstHalfHead;
+    while (current) {
+        cout << current->data << " ";
+        current = current->next;
+    }
+    cout << endl;
+
+    // Output the second half
+    current = secondHalfHead;
+    while (current) {
+        cout << current->data << " ";
+        current = current->next;
+    }
+    cout << endl;
+
+    return 0;
+}
+
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Single File Programming Question
+Problem Statement
+
+
+
+You are developing a web analytics tool that tracks user engagement on a website. The tool requires functionality to determine the number of unique user interactions recorded in a log file. Each user interaction is represented by a unique session ID. Implement a program that allows the user to input a log file containing session IDs representing user interactions. The program should create a doubly linked list using the session IDs from the log file and calculate the total count of unique user interactions in the list.
+
+
+
+The program should read the log file, which consists of one session ID per line. It will then create a doubly linked list using the session IDs as the data. Next, the program will traverse the list and count the number of unique session IDs present. Finally, it will display the count as the output.
+
+
+
+The web analytics tool will provide valuable insights to website administrators by accurately determining the number of unique user interactions, enabling them to analyze user engagement and make data-driven decisions to enhance the user experience.
+
+
+
+Note: This is a sample question asked in an Amazon interview.
+
+Input format :
+The input begins with an integer N, representing the number of session IDs in the log file.
+
+This is followed by N lines of strings, each containing a session ID.
+
+Output format :
+The program should output a single line containing the number of unique user interactions.
+
+Code constraints :
+The program assumes the input log file is formatted with one session ID per line.
+
+The session IDs are alphanumeric strings.
+
+The log file may contain duplicate session IDs.
+
+The maximum length of a session ID is 100 characters.
+
+The maximum number of session IDs in the log file is 1000.
+
+Sample test cases :
+Input 1 :
+3
+ABC123
+DEF456
+GHI789
+Output 1 :
+Number of unique user interactions: 3
+Input 2 :
+5
+ABC123
+DEF456
+ABC123
+JKL987
+DEF456
+Output 2 :
+Number of unique user interactions: 3
+Input 3 :
+2
+XYZ789
+XYZ789
+Output 3 :
+Number of unique user interactions: 1
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+#include <set>
+
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+
+    set<string> sessions;
+    for (int i = 0; i < n; i++) {
+        string session;
+        cin >> session;
+        sessions.insert(session);
+    }
+
+    cout << "Number of unique user interactions: " << sessions.size() << endl;
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Single File Programming Question
+Problem Statement
+
+
+
+You have been assigned the task of developing a student management system for a school. The system needs to maintain a sorted doubly linked list of student records based on their roll numbers in ascending order. Each student record consists of the student's roll number.
+
+
+
+You are required to implement a function that allows the registration of new students into the system while ensuring that their records are inserted in the appropriate sorted position in the doubly linked list. The system should handle the addition of new student records efficiently and maintain the sorted order of the student list at all times.
+
+
+
+Additionally, the system should provide a feature to display the student records in sorted order based on their roll numbers.
+
+
+
+Note: This is a sample question asked in the Google recruitment.
+
+Input format :
+The input begins with an integer N, representing the number of student records to be registered.
+
+This is followed by N lines, each containing an integer representing the roll number of a student.
+
+Output format :
+The output displays the student records in ascending order based on their roll numbers.
+
+Each student record is displayed on a new line, containing the roll number of the student.
+
+Code constraints :
+The roll numbers of students are unique positive integers.
+
+The maximum number of students in the system is limited to a specific value (e.g., 100).
+
+The roll numbers of students are within a specified range (e.g., 1 to 100).
+
+Sample test cases :
+Input 1 :
+3
+2 4 1
+3
+Output 1 :
+Created Doubly Linked List:
+1 2 3 4 
+Input 2 :
+1
+5
+2
+Output 2 :
+Created Doubly Linked List:
+2 5 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int roll;
+    Node* prev;
+    Node* next;
+};
+
+void insert(Node** head, int roll) {
+    Node* newNode = new Node;
+    newNode->roll = roll;
+    newNode->prev = NULL;
+    newNode->next = NULL;
+
+    if (*head == NULL) {
+        *head = newNode;
+        return;
+    }
+
+    Node* current = *head;
+    Node* prev = NULL;
+    while (current != NULL && current->roll < roll) {
+        prev = current;
+        current = current->next;
+    }
+
+    if (prev == NULL) {
+        newNode->next = *head;
+        (*head)->prev = newNode;
+        *head = newNode;
+    } else {
+        prev->next = newNode;
+        newNode->prev = prev;
+        newNode->next = current;
+        if (current != NULL) {
+            current->prev = newNode;
+        }
+    }
+}
+
+void display(Node* head) {
+    cout << "Created Doubly Linked List:" << endl;
+    while (head != NULL) {
+        cout << head->roll << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+void split(Node* head, Node** aRef, Node** bRef) {
+    Node* slow = head;
+    Node* fast = head->next;
+
+    while (fast != NULL) {
+        fast = fast->next;
+        if (fast != NULL) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+    }
+
+    *aRef = head;
+    *bRef = slow->next;
+    slow->next = NULL;
+    (*bRef)->prev = NULL;
+}
+
+Node* sortedMerge(Node* a, Node* b) {
+    Node* result = NULL;
+
+    if (a == NULL) {
+        return b;
+    } else if (b == NULL) {
+        return a;
+    }
+
+    if (a->roll <= b->roll) {
+        result = a;
+        result->next = sortedMerge(a->next, b);
+        result->next->prev = result;
+    } else {
+        result = b;
+        result->next = sortedMerge(a, b->next);
+        result->next->prev = result;
+    }
+
+    return result;
+}
+
+void merge(Node** headRef) {
+    Node* head = *headRef;
+    Node* a;
+    Node* b;
+
+    if ((head == NULL) || (head->next == NULL)) {
+        return;
+    }
+
+    split(head, &a, &b);
+
+    merge(&a);
+    merge(&b);
+
+    *headRef = sortedMerge(a, b);
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    Node* head = NULL;
+    for (int i = 0; i < n; i++) {
+        int roll;
+        cin >> roll;
+        insert(&head, roll);
+    }
+
+    merge(&head);
+    display(head);
+
+    return 0;
+}
+
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+Single File Programming Question
+Problem Statement:
+
+
+
+Imagine you are a software developer working on a critical project for a medical research institute. The project involves analyzing patient data stored in a doubly linked list. One of the tasks assigned is to develop a program that can determine whether a patient's medical history, represented by a doubly linked list, is a palindrome or not.
+
+
+
+A palindrome in the context of this project means that the sequence of medical events recorded in the linked list, when read forward or backward, remains the same. It is crucial to identify palindromes in the medical history as they may indicate recurring patterns or symptoms that require special attention.
+
+
+
+Write a program that assists in analyzing the patient data by checking if a given doubly linked list, representing a patient's medical history, is a palindrome or not. The program should provide a reliable tool to help identify potential patterns or recurring symptoms that could aid in diagnosing and treating patients effectively.
+
+
+
+Note: This is a sample question asked in a Capgemini interview.
+
+Input format :
+The first line contains an integer, 'n', representing the number of medical events recorded in the patient's history.
+
+The second line contains 'n' space-separated integers, denoting the medical events in chronological order.
+
+Output format :
+If the doubly linked list is a palindrome, output "The patient's medical history is a palindrome".
+
+If the doubly linked list is not a palindrome, output "The patient's medical history is not a palindrome".
+
+Sample test cases :
+Input 1 :
+5
+1 2 3 2 1
+Output 1 :
+The patient's medical history is a palindrome
+Input 2 :
+5
+1 2 3 4 5
+Output 2 :
+The patient's medical history is not a palindrom
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+    struct Node* prev;
+};
+
+void insertEnd(struct Node** head, int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+
+    if (*head == NULL) {
+        newNode->prev = NULL;
+        *head = newNode;
+    } else {
+        struct Node* current = *head;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = newNode;
+        newNode->prev = current;
+    }
+}
+
+int isPalindrome(struct Node* head) {
+    struct Node* forward = head;
+    struct Node* backward = head;
+
+    while (backward->next != NULL) {
+        backward = backward->next;
+    }
+
+    while (forward != backward && forward->prev != backward) {
+        if (forward->data != backward->data) {
+            return 0; 
+        }
+        forward = forward->next;
+        backward = backward->prev;
+    }
+
+    return 1; 
+}
+
+int main() {
+    int n;
+    scanf("%d", &n);
+
+    struct Node* head = NULL;
+
+    for (int i = 0; i < n; i++) {
+        int data;
+        scanf("%d", &data);
+        insertEnd(&head, data);
+    }
+
+    if (isPalindrome(head)) {
+        printf("The patient's medical history is a palindrome\n");
+    } else {
+        printf("The patient's medical history is not a palindrome\n");
+    }
+
+    while (head != NULL) {
+        struct Node* temp = head;
+        head = head->next;
+        free(temp);
+    }
+
+    return 0;
+}
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Single File Programming Question
+Problem Statement
+
+
+
+You are given a doubly linked list. 
+
+
+
+You need to implement the following operations:
+
+Insert an element at the end of the list.
+Insert an element at a given position in the list.
+
+
+Note: This is a sample question asked in a TCS interview.
+
+Input format :
+The input begins with an integer 'n', denoting the number of elements to be inserted at the end of the list.
+
+This is followed by 'n' space-separated integers representing the elements to be inserted at the end of the list.
+
+Next, there are two integers 'data' and 'position' representing the element to be inserted and the position at which it should be inserted in the list.
+
+Output format :
+The first line of output prints the linked list after inserting elements at the end.
+
+The second line of output prints the linked list after inserting an element at the given position.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+The position for inserting an element should be a positive integer.
+
+The elements of the linked list are integers.
+
+Sample test cases :
+Input 1 :
+1
+10
+2
+1
+Output 1 :
+List after inserting at the end: 10 
+List after inserting at position 1: 2 10 
+Input 2 :
+3
+1 2 3
+10
+4
+Output 2 :
+List after inserting at the end: 1 2 3 
+List after inserting at position 4: 1 2 3 10 
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* prev;
+    Node* next;
+    Node(int data) {
+        this->data = data;
+        this->prev = nullptr;
+        this->next = nullptr;
+    }
+};
+
+class DoublyLinkedList {
+public:
+    Node* head;
+    Node* tail;
+    DoublyLinkedList() {
+        this->head = nullptr;
+        this->tail = nullptr;
+    }
+    void insertAtEnd(int data) {
+        Node* newNode = new Node(data);
+        if (this->head == nullptr) {
+            this->head = newNode;
+            this->tail = newNode;
+        } else {
+            this->tail->next = newNode;
+            newNode->prev = this->tail;
+            this->tail = newNode;
+        }
+    }
+    void insertAtPosition(int data, int position) {
+        Node* newNode = new Node(data);
+        if (position == 1) {
+            newNode->next = this->head;
+            this->head->prev = newNode;
+            this->head = newNode;
+        } else {
+            Node* current = this->head;
+            for (int i = 1; i < position - 1 && current != nullptr; i++) {
+                current = current->next;
+            }
+            if (current == nullptr) {
+                this->tail->next = newNode;
+                newNode->prev = this->tail;
+                this->tail = newNode;
+            } else {
+                newNode->next = current->next;
+                newNode->prev = current;
+                current->next = newNode;
+                if (newNode->next != nullptr) {
+                    newNode->next->prev = newNode;
+                } else {
+                    this->tail = newNode;
+                }
+            }
+        }
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    DoublyLinkedList list;
+    for (int i = 0; i < n; i++) {
+        int data;
+        cin >> data;
+        list.insertAtEnd(data);
+    }
+    cout << "List after inserting at the end: ";
+    Node* current = list.head;
+    while (current != nullptr) {
+        cout << current->data << " ";
+        current = current->next;
+    }
+    cout << endl;
+    int data, position;
+    cin >> data >> position;
+    list.insertAtPosition(data, position);
+    cout << "List after inserting at position " << position << ": ";
+    current = list.head;
+    while (current != nullptr) {
+        cout << current->data << " ";
+        current = current->next;
+    }
+    cout << endl;
+    return 0;
+}
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Single File Programming Question
+Problem Statement
+
+
+
+Implement a vehicle parking management system that supports rotating the parking positions of the vehicles using a doubly-linked list. Given the current parking positions of the vehicles and a rotation number, update the parking positions by rotating the vehicles counter-clockwise.
+
+
+
+Note: This is a sample question asked in the Amazon recruitment.
+
+Input format :
+The input consists of the following:
+
+
+
+The number of vehicles parked in the parking lot, n (integer).
+
+n characters representing the unique identification of each vehicle.
+
+The rotation number, k (integer).
+
+Output format :
+The output consists of the following:
+
+
+
+The current parking positions of the vehicles before rotation.
+
+The updated parking positions of the vehicles after rotating them counter-clockwise by k positions.
+
+Code constraints :
+The parking system can accommodate any number of vehicles.
+
+The rotation number, N, is a positive integer and is smaller than the total number of parked vehicles.
+
+Sample test cases :
+Input 1 :
+5
+a  b  c  d  e
+2
+Output 1 :
+Current Parking Positions:
+a-->b-->c-->d-->e-->NULL
+Updated Parking Positions:
+c-->d-->e-->a-->b-->NULL
+Input 2 :
+8
+a  b  c  d  e  f  g  h
+4
+Output 2 :
+Current Parking Positions:
+a-->b-->c-->d-->e-->f-->g-->h-->NULL
+Updated Parking Positions:
+e-->f-->g-->h-->a-->b-->c-->d-->NULL
+Input 3 :
+2
+A B
+0
+Output 3 :
+Current Parking Positions:
+A-->B-->NULL
+Updated Parking Positions:
+A-->B-->NULL
+
+
+
+
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a node in the linked list
+struct Node {
+    char data;
+    struct Node* next;
+    struct Node* prev;
+};
+
+// Function to create a new node
+struct Node* createNode(char data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    newNode->prev = NULL;
+    return newNode;
+}
+
+// Function to rotate the linked list counter-clockwise by k positions
+struct Node* rotateLinkedList(struct Node* head, int k) {
+    if (head == NULL || k == 0) {
+        return head;
+    }
+
+    struct Node* current = head;
+    int count = 1;
+
+    // Traverse to the kth node
+    while (count < k && current->next != NULL) {
+        current = current->next;
+        count++;
+    }
+
+    if (current->next == NULL) {
+        // k is greater than or equal to the length of the list
+        return head;
+    }
+
+    struct Node* newHead = current->next;
+    newHead->prev = NULL;
+    current->next = NULL;
+
+    // Traverse to the end of the original list
+    current = newHead;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+
+    // Connect the end of the original list to the old head
+    current->next = head;
+    head->prev = current;
+
+    return newHead;
+}
+
+// Function to print the linked list
+void printList(struct Node* head) {
+    struct Node* current = head;
+    while (current != NULL) {
+        printf("%c-->", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    int n, k;
+    scanf("%d", &n);
+    char vehicles[n];
+    struct Node* head = NULL;
+
+    for (int i = 0; i < n; i++) {
+        scanf(" %c", &vehicles[i]);
+        struct Node* newNode = createNode(vehicles[i]);
+        if (head == NULL) {
+            head = newNode;
+        } else {
+            struct Node* current = head;
+            while (current->next != NULL) {
+                current = current->next;
+            }
+            current->next = newNode;
+            newNode->prev = current;
+        }
+    }
+
+    scanf("%d", &k);
+
+    printf("Current Parking Positions:\n");
+    printList(head);
+
+    struct Node* newHead = rotateLinkedList(head, k);
+
+    printf("Updated Parking Positions:\n");
+    printList(newHead);
+
+    return 0;
+}
+
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Single File Programming Question
+Problem Statement
+
+
+
+﻿You are tasked with implementing a system that maintains a record of student scores in a course. The system should allow for the insertion of scores at the front of a doubly linked list and display the updated list after each insertion.
+
+
+
+Note: This is a sample question asked in a Capgemini interview.
+
+Input format :
+The input consists of a series of integer scores to be inserted into the list, one score per line.
+
+Output format :
+After each score insertion, the program should display the updated list of scores.
+
+The scores should be displayed in the order they were inserted, from newest to oldest.
+
+Sample test cases :
+Input 1 :
+80
+75
+90
+Output 1 :
+Node Inserted
+80 
+Node Inserted
+75 80 
+Node Inserted
+90 75 80 
+Input 2 :
+95
+88
+72
+99
+Output 2 :
+Node Inserted
+95 
+Node Inserted
+88 95 
+Node Inserted
+72 88 95 
+Node Inserted
+99 72 88 95 
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+
+class Node {
+public:
+    int data;
+    Node* prev;
+    Node* next;
+    Node(int val) : data(val), prev(nullptr), next(nullptr) {}
+};
+
+class DoublyLinkedList {
+public:
+    Node* head;
+    Node* tail;
+    
+    DoublyLinkedList() : head(nullptr), tail(nullptr) {}
+    
+    void insertAtFront(int val) {
+        Node* newNode = new Node(val);
+        if (head == nullptr) {
+            head = tail = newNode;
+        } else {
+            newNode->next = head;
+            head->prev = newNode;
+            head = newNode;
+        }
+    }
+    
+    void display() {
+        Node* current = head;
+        while (current) {
+            std::cout << current->data << " ";
+            current = current->next;
+        }
+        std::cout << std::endl;
+    }
+    
+    ~DoublyLinkedList() {
+        Node* current = head;
+        while (current) {
+            Node* temp = current;
+            current = current->next;
+            delete temp;
+        }
+    }
+};
+
+int main() {
+    DoublyLinkedList dll;
+    int score;
+    while (std::cin >> score) {
+        dll.insertAtFront(score);
+        std::cout << "Node Inserted" << std::endl;
+        dll.display();
+    }
+    return 0;
+}
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+
+
+
+
+

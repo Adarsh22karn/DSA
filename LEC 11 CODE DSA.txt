@@ -1,0 +1,543 @@
+ Single File Programming Question
+
+Problem Statement
+
+
+You are developing a program for a school to manage student attendance records. As part of the attendance management functionality, you need to implement a program that deletes all occurrences of duplicate student IDs from a grounded header linked list.
+
+
+In this scenario, the school maintains an attendance list represented as a grounded header-linked list. Each node in the list represents a student's attendance record and contains the student's ID as data. The first node serves as the header node and does not contain any actual attendance data. The subsequent nodes hold the student attendance records.
+
+
+Note: This is a sample question asked in CTS recruitment.
+Input format :
+
+The first line of input consists of the number of elements n in the list.
+
+The second line of input consists of n elements, separated by space.
+
+The third line of input consists of the number to delete.
+Output format :
+
+The first line of output prints the original list.
+
+The second line of output prints the list after deleting all occurrences of the given number.
+
+
+Refer to the sample output for formatting specifications.
+Sample test cases :
+Input 1 :
+
+5
+1 2 3 3 3
+3
+
+Output 1 :
+
+Original List: 1 2 3 3 3 
+List after deleting all occurrences of 3: 1 2 
+
+Input 2 :
+
+6
+1 1 1 1 1 12
+1
+
+Output 2 :
+
+Original List: 1 1 1 1 1 12 
+List after deleting all occurrences of 1: 12 
+ 
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+void deleteOccurrences(Node* head, int x) {
+    Node* curr = head->next;
+    Node* prev = head;
+    while (curr != NULL) {
+        if (curr->data == x) {
+            prev->next = curr->next;
+            Node* temp = curr;
+            curr = curr->next;
+            delete temp;
+        } else {
+            prev = curr;
+            curr = curr->next;
+        }
+    }
+    if (head->next == NULL) {
+        cout << "List is empty" << endl;
+    }
+}
+
+void printList(Node* head) {
+    while (head != NULL) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    Node* head = new Node();
+    Node* curr = head;
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        Node* temp = new Node();
+        temp->data = x;
+        temp->next = NULL;
+        curr->next = temp;
+        curr = curr->next;
+    }
+    int x;
+    cin >> x;
+    cout << "Original List: ";
+    printList(head->next);
+    deleteOccurrences(head, x);
+    cout << "List after deleting all occurrences of " << x << ": ";
+    printList(head->next);
+    return 0;
+}
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+ Single File Programming Question
+
+Problem Statement
+
+
+You are tasked with implementing a student grades matrix using the Sparse Matrix Representation with a grounded header linked list. The matrix will store the grades of students for different subjects. 
+
+
+So, write logic to implement a sparse matrix using a Grounded header linked list.
+
+
+Note: This is a sample question asked in an Infosys interview.
+Input format :
+
+The first line represents a row r of the matrix.
+
+The second line represents column c of the matrix.
+
+The remaining line's, r*c values consist of matrix elements.
+Output format :
+
+The output represents the sparse matrix.
+Sample test cases :
+Input 1 :
+
+3
+3
+1 0 0
+0 2 0
+0 0 3
+
+Output 1 :
+
+1 0 0 
+0 2 0 
+0 0 3 
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int col;
+    int val;
+    Node* next;
+};
+
+class SparseMatrix {
+public:
+    int rows;
+    int cols;
+    Node** headers;
+
+    SparseMatrix(int r, int c) {
+        rows = r;
+        cols = c;
+        headers = new Node*[rows];
+        for (int i = 0; i < rows; i++) {
+            headers[i] = new Node;
+            headers[i]->col = -1;
+            headers[i]->val = -1;
+            headers[i]->next = NULL;
+        }
+        headers[rows-1]->next = NULL;
+    }
+
+    void insert(int row, int col, int val) {
+        Node* newNode = new Node;
+        newNode->col = col;
+        newNode->val = val;
+        newNode->next = NULL;
+        Node* curr = headers[row];
+        while (curr->next != NULL && curr->next->col < col) {
+            curr = curr->next;
+        }
+        if (curr->next != NULL && curr->next->col == col) {
+            curr->next->val = val;
+        } else {
+            newNode->next = curr->next;
+            curr->next = newNode;
+        }
+    }
+
+    void print() {
+        for (int i = 0; i < rows; i++) {
+            Node* curr = headers[i]->next;
+            for (int j = 0; j < cols; j++) {
+                if (curr != NULL && curr->col == j) {
+                    cout << curr->val << " ";
+                    curr = curr->next;
+                } else {
+                    cout << "0 ";
+                }
+            }
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    int r, c;
+    cin >> r >> c;
+    SparseMatrix matrix(r, c);
+    for (int i = 0; i < r; i++) {
+        for (int j = 0; j < c; j++) {
+            int val;
+            cin >> val;
+            if (val != 0) {
+                matrix.insert(i, j, val);
+            }
+        }
+    }
+    matrix.print();
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+ Single File Programming Question
+
+Problem Statement
+
+
+You are developing a contact management system for a mobile application. The system allows users to maintain a list of their contacts. Whenever a user adds a new contact, the system should add it at the end of the contact list.
+
+
+Write a program to implement the code to perform insertion at the end using Grounded Header Linked List.
+
+
+Note: This is a sample question asked in a TCS interview.
+Input format :
+
+The first line represents the size of element n.
+
+The next n lines store the values in it.
+Output format :
+
+The output represents the updated list with the nodes added at the end.
+Sample test cases :
+Input 1 :
+
+5
+1
+2
+3
+4
+5
+
+Output 1 :
+
+1 2 3 4 5 
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// A linked list node
+class Node {
+public:
+    int data;
+    Node* next;
+};
+
+// Header node
+class Header_Node {
+public:
+    int count;
+    Node* next;
+    Header_Node() {
+        count = 0;
+        next = NULL;
+    }
+};
+
+// Insert a node at the end of the list
+void insertAtEnd(Header_Node* head, int data) {
+    Node* new_node = new Node();
+    new_node->data = data;
+    new_node->next = NULL;
+
+    Node* temp = head->next;
+    while (temp != NULL && temp->next != NULL) {
+        temp = temp->next;
+    }
+
+    if (temp == NULL) {
+        head->next = new_node;
+    } else {
+        temp->next = new_node;
+    }
+
+    head->count++;
+}
+
+// Print the list
+void printList(Header_Node* head) {
+    Node* temp = head->next;
+    while (temp != NULL) {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+}
+
+int main() {
+    Header_Node* head = new Header_Node();
+
+    int n;
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        int data;
+        cin >> data;
+        insertAtEnd(head, data);
+    }
+
+    printList(head);
+
+    return 0;
+}
+
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+ Single File Programming Question
+
+Problem Statement
+
+
+In a university, two student clubs, "Tech Innovators" and "Creative Designers," have decided to collaborate and work on joint projects. As part of the collaboration, they need to merge their member lists to create a unified team. You have been tasked with writing a function that merges two Grounded Header Linked Lists representing the club members, alternating their elements to create a new list.
+
+
+The student club collaboration program allows the clubs to efficiently manage their member records and facilitate seamless teamwork. Each club maintains its own linked list, where each node represents a club member. The header node serves as the initial node of the list and contains no actual member data. The subsequent nodes hold the member records, with information such as student ID.
+
+
+To create a unified team, your function should merge the two linked lists, alternating their elements. The merged list should include members from both clubs, with the member records from each club appearing alternatively.
+
+
+Note: This is a sample question asked in TCS recruitment.
+Input format :
+
+The first line of input consists of the number of elements n in the first list.
+
+The second line of input consists of n elements, separated by space.
+
+The third line of input consists of the number of elements m in the second list.
+
+The fourth line of input consists of m elements, separated by space.
+Output format :
+
+The first line of output prints the list 1 elements.
+
+The second line of output prints the list 2 elements.
+
+The third line of output prints the merged list, where the elements from both lists are printed alternatively.
+
+
+Refer to the sample output for formatting specifications.
+Sample test cases :
+Input 1 :
+
+5
+1 2 3 4 5
+5
+6 7 8 9 10
+
+Output 1 :
+
+List 1: 1 2 3 4 5 
+List 2: 6 7 8 9 10 
+Merged List: 1 6 2 7 3 8 4 9 5 10 
+
+Input 2 :
+
+4
+12 26 34 48
+4
+56 59 64 78
+
+Output 2 :
+
+List 1: 12 26 34 48 
+List 2: 56 59 64 78 
+Merged List: 12 56 26 59 34 64 48 78 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+Node* createNode(int data) {
+    Node* newNode = new Node();
+    newNode->data = data;
+    newNode->next = nullptr;
+    return newNode;
+}
+
+void appendNode(Node*& head, int data) {
+    Node* newNode = createNode(data);
+    if (head == nullptr) {
+        head = newNode;
+    } else {
+        Node* current = head;
+        while (current->next != nullptr) {
+            current = current->next;
+        }
+        current->next = newNode;
+    }
+}
+
+void printList(Node* head) {
+    while (head != nullptr) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+void mergeLists(Node* list1, Node* list2) {
+    Node* mergedList = nullptr;
+    Node* current1 = list1;
+    Node* current2 = list2;
+    Node* currentMerged = nullptr;
+
+    while (current1 != nullptr && current2 != nullptr) {
+        if (mergedList == nullptr) {
+            mergedList = createNode(current1->data);
+            currentMerged = mergedList;
+        } else {
+            currentMerged->next = createNode(current1->data);
+            currentMerged = currentMerged->next;
+        }
+
+        currentMerged->next = createNode(current2->data);
+        currentMerged = currentMerged->next;
+
+        current1 = current1->next;
+        current2 = current2->next;
+    }
+
+    while (current1 != nullptr) {
+        currentMerged->next = createNode(current1->data);
+        currentMerged = currentMerged->next;
+        current1 = current1->next;
+    }
+
+    while (current2 != nullptr) {
+        currentMerged->next = createNode(current2->data);
+        currentMerged = currentMerged->next;
+        current2 = current2->next;
+    }
+
+    cout << "Merged List: ";
+    printList(mergedList);
+}
+
+int main() {
+    int n, m;
+    cin >> n;
+    Node* list1 = nullptr;
+    for (int i = 0; i < n; i++) {
+        int data;
+        cin >> data;
+        appendNode(list1, data);
+    }
+
+    cin >> m;
+    Node* list2 = nullptr;
+    for (int i = 0; i < m; i++) {
+        int data;
+        cin >> data;
+        appendNode(list2, data);
+    }
+
+    cout << "List 1: ";
+    printList(list1);
+    cout << "List 2: ";
+    printList(list2);
+
+    mergeLists(list1, list2);
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000

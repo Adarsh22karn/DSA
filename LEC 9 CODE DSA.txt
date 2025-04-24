@@ -1,0 +1,660 @@
+ Single File Programming Question
+
+Problem Statement
+
+
+You are working on a program for an inventory management system in a retail store. The store uses barcodes to label and track its products. Each barcode is represented as a linked list, where each digit of the barcode is stored in a separate node. Your task is to write a function that adds 1 to the barcode value and updates the linked list accordingly.
+
+
+For example, 1999 is represented as (1-> 9-> 9 -> 9), and adding 1 to it should change it to (2->0->0->0) 
+
+
+Note: This is a sample question asked in the Flipkart interview.
+Input format :
+
+The first line of input contains an integer n, indicating the number of digits in the barcode.
+
+The second line of input contains n space-separated integers, representing the digits of the barcode.
+Output format :
+
+The output prints the linked list representing the modified barcode, after adding 1 to its value.
+
+
+Code constraints :
+
+The barcode represents a non-negative integer.
+
+The number of digits in the barcode can vary.
+Sample test cases :
+Input 1 :
+
+4
+1 9 9 9
+
+Output 1 :
+
+2 0 0 0 
+
+Input 2 :
+
+6
+1 2 3 4 5 6
+
+Output 2 :
+
+1 2 3 4 5 7 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+Node* reverseList(Node* head) {
+    Node* prev = NULL;
+    Node* curr = head;
+    Node* next = NULL;
+    while (curr != NULL) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+}
+
+Node* addOne(Node* head) {
+    head = reverseList(head);
+    Node* curr = head;
+    int carry = 1;
+    while (curr != NULL && carry != 0) {
+        int sum = curr->data + carry;
+        curr->data = sum % 10;
+        carry = sum / 10;
+        curr = curr->next;
+    }
+    if (carry != 0) {
+        Node* newNode = new Node();
+        newNode->data = carry;
+        newNode->next = NULL;
+        curr = newNode;
+    }
+    head = reverseList(head);
+    return head;
+}
+
+void printList(Node* head) {
+    while (head != NULL) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    Node* head = NULL;
+    Node* tail = NULL;
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        Node* newNode = new Node();
+        newNode->data = x;
+        newNode->next = NULL;
+        if (head == NULL) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+    head = addOne(head);
+    printList(head);
+    return 0;
+}
+
+
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+You are developing a Shift Schedule Management System for a company. The system maintains a list of employees and their shift assignments. Each employee is represented as a node in a linked list, where each node contains an integer representing the shift number. 
+
+
+Your task is to implement a feature that allows left-shifting of the shift schedule by a given number of shifts. This is required when there are changes in the company's work schedule or staffing requirements.
+
+
+Note: This is the sample question asked in Microsoft recruitment.
+Input format :
+
+The first line contains an integer 'N' representing the number of shifts in the schedule.
+
+The next N space integer represents the shift numbers for each shift.
+
+The last line contains an integer 'k' representing the number of shifts to left-shift the schedule.
+Output format :
+
+Tje first line of output should display the original linked list representing the shift schedule.
+
+The next line should display the modified linked list after left-shifting the schedule by 'k' shifts.
+Code constraints :
+
+The linked list represents the employee shift schedule.
+
+Each node in the linked list contains an integer representing the shift number.
+
+The shift schedule can be left-shifted by a positive integer 'k', where 'k' is less than or equal to the length of the linked list.
+
+The left-shift operation should preserve the order of shifts.
+
+
+Sample test cases :
+Input 1 :
+
+5
+2 4 7 8 9
+3
+
+Output 1 :
+
+Original Linked List: 2 4 7 8 9 
+Modified Linked List after left shift: 8 9 2 4 7 
+
+Input 2 :
+
+8
+1 2 3 4 5 6 7 8
+4
+
+Output 2 :
+
+Original Linked List: 1 2 3 4 5 6 7 8 
+Modified Linked List after left shift: 5 6 7 8 1 2 3 4 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+};
+
+class LinkedList {
+public:
+    Node* head;
+
+    LinkedList() {
+        head = NULL;
+    }
+
+    void insert(int data) {
+        Node* new_node = new Node();
+        new_node->data = data;
+        new_node->next = NULL;
+
+        if (head == NULL) {
+            head = new_node;
+        }
+        else {
+            Node* current = head;
+            while (current->next != NULL) {
+                current = current->next;
+            }
+            current->next = new_node;
+        }
+    }
+
+    void display() {
+        Node* current = head;
+        while (current != NULL) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+
+    void left_shift(int k) {
+        int length = 0;
+        Node* current = head;
+        while (current != NULL) {
+            length++;
+            current = current->next;
+        }
+
+        k = k % length;
+
+        if (k == 0) {
+            return;
+        }
+
+        current = head;
+        for (int i = 0; i < k-1; i++) {
+            current = current->next;
+        }
+
+        Node* new_head = current->next;
+        current->next = NULL;
+
+        current = new_head;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+
+        current->next = head;
+        head = new_head;
+    }
+};
+
+int main() {
+    LinkedList ll;
+    int n, k, shift;
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cin >> shift;
+        ll.insert(shift);
+    }
+    cin >> k;
+
+    cout << "Original Linked List: ";
+    ll.display();
+
+    ll.left_shift(k);
+
+    cout << "Modified Linked List after left shift: ";
+    ll.display();
+
+    return 0;
+}
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+ Single File Programming Question
+Problem Statement
+
+
+You are tasked with designing a program that operates on two linked lists. Your objective is to create a new linked list that represents the union of the two given linked lists while ensuring that the elements in the union list are distinct and sorted in ascending order.
+
+
+Note: This is a sample question asked in the Microsoft interview.
+Input format :
+
+The first line consists of an integer n, representing the number of nodes in the first linked list.
+
+The second line consists of n space-separated integers, representing the nodes in the first linked list.
+
+The third line consists of an integer m, representing the number of nodes in the second linked list.
+
+The fourth line consists of m space-separated integers, representing the nodes in the second linked list.
+Output format :
+
+The first line of output displays the nodes of the first linked list, sorted in ascending order.
+
+The second line displays the nodes of the second linked list, sorted in ascending order.
+
+The third line displays the nodes of the union linked list after merging the distinct elements from the first and second linked lists.
+
+
+Refer to the sample output for formatting specifications.
+Sample test cases :
+Input 1 :
+
+6
+9 6 4 2 3 8
+5
+1 2 8 6 2
+
+Output 1 :
+
+First Linked List: 2 3 4 6 8 9 
+Second Linked List: 1 2 2 6 8 
+Union Linked List: 1 2 3 4 6 8 9 
+
+Input 2 :
+
+6
+1 5 1 2 2 5
+5
+4 5 6 7 1
+
+Output 2 :
+
+First Linked List: 1 1 2 2 5 5 
+Second Linked List: 1 4 5 6 7 
+Union Linked List: 1 2 4 5 6 7 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <set>
+
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+// Function to insert a node at the end of a linked list
+void insert(Node** head, int data) {
+    Node* newNode = new Node;
+    newNode->data = data;
+    newNode->next = NULL;
+
+    if (*head == NULL) {
+        *head = newNode;
+    } else {
+        Node* temp = *head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+}
+
+// Function to print the nodes of a linked list
+void printList(Node* head) {
+    while (head != NULL) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+// Function to merge two linked lists into a new linked list
+Node* mergeLists(Node* head1, Node* head2) {
+    Node* unionList = NULL;
+    set<int> s;
+
+    // Traverse both linked lists simultaneously
+    while (head1 != NULL && head2 != NULL) {
+        if (head1->data < head2->data) {
+            s.insert(head1->data);
+            head1 = head1->next;
+        } else if (head2->data < head1->data) {
+            s.insert(head2->data);
+            head2 = head2->next;
+        } else {
+            s.insert(head1->data);
+            head1 = head1->next;
+            head2 = head2->next;
+        }
+    }
+
+    // Add any remaining nodes to the union list
+    while (head1 != NULL) {
+        s.insert(head1->data);
+        head1 = head1->next;
+    }
+    while (head2 != NULL) {
+        s.insert(head2->data);
+        head2 = head2->next;
+    }
+
+    // Create the union list from the set
+    for (int data : s) {
+        insert(&unionList, data);
+    }
+
+    return unionList;
+}
+
+// Function to merge sort a linked list
+Node* mergeSort(Node* head) {
+    if (head == NULL || head->next == NULL) {
+        return head;
+    }
+
+    // Split the linked list into two halves
+    Node* slow = head;
+    Node* fast = head->next;
+    while (fast != NULL) {
+        fast = fast->next;
+        if (fast != NULL) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+    }
+    Node* head2 = slow->next;
+    slow->next = NULL;
+
+    // Recursively merge sort the two halves
+    head = mergeSort(head);
+    head2 = mergeSort(head2);
+
+    // Merge the two sorted halves
+    Node* mergedList = NULL;
+    Node** tail = &mergedList;
+    while (head != NULL && head2 != NULL) {
+        if (head->data < head2->data) {
+            *tail = head;
+            head = head->next;
+        } else {
+            *tail = head2;
+            head2 = head2->next;
+        }
+        tail = &((*tail)->next);
+    }
+    *tail = (head != NULL) ? head : head2;
+
+    return mergedList;
+}
+
+int main() {
+    int n, m, data;
+    Node* head1 = NULL;
+    Node* head2 = NULL;
+
+    // Read input for first linked list
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cin >> data;
+        insert(&head1, data);
+    }
+
+    // Read input for second linked list
+    cin >> m;
+    for (int i = 0; i < m; i++) {
+        cin >> data;
+        insert(&head2, data);
+    }
+
+    // Sort both linked lists in ascending order
+    head1 = mergeSort(head1);
+    head2 = mergeSort(head2);
+
+    // Merge the linked lists into a new linked list
+    Node* unionList = mergeLists(head1, head2);
+
+    // Print the nodes of the input linked lists and the union linked list
+    cout << "First Linked List: ";
+    printList(head1);
+    cout << "Second Linked List: ";
+    printList(head2);
+    cout << "Union Linked List: ";
+    printList(unionList);
+
+    return 0;
+}
+
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+ Single File Programming Question
+
+Problem Statement
+
+
+Imagine you are working on a text editor application that allows users to create documents. As part of a new feature, you want to implement a function that checks whether a word entered by the user is a palindrome or not.
+
+
+To achieve this, you decide to utilize a singly linked list to store the characters of the word. Each character will be represented as a node in the linked list.
+
+
+Your task is to write a program that takes input from the user, constructs the linked list, and determines whether the word is a palindrome.
+
+
+Note: This question is asked by Amazon, Microsoft, and Snapdeal.
+Input format :
+
+The input consists of a series of space-separated characters (alphabets, digits, special symbols).
+
+Enter $ to stop.
+Output format :
+
+The output prints whether the given characters form a palindrome or not.
+Sample test cases :
+Input 1 :
+
+1 2 3 4 5 4 3 2 1 $
+
+Output 1 :
+
+The linked list is a palindrome
+
+Input 2 :
+
+a b c d e f $
+
+Output 2 :
+
+The linked list is not a palindrome
+
+Input 3 :
+
+! @ # % ^ % # @ ! $
+
+Output 3 :
+
+The linked list is a palindrome
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    char data;
+    Node* next;
+};
+
+bool isPalindrome(Node* head) {
+    stack<char> s;
+    Node* temp = head;
+    while (temp != NULL) {
+        s.push(temp->data);
+        temp = temp->next;
+    }
+    temp = head;
+    while (temp != NULL) {
+        if (s.top() != temp->data) {
+            return false;
+        }
+        s.pop();
+        temp = temp->next;
+    }
+    return true;
+}
+
+int main() {
+    Node* head = NULL;
+    Node* tail = NULL;
+    char c;
+    cin >> c;
+    while (c != '$') {
+        Node* newNode = new Node;
+        newNode->data = c;
+        newNode->next = NULL;
+        if (head == NULL) {
+            head = newNode;
+            tail = newNode;
+        }
+        else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+        cin >> c;
+    }
+    if (isPalindrome(head)) {
+        cout << "The linked list is a palindrome" << endl;
+    }
+    else {
+        cout << "The linked list is not a palindrome" << endl;
+    }
+    return 0;
+}
+
+
+
+
+
+

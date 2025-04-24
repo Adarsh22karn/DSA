@@ -1,0 +1,1006 @@
+ Single File Programming Question
+
+Problem Statement
+
+
+You are assigned the task of implementing a program that operates on a circular header linked list, a unique type of linked list in which the last node points back to the header node, forming a circular structure. 
+
+
+Your objective is to create a program that inserts elements at the end of the circular linked list and displays its contents.
+
+
+Note: This is a sample question asked in TCS recruitment.
+Input format :
+
+The first line of input consists of an integer n, representing the size of the list.
+
+The second line consists of n space-separated integers, representing the elements to be inserted at the end of the list.
+Output format :
+
+The output prints the elements of the circular header linked list, separated by space.
+
+If no elements are inserted, print "Linked List is empty".
+Sample test cases :
+Input 1 :
+
+5
+1 2 3 4 5
+
+Output 1 :
+
+1 2 3 4 5 
+
+Input 2 :
+
+0
+
+Output 2 :
+
+Linked List is empty.
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int value) : data(value), next(nullptr) {}
+};
+
+class CircularLinkedList {
+public:
+    Node* head;
+
+    CircularLinkedList() : head(nullptr) {}
+
+    void insertAtEnd(int data) {
+        Node* newNode = new Node(data);
+        if (!head) {
+            head = newNode;
+            head->next = head;
+        } else {
+            Node* current = head;
+            while (current->next != head) {
+                current = current->next;
+            }
+            current->next = newNode;
+            newNode->next = head;
+        }
+    }
+
+    void display() {
+        if (!head) {
+            std::cout << "Linked List is empty." << std::endl;
+        } else {
+            Node* current = head;
+            do {
+                std::cout << current->data << " ";
+                current = current->next;
+            } while (current != head);
+            std::cout << std::endl;
+        }
+    }
+};
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    CircularLinkedList circularLinkedList;
+
+    for (int i = 0; i < n; i++) {
+        int element;
+        std::cin >> element;
+        circularLinkedList.insertAtEnd(element);
+    }
+
+    circularLinkedList.display();
+
+    return 0;
+}
+
+
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+ Single File Programming Question
+
+Problem Statement
+
+
+You have been assigned to develop a program for a ticketing system at a concert venue. The system needs to maintain a circular header-linked list to manage the available seats in the venue. Each seat is represented by a node in the list, containing the seat number (an integer) and a link to the next seat.
+
+
+The program should provide the following functionality:
+
+    Insertion of a new seat at the front of the list, representing a newly available seat.
+    Insertion of a new seat at a specified position in the list, representing a reserved seat.
+    Insertion of a new seat at the middle position (take the floor value) of the list when additional seats become available due to a change in the seating arrangement.
+    Displaying the total number of available seats in the venue and printing the seat numbers in a circular manner, starting from the head seat.
+
+
+Note: This is a sample question asked in a Capgemini interview.
+Input format :
+
+The first line contains an integer n representing the number of seats to be inserted at the front of the list.
+
+The next line contains n seat numbers to be inserted at the front of the list.
+
+The next line contains an integer representing the seat number to be inserted at the middle position.
+
+The next line contains an integer position representing the position at which a seat needs to be inserted.
+
+The next line contains an integer representing the seat number to be inserted at the specified position.
+Output format :
+
+If the list is empty or an invalid position is given, the program outputs "Invalid position.".
+
+The program outputs "After inserting at middle:" followed by the number and list of seat numbers in a circular manner. Take the floor value while inserting it in the middle.
+
+After inserting a seat at a specified position, the program outputs "After inserting at position:" followed by the number and list of seat numbers in a circular manner.
+
+
+Refer to the sample output formatting specifications.
+Code constraints :
+
+The seat numbers are positive integers.
+
+The maximum number of available seats is limited by the range of integers.
+Sample test cases :
+Input 1 :
+
+5
+15 62 30 96 70
+52
+4
+10
+
+Output 1 :
+
+After inserting at middle:
+No of nodes in the CLL is 6
+|70| --> |96| --> |52| --> |30| --> |62| --> |15| --> 
+After inserting at position 4:
+No of nodes in the CLL is 7
+|70| --> |96| --> |52| --> |10| --> |30| --> |62| --> |15| --> 
+
+Input 2 :
+
+4
+10 20 30 40
+50
+2
+60
+
+Output 2 :
+
+After inserting at middle:
+No of nodes in the CLL is 5
+|40| --> |50| --> |30| --> |20| --> |10| --> 
+After inserting at position 2:
+No of nodes in the CLL is 6
+|40| --> |60| --> |50| --> |30| --> |20| --> |10| --> 
+
+Input 3 :
+
+0
+
+Output 3 :
+
+List is empty.
+
+Input 4 :
+
+3
+100 120 150
+500
+6
+400
+
+Output 4 :
+
+After inserting at middle:
+No of nodes in the CLL is 4
+|150| --> |500| --> |120| --> |100| --> 
+Invalid position.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* link;
+};
+
+typedef Node* NODE;
+
+NODE getnode() {
+    NODE x = new Node();
+    return x;
+}
+
+NODE insertAtFront(NODE head, int item) {
+    NODE temp = getnode();
+    temp->data = item;
+
+    if (head == nullptr) {
+        head = temp;
+        head->link = head;
+    } else {
+        temp->link = head->link;
+        head->link = temp;
+    }
+
+    head->data++;
+    return head;
+}
+
+NODE insertAtPosition(NODE head, int item, int position) {
+    if (position < 1 || position > head->data + 1) {
+        cout << "Invalid position." << endl;
+        return head;
+    }
+
+    NODE temp = getnode();
+    temp->data = item;
+
+    if (head == nullptr) {
+        head = temp;
+        head->link = head;
+        head->data++;
+        return head;
+    } else if (position == 1) {
+        return insertAtFront(head, item);
+    } else {
+        NODE cur = head->link;
+        for (int i = 1; i < position - 1; i++) {
+            cur = cur->link;
+        }
+
+        temp->link = cur->link;
+        cur->link = temp;
+        head->data++;
+    }
+
+    return head;
+}
+
+NODE insertInMiddle(NODE head, int item) {
+    int position = (head->data + 1) / 2; 
+
+    return insertAtPosition(head, item, position);
+}
+
+void display(NODE head) {
+    if (head == nullptr) {
+        cout << "List is empty." << endl;
+        return;
+    }
+
+    cout << "No of nodes in the CLL is " << head->data << endl;
+    NODE temp = head->link;
+    do {
+        cout << "|" << temp->data << "| --> ";
+        temp = temp->link;
+    } while (temp != head);
+    cout << endl;
+}
+
+int main() {
+    NODE head = nullptr;
+    int n;
+
+    head = getnode();
+    head->data = 0;
+    head->link = head; 
+
+    int value;
+
+    cin >> n;
+
+    if (n > 0) {
+        for (int i = 0; i < n; i++) {
+            cin >> value;
+            head = insertAtFront(head, value);
+        }
+
+        cin >> value;
+        head = insertInMiddle(head, value);
+
+        cout << "After inserting at middle:" << endl;
+        display(head);
+
+        int position;
+        cin >> position;
+        if (position < 1 || position > head->data + 1) {
+            cout << "Invalid position." << endl;
+        } else {
+            cin >> value;
+            head = insertAtPosition(head, value, position);
+            cout << "After inserting at position " << position << ":" << endl;
+            display(head);
+        }
+    } else {
+        cout << "List is empty." << endl;
+    }
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+ Single File Programming Question
+
+Problem Statement
+
+
+Your task is to create a program that handles circular linked lists and supports the insertion of nodes at the end and the deletion of nodes containing a specified value. The program should take user inputs to build the circular linked list, display it before and after the deletion operation, and manage the deletion of nodes as per the provided value.
+
+
+Note: This is a sample question asked in CTS recruitment.
+Input format :
+
+The first line of input consists of an integer n, representing the size of the list.
+
+The second line consists of n space-separated integers, representing the elements to be inserted at the end of the list.
+
+The last line consists of the element to be deleted from the list.
+Output format :
+
+The output represents the Circular Header linked list before deletion and after deletion of the given element.
+
+If the element is found in the list, print "Value not found in the linked list!"
+
+
+Refer to the sample output for formatting specifications.
+Sample test cases :
+Input 1 :
+
+5
+1 2 3 4 5
+3
+
+Output 1 :
+
+Linked list before deletion
+1 2 3 4 5 
+Linked list after deletion
+1 2 4 5 
+
+Input 2 :
+
+5
+1 2 3 4 5
+6
+
+Output 2 :
+
+Linked list before deletion
+1 2 3 4 5 
+Value not found in the linked list!
+Linked list after deletion
+1 2 3 4 5 
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int value) {
+        data = value;
+        next = nullptr;
+    }
+};
+
+class CircularLinkedList {
+private:
+    Node* head;
+
+public:
+    CircularLinkedList() {
+        head = nullptr;
+    }
+
+    void insert(int value) {
+        Node* newNode = new Node(value);
+        if (head == nullptr) {
+            head = newNode;
+            newNode->next = head;
+        } else {
+            Node* temp = head;
+            while (temp->next != head) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->next = head;
+        }
+    }
+
+    void remove(int value) {
+        if (head == nullptr) {
+            cout << "Value not found in the linked list!" << endl;
+            return;
+        }
+
+        if (head->data == value) {
+            if (head->next == head) { // Only one node in the list
+                delete head;
+                head = nullptr;
+                return;
+            }
+
+            Node* temp = head;
+            while (temp->next != head) { // Find the last node
+                temp = temp->next; 
+            }
+            
+            temp->next = head->next; // Update the last node's next pointer
+            delete head; // Delete the first node
+            head = temp->next; // Update the new head
+        } else {
+            Node* prevNode, *currNode;
+            
+			prevNode= currNode= nullptr;
+
+			currNode= prevNode= 	head;
+
+			do{
+				if(currNode -> data== value)
+					break;
+
+				prevNode= currNode;
+
+				currNode= currNode -> next;
+
+
+			}while(currNode != head);
+
+			if(currNode == head){
+				cout << "Value not found in the linked list!" << endl;
+				return;
+			}
+
+			prevNode -> next= currNode -> next;
+
+			delete currNode;
+        }
+    }
+
+    void display() {
+        if (head == nullptr) {
+            return;
+        }
+
+        Node* temp = head;
+        do {
+            cout << temp->data << " ";
+            temp = temp->next;
+        } while (temp != head);
+    }
+};
+
+int main() {
+    int n, valueToDelete;
+    cin >> n;
+
+    CircularLinkedList linkedList;
+
+    for (int i = 0; i < n; i++) {
+        int value;
+        cin >> value;
+        linkedList.insert(value);
+    }
+
+    cin >> valueToDelete;
+
+    cout << "Linked list before deletion" << endl;
+    linkedList.display();
+
+    linkedList.remove(valueToDelete);
+
+    cout << "\nLinked list after deletion" << endl;
+    linkedList.display();
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+ingle File Programming Question
+
+Problem Statement
+
+
+You are building a playlist manager for your favorite movies using a circular header-linked list. Each node in the list represents a movie, and the playlist loops back to the beginning after the last movie. 
+
+
+The playlist manager should allow you to perform operations such as adding movies at the front and end, removing movies from the front and end, and displaying the current playlist.
+
+
+Note: This is a sample question asked in a TCS interview.
+Input format :
+
+The input consists of the following:
+
+
+The number of movies to insert at the front of the playlist, denoted by an integer n1.
+
+n1 lines containing the titles of the movies to be inserted at the front.
+
+The number of movies to insert at the end of the playlist, denoted by an integer n2.
+
+n2 lines containing the titles of the movies to be inserted at the end.
+Output format :
+
+The output consists of the following parts:
+
+
+The current playlist is displayed as a circular header-linked list.
+
+The number of nodes (movies) in the playlist.
+
+If a movie is deleted from the front or end, the deleted element is displayed.
+
+The updated playlist after deletion.
+
+
+Refer to the sample output for specifications.
+Code constraints :
+
+The movie titles will be alphanumeric strings of a maximum length of 100 characters.
+
+The maximum number of movies in the playlist is 100.
+Sample test cases :
+Input 1 :
+
+4
+Movie 1
+Movie 2
+Movie 3
+Movie 4
+2
+Movie 5
+Movie 6
+
+Output 1 :
+
+|Movie 4| --> |Movie 3| --> |Movie 2| --> |Movie 1| --> |Movie 5| --> |Movie 6| --> 
+No of nodes in the CLL is 6
+Deleted element: Movie 4
+Deleted element: Movie 6
+|Movie 3| --> |Movie 2| --> |Movie 1| --> |Movie 5| --> 
+No of nodes in the CLL is 4
+
+Input 2 :
+
+3
+The Avengers
+Iron Man
+Thor
+0
+
+Output 2 :
+
+|Thor| --> |Iron Man| --> |The Avengers| --> 
+No of nodes in the CLL is 3
+Deleted element: Thor
+Deleted element: The Avengers
+|Iron Man| --> 
+No of nodes in the CLL is 1
+
+Input 3 :
+
+0
+4
+Harry Potter and the Prisoner of Azkaban
+Harry Potter and the Goblet of Fire
+Harry Potter and the Order of the Phoenix
+Harry Potter and the Half-Blood Prince
+
+Output 3 :
+
+|Harry Potter and the Prisoner of Azkaban| --> |Harry Potter and the Goblet of Fire| --> |Harry Potter and the Order of the Phoenix| --> |Harry Potter and the Half-Blood Prince| --> 
+No of nodes in the CLL is 4
+Deleted element: Harry Potter and the Prisoner of Azkaban
+Deleted element: Harry Potter and the Half-Blood Prince
+|Harry Potter and the Goblet of Fire| --> |Harry Potter and the Order of the Phoenix| --> 
+No of nodes in the CLL is 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Node {
+public:
+    string title;
+    Node* next;
+
+    Node(const string& title) {
+        this->title = title;
+        this->next = nullptr;
+    }
+};
+
+class CircularLinkedList {
+public:
+    Node* head;
+    int size;
+
+    CircularLinkedList() {
+        head = nullptr;
+        size = 0;
+    }
+
+    void insertAtFront(const string& title) {
+        Node* newNode = new Node(title);
+
+        if (!head) {
+            newNode->next = newNode;
+            head = newNode;
+        } else {
+            newNode->next = head;
+            Node* temp = head;
+            while (temp->next != head) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            head = newNode;
+        }
+
+        size++;
+    }
+
+    void insertAtEnd(const string& title) {
+        Node* newNode = new Node(title);
+
+        if (!head) {
+            newNode->next = newNode;
+            head = newNode;
+        } else {
+            Node* temp = head;
+            while (temp->next != head) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->next = head;
+        }
+
+        size++;
+    }
+
+    void removeAtFront() {
+        if (!head) {
+            cout << "Playlist is empty." << endl;
+            return;
+        }
+
+        Node* temp = head;
+        while (temp->next != head) {
+            temp = temp->next;
+        }
+
+        cout << "Deleted element: " << head->title << endl;
+
+        if (head == temp) {
+            delete head;
+            head = nullptr;
+        } else {
+            temp->next = head->next;
+            Node* oldHead = head;
+            head = head->next;
+            delete oldHead;
+        }
+
+        size--;
+    }
+
+    void removeAtEnd() {
+        if (!head) {
+            cout << "Playlist is empty." << endl;
+            return;
+        }
+
+        Node* temp = head;
+        Node* prev = nullptr;
+        while (temp->next != head) {
+            prev = temp;
+            temp = temp->next;
+        }
+
+        cout << "Deleted element: " << temp->title << endl;
+
+        if (prev) {
+            prev->next = head;
+            delete temp;
+        } else {
+            delete temp;
+            head = nullptr;
+        }
+
+        size--;
+    }
+
+    void display() {
+        if (!head) {
+            cout << "Playlist is empty." << endl;
+            return;
+        }
+
+        Node* temp = head;
+
+        do {
+            cout << "|" << temp->title << "| --> ";
+            temp = temp->next;
+        } while (temp != head);
+
+        cout << endl << "No of nodes in the CLL is " << size << endl;
+    }
+};
+
+int main() {
+    CircularLinkedList playlist;
+
+    int n1, n2;
+    cin >> n1;
+
+    cin.ignore(); // Clear the newline character from the previous input.
+
+    for (int i = 0; i < n1; i++) {
+        string title;
+        getline(cin, title);
+        playlist.insertAtFront(title);
+    }
+
+    cin >> n2;
+    cin.ignore(); // Clear the newline character from the previous input.
+
+    for (int i = 0; i < n2; i++) {
+        string title;
+        getline(cin, title);
+        playlist.insertAtEnd(title);
+    }
+
+     
+    playlist.display();
+
+    playlist.removeAtFront();
+    playlist.removeAtEnd();
+ 
+   
+    playlist.display();
+
+    return 0;
+}
+
+
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+In the land of LinkedListia, there was a circular header linked list kingdom ruled by King LinkedList. The linked list was unique, with its last node pointing back to the header node. 
+
+
+
+A wise advisor named Swapia arrived in the kingdom with a special task. They had a circular header linked list filled with elements. The advisor's mission was to perform pairwise swapping of adjacent elements in the list. 
+
+
+
+Design a circular header linked list and perform a pairwise swap operation to swap adjacent elements.
+
+
+
+Note: This is a sample question asked in Accenture recruitment.
+
+Input format :
+The first line represents the number of elements in the linked list n.
+
+The next line represents the n elements in the linked list.
+
+Output format :
+The first line of output represents the original linked list.
+
+The second line of output represents the pairwise swap in the linked list.
+
+Sample test cases :
+Input 1 :
+5
+1 2 3 4 5
+Output 1 :
+Original linked list: 1 2 3 4 5 
+Linked list after pairwise swapping: 2 1 4 3 5 
+Input 2 :
+2
+7 8
+Output 2 :
+Original linked list: 7 8 
+Linked list after pairwise swapping: 8 7 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int val) {
+        data = val;
+        next = nullptr;
+    }
+};
+
+class CircularLinkedList {
+private:
+    Node* head;
+
+public:
+    CircularLinkedList() {
+        head = nullptr;
+    }
+
+    // Add a node to the end of the circular linked list
+    void append(int value) {
+        Node* newNode = new Node(value);
+        if (!head) {
+            head = newNode;
+            head->next = head; // Circular reference to itself
+        } else {
+            Node* temp = head;
+            while (temp->next != head) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+            newNode->next = head; // Make it circular
+        }
+    }
+
+    // Display the circular linked list
+    void display() {
+        if (!head) {
+            cout << "Empty linked list" << endl;
+            return;
+        }
+        Node* temp = head;
+        do {
+            cout << temp->data << " ";
+            temp = temp->next;
+        } while (temp != head);
+        cout << endl;
+    }
+
+    // Perform pairwise swapping of adjacent elements
+    void pairwiseSwap() {
+        if (!head || !head->next) {
+            // Nothing to swap if the list is empty or has only one element
+            return;
+        }
+
+        Node* current = head;
+        Node* nextNode = current->next;
+
+        do {
+            // Swap the data of the current and next nodes
+            int tempData = current->data;
+            current->data = nextNode->data;
+            nextNode->data = tempData;
+
+            current = nextNode->next;
+            if (current) {
+                nextNode = current->next;
+            }
+        } while (current != head);
+    }
+};
+
+int main() {
+    CircularLinkedList myList;
+    int n;
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        int value;
+        cin >> value;
+        myList.append(value);
+    }
+
+    cout << "Original linked list: ";
+    myList.display();
+
+    myList.pairwiseSwap();
+
+    cout << "Linked list after pairwise swapping: ";
+    myList.display();
+
+    return 0;
+}
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+
+
+
+
+
+
+
+

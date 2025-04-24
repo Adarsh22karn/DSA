@@ -1,0 +1,602 @@
+ Single File Programming Question
+
+Problem Statement
+
+
+Lisa wants to create a linked list sorted in ascending order. She wants to insert nodes in such a way that the linked list remains sorted after insertion.
+
+
+Write a program that takes the number of nodes to be inserted, followed by their values in non-decreasing order. The program should then ask for a new value and insert a node with that value at the appropriate position to maintain the sorted order.
+
+
+Finally, the program should print the updated linked list.
+
+
+Example
+
+
+Input:
+
+5
+
+1 3 5 7 9
+
+4
+
+
+Output:
+
+1 3 4 5 7 9
+
+
+Explanation:
+
+The program first creates a sorted linked list using the given input values: 1, 3, 5, 7, and 9. After creating the initial sorted linked list, the program asks for a new value, which is 4. It then inserts a node with value 4 at the appropriate position to maintain the sorted order. Finally, the program prints the updated linked list, which is 1, 3, 4, 5, 7, and 9 in ascending order.
+
+
+Note: This is a sample question asked in Wipro recruitment.
+Input format :
+
+The first line of input consists of an integer n, representing the number of elements in the initial sorted linked list.
+
+The second line of input consists of n space-separated integers, representing the elements of the sorted linked list.
+
+The third line of input consists of integer data, which represents the element to be inserted into the linked list.
+Output format :
+
+The program should output the updated linked list after inserting the new element, separated by space.
+
+The linked list should remain sorted in ascending order.
+Code constraints :
+
+The input linked list is sorted in ascending order.
+Sample test cases :
+Input 1 :
+
+5
+1 3 5 7 9
+4
+
+Output 1 :
+
+1 3 4 5 7 9 
+
+Input 2 :
+
+6
+-15 -10 0 5 9 10
+7
+
+Output 2 :
+
+-15 -10 0 5 7 9 10 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int data) {
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+class SortedLinkedList {
+public:
+    Node* head;
+
+    SortedLinkedList() {
+        head = nullptr;
+    }
+
+    void insertSorted(int data) {
+        Node* newNode = new Node(data);
+
+        if (head == nullptr || data < head->data) {
+            newNode->next = head;
+            head = newNode;
+            return;
+        }
+
+        Node* current = head;
+
+        while (current->next != nullptr && current->next->data < data) {
+            current = current->next;
+        }
+
+        newNode->next = current->next;
+        current->next = newNode;
+    }
+
+    void display() {
+        Node* current = head;
+
+        while (current != nullptr) {
+            std::cout << current->data << " ";
+            current = current->next;
+        }
+
+        std::cout << std::endl;
+    }
+};
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    SortedLinkedList sortedList;
+
+    for (int i = 0; i < n; i++) {
+        int value;
+        std::cin >> value;
+        sortedList.insertSorted(value);
+    }
+
+    int newData;
+    std::cin >> newData;
+    sortedList.insertSorted(newData);
+
+    sortedList.display();
+
+    return 0;
+}
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+Alice is learning about linked lists and wants to practice creating one by inserting elements at the front. She decides to write a program that allows her to do so. 
+
+
+The program will prompt Alice to enter the number of elements she wants to insert and then ask her to input the values of those elements. After receiving the inputs, the program will insert the elements at the front of the linked list and display the final linked list to Alice.
+
+
+Alice is excited to see how her program will work and hopes it will help solidify her understanding of linked lists. She prepares herself to input the number of elements and their respective values, eagerly anticipating the final result.
+
+
+Note: This is a sample question asked in a HCL interview.
+Input format :
+
+The first line of input consists of an integer n, representing the number of elements to be inserted.
+
+The second line of input consists of n space-separated integers, representing the elements to be inserted in the linked list.
+
+The third line of input consists of an integer representing the value to be inserted at the front of the linked list.
+Output format :
+
+The first line of output should display the initial linked list elements, separated by space.
+
+The second line of output should display the linked list elements, after inserting the given element at the front, separated by space.
+
+
+Refer to the sample output for formatting specifications.
+Code constraints :
+
+The number of elements to be inserted (n) is a positive integer.
+
+The values of the elements can be positive or negative integers.
+Sample test cases :
+Input 1 :
+
+5
+6 5 4 3 2
+1
+
+Output 1 :
+
+Created Linked list: 2 3 4 5 6 
+Final List: 1 2 3 4 5 6 
+
+Input 2 :
+
+4
+-10 20 -30 40
+5
+
+Output 2 :
+
+Created Linked list: 40 -30 20 -10 
+Final List: 5 40 -30 20 -10 
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int data) {
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+class LinkedList {
+public:
+    Node* head;
+
+    LinkedList() {
+        head = nullptr;
+    }
+
+    void insertFront(int data) {
+        Node* newNode = new Node(data);
+        newNode->next = head;
+        head = newNode;
+    }
+
+    void display() {
+        Node* current = head;
+        while (current != nullptr) {
+            std::cout << current->data << " ";
+            current = current->next;
+        }
+        std::cout << std::endl;
+    }
+};
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    LinkedList linkedList;
+
+    for (int i = 0; i < n; i++) {
+        int value;
+        std::cin >> value;
+        linkedList.insertFront(value);
+    }
+
+    int newValue;
+    std::cin >> newValue;
+
+    std::cout << "Created Linked list: ";
+    linkedList.display();
+
+    linkedList.insertFront(newValue);
+
+    std::cout << "Final List: ";
+    linkedList.display();
+
+    return 0;
+}
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Single File Programming Question
+
+Problem Statement
+
+
+Dhanush is in the process of studying data structures, particularly linked lists. To begin, he initiates the development of a program geared towards handling a singly linked list. The program's primary aim is to enable the user to input data for creating a linked list and facilitate the insertion of a new element at a specified position within the list.
+Input format :
+
+The first line of input consists of an integer n, representing the number of nodes in the linked list.
+
+The second line consists of n space-separated integers, representing the nodes.
+
+The third line consists of the position where the new element has to be added.
+
+The fourth line consists of the value of the element.
+Output format :
+
+The output prints the linked list after inserting the given element at the specified position.
+Code constraints :
+
+1 <= n <= 100
+Sample test cases :
+Input 1 :
+
+5
+2 3 9 6 1
+3
+8
+
+Output 1 :
+
+2 3 8 9 6 1 
+
+Input 2 :
+
+10
+8 3 12 77 30 55 94 28 56 14
+8
+99
+
+Output 2 :
+
+8 3 12 77 30 55 94 99 28 56 14 
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int data) {
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+class LinkedList {
+public:
+    Node* head;
+
+    LinkedList() {
+        head = nullptr;
+    }
+
+    void insert(int position, int data) {
+        Node* newNode = new Node(data);
+
+        if (position == 1 || head == nullptr) {
+            newNode->next = head;
+            head = newNode;
+            return;
+        }
+
+        Node* current = head;
+        int currentPosition = 1;
+
+        while (currentPosition < position - 1 && current->next != nullptr) {
+            current = current->next;
+            currentPosition++;
+        }
+
+        newNode->next = current->next;
+        current->next = newNode;
+    }
+
+    void display() {
+        Node* current = head;
+        while (current != nullptr) {
+            std::cout << current->data << " ";
+            current = current->next;
+        }
+        std::cout << std::endl;
+    }
+};
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    LinkedList linkedList;
+
+    for (int i = 0; i < n; i++) {
+        int value;
+        std::cin >> value;
+        linkedList.insert(i + 1, value);
+    }
+
+    int position, newValue;
+    std::cin >> position >> newValue;
+    linkedList.insert(position, newValue);
+
+    linkedList.display();
+
+    return 0;
+}
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+ Single File Programming Question
+
+Problem Statement
+
+
+You need to write a program to maintain a student roster using a singly linked list. 
+
+
+Each student is represented by a node in the linked list, which contains the student's name. Implement an insertNode() function, which inserts a new student node with the given name at the specified position in the roster. The position is 1-based, meaning the first student is at position 1.
+
+
+If the specified position is 1, the new student node should become the new head of the roster. If the specified position is greater than the current size of the roster, the new student node should be appended at the end. 
+
+
+After performing the insertion, you should print the contents of the roster.
+
+
+Note: This is a sample question asked in an Amazon interview.
+Input format :
+
+The first line of input consists of an integer n, representing the number of students currently in the roster.
+
+The next n lines of input consist of the names of the students on the roster, separated by a line.
+
+The last line of input consists of a string name, representing the name of the new student to be inserted, and an integer, representing the position at which the new student should be inserted, separated by space.
+Output format :
+
+The first line of output should print the current linked list elements, separated by space.
+
+The next line of output should print the updated linked list elements after the insertion at the given position, separated by space.
+
+
+Refer to the sample output for formatting specifications.
+Code constraints :
+
+The student names consist of at most 100 characters.
+
+The number of students on the roster should not exceed 100.
+Sample test cases :
+Input 1 :
+
+4
+John
+Alice
+Bob
+Emma
+Michael 3
+
+Output 1 :
+
+Current Linked List:
+John Alice Bob Emma 
+Updated Linked List:
+John Alice Michael Bob Emma 
+
+Input 2 :
+
+4
+Emma
+Daniel
+Sophia
+Oliver
+Charlotte 1
+
+Output 2 :
+
+Current Linked List:
+Emma Daniel Sophia Oliver 
+Updated Linked List:
+Charlotte Emma Daniel Sophia Oliver 
+
+Input 3 :
+
+0
+Emma 1
+
+Output 3 :
+
+Current Linked List:
+
+Updated Linked List:
+Emma 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+
+class StudentNode {
+public:
+    std::string name;
+    StudentNode* next;
+
+    StudentNode(const std::string& name) {
+        this->name = name;
+        this->next = nullptr;
+    }
+};
+
+class StudentRoster {
+public:
+    StudentNode* head;
+    int size;
+
+    StudentRoster() {
+        head = nullptr;
+        size = 0;
+    }
+
+    void insertNode(const std::string& name, int position) {
+        StudentNode* newNode = new StudentNode(name);
+
+        if (position <= 0 || position > size + 1) {
+            // Invalid position, insert at the end
+            position = size + 1;
+        }
+
+        if (position == 1 || size == 0) {
+            newNode->next = head;
+            head = newNode;
+        } else {
+            StudentNode* current = head;
+            for (int i = 1; i < position - 1; i++) {
+                current = current->next;
+            }
+            newNode->next = current->next;
+            current->next = newNode;
+        }
+
+        size++;
+    }
+
+    void display() {
+        StudentNode* current = head;
+        while (current != nullptr) {
+            std::cout << current->name << " ";
+            current = current->next;
+        }
+        std::cout << std::endl;
+    }
+};
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    StudentRoster roster;
+
+    for (int i = 0; i < n; i++) {
+        std::string name;
+        std::cin >> name;
+        roster.insertNode(name, i + 1);
+    }
+
+    std::string newName;
+    int position;
+    std::cin >> newName >> position;
+
+    std::cout << "Current Linked List:" << std::endl;
+    roster.display();
+
+    roster.insertNode(newName, position);
+
+    std::cout << "Updated Linked List:" << std::endl;
+    roster.display();
+
+    return 0;
+}

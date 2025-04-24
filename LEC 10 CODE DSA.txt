@@ -1,0 +1,618 @@
+ Single File Programming Question
+
+Problem Statement
+
+
+Your task is to write a program that takes input for the number of elements in the linked list and the corresponding string values for each element. Based on this input, your program should create a linked list and then delete the alternate nodes from it.
+
+
+Note: This is a sample question asked in a HCL interview.
+Input format :
+
+The first line contains an integer n, the number of elements in the linked list.
+
+The second line contains n space-separated strings representing the elements of the linked list.
+Output format :
+
+If the linked list is empty, output "List is empty".
+
+If the linked list is not empty, output the following:
+
+The first line should display the elements of the original linked list, separated by a space.
+
+The second line should display the elements of the linked list after deleting the alternate nodes, separated by a space.
+
+
+Refer to the sample output for formatting specifications.
+Code constraints :
+
+0 ≤ n ≤ 100
+
+Each string in the input is non-empty and consists of alphanumeric characters (letters and digits) only.
+
+The total length of all strings combined does not exceed 10^2 characters.
+Sample test cases :
+Input 1 :
+
+2
+Apple Banana
+
+Output 1 :
+
+Linked list data: Apple Banana 
+After deleting alternate node:Apple 
+
+Input 2 :
+
+5
+Red Green Blue Yellow Orange
+
+Output 2 :
+
+Linked list data: Red Green Blue Yellow Orange 
+After deleting alternate node:Red Blue Orange 
+
+Input 3 :
+
+0
+
+Output 3 :
+
+List is empty
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Node {
+public:
+    string data;
+    Node* next;
+    Node(string data) {
+        this->data = data;
+        this->next = NULL;
+    }
+};
+
+class LinkedList {
+public:
+    Node* head;
+    LinkedList() {
+        this->head = NULL;
+    }
+    void insert(string data) {
+        Node* newNode = new Node(data);
+        if (this->head == NULL) {
+            this->head = newNode;
+        } else {
+            Node* current = this->head;
+            while (current->next != NULL) {
+                current = current->next;
+            }
+            current->next = newNode;
+        }
+    }
+    void deleteAlternateNodes() {
+        if (this->head == NULL) {
+            return;
+        }
+        Node* current = this->head;
+        while (current != NULL && current->next != NULL) {
+            current->next = current->next->next;
+            current = current->next;
+        }
+    }
+    void display() {
+        if (this->head == NULL) {
+            cout << "List is empty" << endl;
+        } else {
+            Node* current = this->head;
+            while (current != NULL) {
+                cout << current->data << " ";
+                current = current->next;
+            }
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    LinkedList ll;
+    for (int i = 0; i < n; i++) {
+        string data;
+        cin >> data;
+        ll.insert(data);
+    }
+    cout << "Linked list data: ";
+    ll.display();
+    ll.deleteAlternateNodes();
+    cout << "After deleting alternate node: ";
+    ll.display();
+    return 0;
+}
+
+
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+ Single File Programming Question
+
+Problem Statement
+
+
+Elsa wants to delete nodes with even positions in a singly linked list. She needs your help to write a program that takes the size of the linked list and its elements as input and uses insertion at the end to add nodes to the linked list and delete nodes with even positions from the linked list. She wants to see the original linked list before deletion and the final linked list after the deletion process.
+
+
+Write a program to solve Elsa's problem.
+
+
+Note: This is a sample question asked in a TCS interview.
+Input format :
+
+The first line of the input consists of the size (n) of the linked list (an integer).
+
+The second line of the input consists of the elements of the linked list (a sequence of space-separated integers).
+Output format :
+
+The output displays the original linked list before the deletion process.
+
+The final linked list after deleting nodes with even positions.
+
+
+Refer to the sample output for format specifications.
+Code constraints :
+
+1<=n<=100
+
+-10000<=arr<=10000
+Sample test cases :
+Input 1 :
+
+5
+100 200 300 10000 9999
+
+Output 1 :
+
+Original Linked List: 100 200 300 10000 9999 
+Final Linked List: 100 300 9999 
+
+Input 2 :
+
+3
+-10000 -2000 -3000
+
+Output 2 :
+
+Original Linked List: -10000 -2000 -3000 
+Final Linked List: -10000 -3000 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+// Node structure
+struct Node {
+    int data;
+    Node* next;
+};
+
+// Function to insert nodes at the end of the linked list
+void insertNode(Node** head, int data) {
+    Node* newNode = new Node;
+    newNode->data = data;
+    newNode->next = NULL;
+
+    if (*head == NULL) {
+        *head = newNode;
+        return;
+    }
+
+    Node* lastNode = *head;
+    while (lastNode->next != NULL) {
+        lastNode = lastNode->next;
+    }
+
+    lastNode->next = newNode;
+}
+
+// Function to delete nodes with even positions
+void deleteEvenNodes(Node** head) {
+    if (*head == NULL) {
+        return;
+    }
+
+    Node* prevNode = *head;
+    Node* currNode = (*head)->next;
+
+    while (prevNode != NULL && currNode != NULL) {
+        prevNode->next = currNode->next;
+        delete currNode;
+        prevNode = prevNode->next;
+
+        if (prevNode != NULL) {
+            currNode = prevNode->next;
+        }
+    }
+}
+
+// Function to display the linked list
+void displayList(Node* head) {
+    Node* currNode = head;
+
+    while (currNode != NULL) {
+        cout << currNode->data << " ";
+        currNode = currNode->next;
+    }
+
+    cout << endl;
+}
+
+// Main function
+int main() {
+    Node* head = NULL;
+    int n, data;
+
+    // Take input
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cin >> data;
+        insertNode(&head, data);
+    }
+
+    // Display original linked list
+    cout << "Original Linked List: ";
+    displayList(head);
+
+    // Delete nodes with even positions
+    deleteEvenNodes(&head);
+
+    // Display final linked list
+    cout << "Final Linked List: ";
+    displayList(head);
+
+    return 0;
+}
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+Madhev wants to remove all nodes with values greater than a specified value 'x' from a singly linked list. He needs your help to write a program that takes the size of the linked list, the elements of the linked list, and the value 'x' as input. 
+
+
+Additionally, he wants to insert new nodes at the end of the linked list. The program should then delete all nodes with values greater than 'x' from the linked list and display the modified linked list.
+
+
+Write a program to solve Madhev's problem.
+
+
+Note: This is a sample question asked in a Cocubes interview.
+Input format :
+
+The first line of input consists of the size of the linked list n (an integer).
+
+The second line of input consists of the elements of the linked list arr (a sequence of space-separated integers).
+
+The last line of input consists of the value 'x' (an integer) to compare against the nodes.
+Output format :
+
+The output displays the original linked list.
+
+The modified linked list after removing nodes with values greater than 'x'.
+
+
+Refer to the sample output for format specifications.
+Code constraints :
+
+1<=n<=1=100
+
+-10000<=arr<=10000
+
+-10000<=x<=10000
+Sample test cases :
+Input 1 :
+
+5
+8 7 5 3 2
+5
+
+Output 1 :
+
+Original Linked List: 8 7 5 3 2 
+Modified Linked List: 5 3 2 
+
+Input 2 :
+
+5
+-8 7 -5 -3 -2
+0
+
+Output 2 :
+
+Original Linked List: -8 7 -5 -3 -2 
+Modified Linked List: -8 -5 -3 -2 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+Node* deleteNodes(Node* head, int x) {
+    if (head == NULL) {
+        return NULL;
+    }
+    head->next = deleteNodes(head->next, x);
+    if (head->data > x) {
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+    }
+    return head;
+}
+
+void displayList(Node* head) {
+    while (head != NULL) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    int n, x;
+    cin >> n;
+    Node* head = NULL;
+    Node* tail = NULL;
+    for (int i = 0; i < n; i++) {
+        int data;
+        cin >> data;
+        Node* newNode = new Node;
+        newNode->data = data;
+        newNode->next = NULL;
+        if (head == NULL) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+    cin >> x;
+    cout << "Original Linked List: ";
+    displayList(head);
+    head = deleteNodes(head, x);
+    cout << "Modified Linked List: ";
+    displayList(head);
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+ Single File Programming Question
+
+Problem Statement
+
+
+Vennila is a student. She is learning data structure and a singly linked list. She wants to write a program to delete the second-to-last node of the linked list and also implement a program that deletes the second-to-last node of a singly linked list. Define a struct Node with two members: data to store the integer value and next to store the pointer to the next node in the list.
+
+
+Note: This is a sample question asked in a mPhasis interview.
+Input format :
+
+The input consists of the following:
+
+
+The first line contains an integer size, representing the number of elements in the linked list.
+
+The second line contains arr space-separated integers, representing the elements of the linked list, and inserts nodes at the end.
+Output format :
+
+The output consists of the following:
+
+
+The first line should display the elements of the original linked list.
+
+The second line should display the elements of the linked list after deleting the second-to-last node.
+
+
+Refer to the sample output for formatting specifications.
+Code constraints :
+
+1 <= size <= 100
+
+-50000 <= arr <= 50000
+Sample test cases :
+Input 1 :
+
+5
+1 2 3 4 5
+
+Output 1 :
+
+Original Linked List: 1 2 3 4 5 
+Updated Linked List: 1 2 3 5 
+
+Input 2 :
+
+6
+-50000 50000 7976 9887 4000 7765
+
+Output 2 :
+
+Original Linked List: -50000 50000 7976 9887 4000 7765 
+Updated Linked List: -50000 50000 7976 9887 7765 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+// Define the Node struct for the singly linked list
+struct Node {
+    int data;
+    Node* next;
+    Node(int val) : data(val), next(nullptr) {}
+};
+
+// Function to delete the second-to-last node of a singly linked list
+Node* deleteSecondToLastNode(Node* head) {
+    if (!head || !head->next || !head->next->next) {
+        // If the list has less than 2 nodes, return the original head
+        return head;
+    }
+
+    Node* prev = nullptr;
+    Node* current = head;
+
+    // Traverse the list until the second-to-last node is reached
+    while (current->next->next) {
+        prev = current;
+        current = current->next;
+    }
+
+    // Remove the second-to-last node from the list
+    prev->next = current->next;
+
+    delete current; // Free memory for the deleted node
+
+    return head;
+}
+
+// Function to print the elements of a linked list
+void printLinkedList(Node* head) {
+    Node* current = head;
+    while (current) {
+        cout << current->data << " ";
+        current = current->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    int size;
+    cin >> size;
+
+    Node* head = nullptr;
+    Node* tail = nullptr;
+
+    for (int i = 0; i < size; i++) {
+        int val;
+        cin >> val;
+
+        // Create a new node with the input value
+        Node* newNode = new Node(val);
+
+        if (!head) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+
+    // Print the original linked list
+    cout << "Original Linked List: ";
+    printLinkedList(head);
+
+    // Delete the second-to-last node
+    head = deleteSecondToLastNode(head);
+
+    // Print the updated linked list
+    cout << "Updated Linked List: ";
+    printLinkedList(head);
+
+    // Free memory by deleting the remaining nodes
+    while (head) {
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+    }
+
+    return 0;
+}
+
+
