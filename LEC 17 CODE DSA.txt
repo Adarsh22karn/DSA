@@ -1,0 +1,727 @@
+ Single File Programming Question
+
+Problem Statement
+
+
+You are assigned to develop a program that manages customer orders in a restaurant using a queue data structure. The restaurant can handle a limited number of orders at a time, and the orders will be stored in an array-based queue.
+
+
+Your task is to implement the Queue data structure and the associated functions, which will provide the necessary operations to manage the queue of customer orders using an array. 
+
+
+The main functionalities of the queue include:
+
+    Enqueue: Adding a customer order to the end of the queue.
+    Get Front: Retrieve the details of the first customer order in the queue.
+    Get Rear: Retrieve the details of the last customer order in the queue.
+
+Input format :
+
+The first line of input consists of an integer N, which represents the capacity of the queue.
+
+The second line consists of N space-separated integers, representing the customer orders.
+Output format :
+
+The output displays the front and rear elements in the queue in the following format:
+
+"Front element: <<front_value>>"
+
+"Rear element: <<rear_value>>"
+
+
+Refer to the sample output for the exact text and format.
+Code constraints :
+
+The customer order values are positive integers.
+Sample test cases :
+Input 1 :
+
+5
+10 20 30 40 50
+
+Output 1 :
+
+Front element: 10
+Rear element: 50
+
+Input 2 :
+
+3
+5 8 2
+
+Output 2 :
+
+Front element: 5
+Rear element: 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+class Queue {
+private:
+    int capacity;
+    int front;
+    int rear;
+    int* elements;
+
+public:
+    Queue(int size) {
+        capacity = size;
+        front = rear = -1;
+        elements = new int[capacity];
+    }
+
+    ~Queue() {
+        delete[] elements;
+    }
+
+    void enqueue(int value) {
+        if (isFull()) {
+            cout << "Queue is full. Cannot enqueue." << endl;
+            return;
+        }
+        if (isEmpty()) {
+            front = rear = 0;
+        } else {
+            rear = (rear + 1) % capacity;
+        }
+        elements[rear] = value;
+    }
+
+    int getFront() {
+        if (isEmpty()) {
+            cout << "Queue is empty." << endl;
+            return -1; // Return a placeholder value or handle it differently.
+        }
+        return elements[front];
+    }
+
+    int getRear() {
+        if (isEmpty()) {
+            cout << "Queue is empty." << endl;
+            return -1; // Return a placeholder value or handle it differently.
+        }
+        return elements[rear];
+    }
+
+    bool isFull() {
+        return (rear + 1) % capacity == front;
+    }
+
+    bool isEmpty() {
+        return front == -1;
+    }
+};
+
+int main() {
+    int capacity;
+    cin >> capacity;
+
+    Queue queue(capacity);
+
+    for (int i = 0; i < capacity; i++) {
+        int value;
+        cin >> value;
+        queue.enqueue(value);
+    }
+
+    cout << "Front element: " << queue.getFront() << endl;
+    cout << "Rear element: " << queue.getRear() << endl;
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+You have been given the responsibility to create a program for task management in a to-do list using a Queue data structure. This to-do list has a predefined limit for the number of tasks it can hold, and the tasks will be stored in a Queue that is implemented using a linked list.
+
+
+Your assignment is to develop the Queue data structure along with the required functions that enable the management of tasks within the to-do list.
+
+
+The main functionalities of the task queue include:
+
+    Enqueue Task: Adding a task to the end of the queue.
+    Get Front Task: Retrieve the description of the first task in the queue.
+    Get Rear Task: Retrieve the description of the last task in the queue.
+
+Input format :
+
+The first line of input consists of an integer N, representing the number of tasks to enqueue.
+
+The following N lines consist of the descriptions of the tasks, one per line.
+
+
+Note: Use cin.ignore() to ignore the newline character after reading the value of N.
+Output format :
+
+The output displays the description of the tasks that are in the front and rear in the following format:
+
+"Front Task: <<task name>>"
+
+"Rear Task: Do laundry <<task name>>"
+
+
+Refer to the sample output for the exact text and format.
+Code constraints :
+
+N > 0
+
+The length of each task description is at most 150 characters.
+Sample test cases :
+Input 1 :
+
+7
+Finish report
+Schedule meeting
+Send emails
+Attend training
+Prepare presentation
+Review documents
+Submit expenses
+
+Output 1 :
+
+Front Task: Finish report
+Rear Task: Submit expenses
+
+Input 2 :
+
+5
+Buy groceries
+Pay bills
+Walk the dog
+Call mom
+Do laundry
+
+Output 2 :
+
+Front Task: Buy groceries
+Rear Task: Do laundry
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Task {
+public:
+    string description;
+    Task* next;
+
+    Task(string desc) : description(desc), next(nullptr) {}
+};
+
+class Queue {
+private:
+    Task* front;
+    Task* rear;
+
+public:
+    Queue() : front(nullptr), rear(nullptr) {}
+
+    void enqueueTask(string description) {
+        Task* newTask = new Task(description);
+
+        if (isEmpty()) {
+            front = rear = newTask;
+        } else {
+            rear->next = newTask;
+            rear = newTask;
+        }
+    }
+
+    string getFrontTask() {
+        if (isEmpty()) {
+            return "No tasks in the queue.";
+        }
+        return front->description;
+    }
+
+    string getRearTask() {
+        if (isEmpty()) {
+            return "No tasks in the queue.";
+        }
+        return rear->description;
+    }
+
+    bool isEmpty() {
+        return front == nullptr;
+    }
+};
+
+int main() {
+    int N;
+    cin >> N;
+    cin.ignore(); // Ignore the newline character
+
+    Queue taskQueue;
+
+    for (int i = 0; i < N; i++) {
+        string taskDescription;
+        getline(cin, taskDescription);
+        taskQueue.enqueueTask(taskDescription);
+    }
+
+    cout << "Front Task: " << taskQueue.getFrontTask() << endl;
+    cout << "Rear Task: " << taskQueue.getRearTask() << endl;
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+You are designing an event registration system for a conference. 
+
+
+As part of the system, you need to implement a Queue data structure using an array that stores only the even numbers representing the registration IDs of the participants. 
+
+
+The queue will be used to keep track of the order in which participants register for the event.
+Input format :
+
+The first line of input consists of an integer N, representing the number of participants to register.
+
+The following N lines consist of integers, representing the registration IDs of the participants.
+Output format :
+
+The output prints only the even number registration IDs of the participants in the order they registered, separated by space.
+
+For odd registration IDs, print "Invalid element <element> Only even numbers can be enqueued".
+Code constraints :
+
+1 <= N <= 100
+Sample test cases :
+Input 1 :
+
+6
+2
+4
+6
+8
+10
+12
+
+Output 1 :
+
+2 4 6 8 10 12 
+
+Input 2 :
+
+4
+14
+36
+55
+48
+
+Output 2 :
+
+Invalid element 55, only even numbers can be enqueued
+14 36 48 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+class Queue {
+private:
+    int capacity;
+    int front;
+    int rear;
+    int* elements;
+
+public:
+    Queue(int size) {
+        capacity = size;
+        front = rear = -1;
+        elements = new int[capacity];
+    }
+
+    ~Queue() {
+        delete[] elements;
+    }
+
+    void enqueue(int value) {
+        if (isFull()) {
+            cout << "Invalid element " << value << ", only even numbers can be enqueued" << endl;
+            return;
+        }
+
+        if (value % 2 == 0) {
+            if (isEmpty()) {
+                front = rear = 0;
+            } else {
+                rear = (rear + 1) % capacity;
+            }
+            elements[rear] = value;
+        } else {
+            cout << "Invalid element " << value << ", only even numbers can be enqueued" << endl;
+        }
+    }
+
+    bool isFull() {
+        return (rear + 1) % capacity == front;
+    }
+
+    bool isEmpty() {
+        return front == -1;
+    }
+
+    void display() {
+        int current = front;
+        while (current != rear) {
+            cout << elements[current] << " ";
+            current = (current + 1) % capacity;
+        }
+        cout << elements[current] << " ";
+        cout << endl;
+    }
+};
+
+int main() {
+    int N;
+    cin >> N;
+
+    Queue evenQueue(N);
+
+    for (int i = 0; i < N; i++) {
+        int registrationID;
+        cin >> registrationID;
+        evenQueue.enqueue(registrationID);
+    }
+
+    evenQueue.display();
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+In a grocery store, customers join a single queue to check out their items. The grocery store wants to implement a system to manage the checkout queue using a data structure. 
+
+
+Each customer's arrival is recorded and added to the queue. The grocery store staff wants to display the queue in reverse order to check the customers' positions.
+
+
+Implement a program to manage a grocery store checkout queue using a linked list. The program should allow customers to join the queue, and the order of their arrival should be reversed, meaning the first customer to join becomes the last in line. The program should display the current state of the queue.
+Input format :
+
+The first line of input consists of an integer N, representing the number of customers in the queue.
+
+The next line consists of N space-separated integers, representing the customer positions.
+Output format :
+
+If the queue is not empty: Print the current state of the checkout queue, and display the customer positions in reverse order.
+
+If the queue is empty: A message stating that the queue is empty.
+
+
+Refer to the sample output for the exact text and format.
+Code constraints :
+
+N > 0
+Sample test cases :
+Input 1 :
+
+3
+5 10 15
+
+Output 1 :
+
+Queue: 15 10 5 
+
+Input 2 :
+
+6
+10 15 20 25 30 35
+
+Output 2 :
+
+Queue: 35 30 25 20 15 10 
+
+Input 3 :
+
+0
+
+Output 3 :
+
+Queue is empty.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int value) : data(value), next(nullptr) {}
+};
+
+class CheckoutQueue {
+private:
+    Node* front;
+    Node* rear;
+
+public:
+    CheckoutQueue() : front(nullptr), rear(nullptr) {}
+
+    void enqueue(int customerPosition) {
+        Node* newNode = new Node(customerPosition);
+
+        if (isEmpty()) {
+            front = rear = newNode;
+        } else {
+            newNode->next = front;
+            front = newNode;
+        }
+    }
+
+    bool isEmpty() {
+        return front == nullptr;
+    }
+
+    void display() {
+        if (isEmpty()) {
+            cout << "Queue is empty." << endl;
+        } else {
+            cout << "Queue: ";
+            Node* current = front;
+            while (current != nullptr) {
+                cout << current->data << " ";
+                current = current->next;
+            }
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    int N;
+    cin >> N;
+
+    CheckoutQueue checkoutQueue;
+
+    for (int i = 0; i < N; i++) {
+        int customerPosition;
+        cin >> customerPosition;
+        checkoutQueue.enqueue(customerPosition);
+    }
+
+    checkoutQueue.display();
+
+    return 0;
+}
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+You are developing a food delivery platform that handles orders from two different regions. The system uses two queues implemented using linked lists to manage incoming orders from each region. 
+
+
+Your task is to implement a program that checks if the two queues have the same order sequence.
+Input format :
+
+The first line consists of an integer N1, representing the number of orders for the first queue.
+
+The second line consists of N1 space-separated integers, representing the order details for the first queue.
+
+The third line consists of an integer N2, representing the number of orders for the second queue.
+
+The fourth line consists of N2 space-separated integers, representing the order details for the second queue.
+Output format :
+
+The output prints whether the queues have the same elements or different elements.
+
+
+Refer to the sample output for the exact text and format.
+Code constraints :
+
+The order numbers are integers.
+
+The number of orders for each queue is non-negative.
+Sample test cases :
+Input 1 :
+
+3
+1 2 3
+3
+1 2 3
+
+Output 1 :
+
+The queues have the same elements in the same order.
+
+Input 2 :
+
+1
+2 
+4
+8 3 9 6
+
+Output 2 :
+
+The queues do not have the same elements in the same order.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// Function to check if two queues have the same order sequence
+string checkOrderSequence(int N1, vector<int>& queue1, int N2, vector<int>& queue2) {
+    if (N1 != N2) {
+        return "The queues do not have the same elements in the same order.";
+    }
+
+    for (int i = 0; i < N1; ++i) {
+        if (queue1[i] != queue2[i]) {
+            return "The queues do not have the same elements in the same order.";
+        }
+    }
+
+    return "The queues have the same elements in the same order.";
+}
+
+int main() {
+    int N1, N2;
+    cin >> N1;
+
+    vector<int> queue1(N1);
+    for (int i = 0; i < N1; ++i) {
+        cin >> queue1[i];
+    }
+
+    cin >> N2;
+
+    vector<int> queue2(N2);
+    for (int i = 0; i < N2; ++i) {
+        cin >> queue2[i];
+    }
+
+    // Check and print the result
+    string result = checkOrderSequence(N1, queue1, N2, queue2);
+    cout << result << endl;
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000

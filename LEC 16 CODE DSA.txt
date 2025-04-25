@@ -1,0 +1,654 @@
+ Single File Programming Question
+
+Problem Statement
+
+
+Meena is a Computer Science student who is currently studying Data Structures and Algorithms. As part of her assignment, she has been tasked with implementing a program that evaluates postfix expressions using a Stack data structure.
+
+
+Write a program to help Meena evaluate a given postfix mathematical expression using a Stack.
+
+
+Example
+
+
+Input:
+
+10 2 3 + *
+
+
+Output:
+
+50
+
+
+Explanation:
+
+    exp = 10 2 3 + * 
+    exp[0]="10" => push() => Stack = 10
+    exp[1]="2" => push() => Stack = 10 2
+    exp[2]="3" => push() => Stack = 10 2 3
+    exp[3]="+" => pop() => Stack = 10 5 (perform addition on first two top-most elements, 3+ 2 = 5)
+    exp[4]="*" => pop() => Stack = 50 (perform multiplication on first two top-most elements, 10*5 = 50) Print the last value, 50.
+
+
+Note: This is a sample question asked in Capgemini recruitment.
+Input format :
+
+The input consists of a postfix mathematical expression.
+
+The expression will contain integers and arithmetic operators (+, -, *, /) separated by space.
+Output format :
+
+The output prints the result of evaluating the given postfix expression.
+Code constraints :
+
+    The expression may contain only valid mathematical characters: digits and arithmetic operators.
+    The input expression will only contain integers as operands, and the result will always be within the range of a 32-bit signed integer.
+
+Sample test cases :
+Input 1 :
+
+10 2 3 + *
+
+Output 1 :
+
+50
+
+Input 2 :
+
+4 8 *
+
+Output 2 :
+
+32
+
+Input 3 :
+
+5 2 3 * + 8 4 / - 3 +
+
+Output 3 :
+
+12
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <stack>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+int evaluatePostfix(string expression) {
+    stack<int> operandStack;
+    stringstream ss(expression);
+    string token;
+
+    while (ss >> token) {
+        if (isdigit(token[0])) {
+            operandStack.push(stoi(token)); // Convert string to integer and push to stack
+        } else {
+            int operand2 = operandStack.top();
+            operandStack.pop();
+            int operand1 = operandStack.top();
+            operandStack.pop();
+
+            switch (token[0]) {
+                case '+':
+                    operandStack.push(operand1 + operand2);
+                    break;
+                case '-':
+                    operandStack.push(operand1 - operand2);
+                    break;
+                case '*':
+                    operandStack.push(operand1 * operand2);
+                    break;
+                case '/':
+                    operandStack.push(operand1 / operand2);
+                    break;
+                default:
+                    cerr << "Invalid operator: " << token << endl;
+                    return -1;
+            }
+        }
+    }
+
+    // The result should be the only element left in the stack
+    return operandStack.top();
+}
+
+int main() {
+    string expression;
+    cout << "Enter a postfix expression: ";
+    getline(cin, expression);
+
+    int result = evaluatePostfix(expression);
+
+    if (result != -1) {
+        cout << "Result: " << result << endl;
+    }
+
+    return 0;
+}
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+Usha is currently studying computer science and is interested in mathematical expressions and their evaluation. She came across an infix expression that includes mathematical operators and functions and wants to convert it into postfix notation. She needs your help to implement a program that can perform this task.
+
+
+Your task is to implement a program that takes an infix mathematical expression with function calls, converts it into postfix notation, and prints the postfix expression.
+
+
+Example
+
+
+Input: sin(3x)+cos(4x)
+
+Output: sin3xcos4x+
+
+
+Note: This is a sample question asked in Capgemini recruitment.
+Input format :
+
+The input consists of a single line containing the infix mathematical expression with function calls. The expression will contain:
+
+    Arithmetic operators: +, -, *, /, %, ^.
+    Functions: sin, cos, tan, exp, log, sqrt.
+    Parentheses: (and).
+    Numeric values (integers)
+
+Spaces may be included in the input, but they should be ignored.
+Output format :
+
+The output displays the postfix expression obtained from the input infix expression.
+
+
+Refer to the sample output for the formatting specifications.
+Code constraints :
+
+maximum length of 100 characters.
+Sample test cases :
+Input 1 :
+
+sin(x)+2*cos(y)
+
+Output 1 :
+
+Postfix expression: sinx2cosy*+
+
+Input 2 :
+
+sin(cos(x)*tan(y))
+
+Output 2 :
+
+Postfix expression: sincosxtany*
+
+Input 3 :
+
+sin(3x)+cos(4x)
+
+Output 3 :
+
+Postfix expression: sin3xcos4x+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+// Function to determine operator precedence
+int precedence(char op) {
+    if (op == '^') return 3;
+    if (op == '*' || op == '/' || op == '%') return 2;
+    if (op == '+' || op == '-') return 1;
+    return 0;
+}
+
+// Function to convert infix to postfix
+string infixToPostfix(string expression) {
+    stack<char> operatorStack;
+    string postfix = "";
+
+    for (char c : expression) {
+        if (c == ' ') continue; // Ignore spaces
+
+        if (isalnum(c)) { // Operand
+            postfix += c;
+        }
+        else if (c == '(') {
+            operatorStack.push(c);
+        }
+        else if (c == ')') {
+            while (!operatorStack.empty() && operatorStack.top() != '(') {
+                postfix += operatorStack.top();
+                operatorStack.pop();
+            }
+            operatorStack.pop(); // Pop '('
+        }
+        else { // Operator
+            while (!operatorStack.empty() && precedence(c) <= precedence(operatorStack.top())) {
+                postfix += operatorStack.top();
+                operatorStack.pop();
+            }
+            operatorStack.push(c);
+        }
+    }
+
+    while (!operatorStack.empty()) {
+        postfix += operatorStack.top();
+        operatorStack.pop();
+    }
+
+    return postfix;
+}
+
+int main() {
+    string input;
+    getline(cin, input);
+
+    string postfix = infixToPostfix(input);
+
+    cout << "Postfix expression: " << postfix << endl;
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+Janani is a dedicated math teacher who wants to simplify the process of solving complex mathematical expressions for her students.
+
+
+She wishes to create a tool that can convert standard mathematical expressions written in infix notation into postfix notation. This tool will help her students better understand the order of operations and practice solving equations step-by-step.
+Input format :
+
+The input consists of a single line containing a mathematical expression in infix notation.
+
+The expression contains the operators +, -, *, and /, as well as parentheses ().
+
+Operand values are integers, and there are no spaces in the input.
+Output format :
+
+The output will be a single line containing the corresponding postfix expression obtained from the given infix expression.
+
+
+Refer to the sample output for the formatting specifications.
+Code constraints :
+
+The input expression has at most 100 characters.and valid mathematical expression.
+Sample test cases :
+Input 1 :
+
+(5-3)*(7+2)
+
+Output 1 :
+
+Postfix expression: 53-72+*
+
+Input 2 :
+
+(1+7)*3-8/(5+2)
+
+Output 2 :
+
+Postfix expression: 17+3*852+/-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+// Function to determine operator precedence
+int precedence(char op) {
+    if (op == '*' || op == '/') return 2;
+    if (op == '+' || op == '-') return 1;
+    return 0;
+}
+
+// Function to convert infix to postfix
+string infixToPostfix(string expression) {
+    stack<char> operatorStack;
+    string postfix = "";
+
+    for (char c : expression) {
+        if (c == '(') {
+            operatorStack.push(c);
+        } else if (c == ')') {
+            while (!operatorStack.empty() && operatorStack.top() != '(') {
+                postfix += operatorStack.top();
+                operatorStack.pop();
+            }
+            operatorStack.pop(); // Pop '('
+        } else if (isalnum(c)) { // Operand
+            postfix += c;
+        } else { // Operator
+            while (!operatorStack.empty() && precedence(c) <= precedence(operatorStack.top())) {
+                postfix += operatorStack.top();
+                operatorStack.pop();
+            }
+            operatorStack.push(c);
+        }
+    }
+
+    while (!operatorStack.empty()) {
+        postfix += operatorStack.top();
+        operatorStack.pop();
+    }
+
+    return postfix;
+}
+
+int main() {
+    string input;
+    cin >> input;
+
+    string postfix = infixToPostfix(input);
+
+    cout << "Postfix expression: " << postfix << endl;
+
+    return 0;
+}
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+Suppose you are designing a compiler for a programming language. As part of the compilation process, you need to convert an infix arithmetic expression to its postfix form. The postfix form is often used in computer algorithms to evaluate arithmetic expressions efficiently.
+
+
+Write a program that takes an infix arithmetic expression as input from the user and converts it to postfix form.
+
+The program must be designed to handle input expressions with parentheses and convert them accordingly.
+
+
+Note: This is a sample question asked in an HCL interview.
+Input format :
+
+The input consists of a string representing an infix expression.
+Output format :
+
+The output prints the postfix expression for the given input expression.
+
+
+Refer to the sample output for the exact format.
+Code constraints :
+
+The inputs include (, ), +, -, * , /, ^, and alphabets (both uppercase and lowercase letters).
+
+Stack size<=100
+Sample test cases :
+Input 1 :
+
+(a+(b*c))
+
+Output 1 :
+
+abc*+
+
+Input 2 :
+
+A+B*C/(E-F)
+
+Output 2 :
+
+ABC*EF-/+
+
+Input 3 :
+
+(A^B)
+
+Output 3 :
+
+AB^
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <stack>
+#include <string>
+#include <cctype>
+
+using namespace std;
+
+// Function to determine operator precedence
+int precedence(char op) {
+    if (op == '^') return 3;
+    if (op == '*' || op == '/') return 2;
+    if (op == '+' || op == '-') return 1;
+    return 0;
+}
+
+// Function to convert infix to postfix
+string infixToPostfix(string expression) {
+    stack<char> operatorStack;
+    string postfix = "";
+
+    for (char c : expression) {
+        if (isalpha(c)) { // Operand
+            postfix += c;
+        } else if (c == '(') {
+            operatorStack.push(c);
+        } else if (c == ')') {
+            while (!operatorStack.empty() && operatorStack.top() != '(') {
+                postfix += operatorStack.top();
+                operatorStack.pop();
+            }
+            operatorStack.pop(); // Pop '('
+        } else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') { // Operator
+            while (!operatorStack.empty() && precedence(c) <= precedence(operatorStack.top())) {
+                postfix += operatorStack.top();
+                operatorStack.pop();
+            }
+            operatorStack.push(c);
+        }
+    }
+
+    while (!operatorStack.empty()) {
+        postfix += operatorStack.top();
+        operatorStack.pop();
+    }
+
+    return postfix;
+}
+
+int main() {
+    string input;
+    getline(cin, input);
+
+    string postfix = infixToPostfix(input);
+
+    cout << postfix << endl;
+
+    return 0;
+}
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+Nithish is studying computer science and is currently learning about expressions and their conversion from infix notation to postfix notation. He has a programming assignment and needs your help to implement an infix-to-postfix conversion algorithm. Can you help him?
+
+
+Write a program that takes an infix expression as input and converts it into a postfix expression. The program should support the following operators: '+', '-', '*', and '/'. It should also handle parentheses '(' and ')' to indicate the order of operations.
+
+
+Note: This is a sample question asked in HCL recruitment.
+Input format :
+
+The input consists of an infix expression that includes only digits (0–9) and operators (+, -, *, /).
+Output format :
+
+The output displays the equivalent postfix expression of the given infix expression.
+
+
+Refer to the sample output for the formatting specifications.
+Code constraints :
+
+The length of the expression <= 100 characters.
+Sample test cases :
+Input 1 :
+
+1+2*3/4-5
+
+Output 1 :
+
+Postfix expression: 123*4/+5-
+
+Input 2 :
+
+5+6-4*8/2
+
+Output 2 :
+
+Postfix expression: 56+48*2/-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+// Function to determine operator precedence
+int precedence(char op) {
+    if (op == '*' || op == '/') return 2;
+    if (op == '+' || op == '-') return 1;
+    return 0;
+}
+
+// Function to convert infix to postfix
+string infixToPostfix(string expression) {
+    stack<char> operatorStack;
+    string postfix = "";
+
+    for (char c : expression) {
+        if (isdigit(c)) { // Operand
+            postfix += c;
+        } else if (c == '(') {
+            operatorStack.push(c);
+        } else if (c == ')') {
+            while (!operatorStack.empty() && operatorStack.top() != '(') {
+                postfix += operatorStack.top();
+                operatorStack.pop();
+            }
+            operatorStack.pop(); // Pop '('
+        } else if (c == '+' || c == '-' || c == '*' || c == '/') { // Operator
+            while (!operatorStack.empty() && precedence(c) <= precedence(operatorStack.top())) {
+                postfix += operatorStack.top();
+                operatorStack.pop();
+            }
+            operatorStack.push(c);
+        }
+    }
+
+    while (!operatorStack.empty()) {
+        postfix += operatorStack.top();
+        operatorStack.pop();
+    }
+
+    return postfix;
+}
+
+int main() {
+    string input;
+    cin >> input;
+
+    string postfix = infixToPostfix(input);
+
+    cout << "Postfix expression: " << postfix << endl;
+
+    return 0;
+}
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000

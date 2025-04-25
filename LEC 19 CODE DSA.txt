@@ -1,0 +1,643 @@
+ Single File Programming Question
+
+Problem Statement
+
+
+You have been assigned to develop a waitlist management system for a popular restaurant. The restaurant experiences high customer demand and often has a waitlist for customers to secure a table. Your task is to develop a program that simulates this waitlist using a double-ended queue.
+
+
+The program should provide the following functionalities:
+
+
+Add Customers: The program should allow the host/hostess to add customers to the waitlist. Each customer is identified by their name. The host/hostess will enter the customer's name, and the program should add the customer to the end of the waitlist.
+
+
+Remove Customers: Once a table becomes available, the host/hostess can remove customers from the waitlist. The program should display the customer at the front of the waitlist and remove them from the list. The host/hostess can then seat the customer at the available table.
+
+
+Move Customers: If a customer at the front of the waitlist is not ready to be seated yet, the host/hostess can move them to the end of the waitlist. This is typically done if the customer requests more time or needs to wait for additional members of their party to arrive. The program should move the customer from the front to the back of the waitlist.
+
+
+Display Waitlist: At any time, the host/hostess can view the current waitlist. The program should display the names and party sizes of all customers on the waitlist, starting from the front to the back.
+
+
+Your solution should utilize a double-ended queue to implement the waitlist functionality. The program should prompt the user for the required actions and perform the corresponding operations on the waitlist. It should also display appropriate messages to notify the host/hostess about the status of the waitlist and any changes made.
+
+
+Note: This is a sample question asked in a HCL interview.
+Input format :
+
+The input consists of choices.
+
+If the choice is 1, enter the customer's name.
+
+If the option is 2, the customer is removed from the waitlist.
+
+If the choice is 3, the customer is moved to the back of the waitlist.
+
+If the choice is 4, the current waitlist is displayed.
+
+If the choice is 5, exit.
+
+
+Refer to the sample input for a better understanding.
+Output format :
+
+The output prints the results based on the given choices. 
+
+If the choice is 1, display a message indicating that the customer has been added to the waitlist.
+
+If the choice is 2, display a message indicating that the customer has been removed from the waitlist.
+
+If the choice is 3, display a message indicating that the customer has been moved to the back of the waitlist. If there are no customers, print "Error: Waitlist is empty".
+
+If the choice is 4, display the current waitlist. if there are no customers, print "Empty".
+
+If the choice is 5, display the exit message.
+
+If the choice is greater than 5, print "Invalid option!".
+
+
+Refer to the sample output for the exact text and format.
+Sample test cases :
+Input 1 :
+
+1
+Alice
+1
+Bob
+3
+2
+4
+5
+
+Output 1 :
+
+Alice has been added to the waitlist.
+Bob has been added to the waitlist.
+Alice has been moved to the back of the waitlist.
+Bob has been removed from the waitlist.
+Current waitlist:
+Alice
+Exiting
+
+Input 2 :
+
+1
+John
+4
+5
+
+Output 2 :
+
+John has been added to the waitlist.
+Current waitlist:
+John
+Exiting
+
+Input 3 :
+
+1
+Alice
+2
+3
+4
+5
+
+Output 3 :
+
+Alice has been added to the waitlist.
+Alice has been removed from the waitlist.
+Error: Waitlist is empty
+Current waitlist:
+Empty
+Exiting
+
+Input 4 :
+
+10
+5
+
+Output 4 :
+
+Invalid option!
+Exiting
+
+Input 5 :
+
+1
+Damon
+1
+Stefan
+1
+Elena
+1
+Bonnie
+1
+Enzo
+1
+Klaus
+3
+3
+4
+5
+
+Output 5 :
+
+Damon has been added to the waitlist.
+Stefan has been added to the waitlist.
+Elena has been added to the waitlist.
+Bonnie has been added to the waitlist.
+Enzo has been added to the waitlist.
+Klaus has been added to the waitlist.
+Damon has been moved to the back of the waitlist.
+Stefan has been moved to the back of the waitlist.
+Current waitlist:
+Elena
+Bonnie
+Enzo
+Klaus
+Damon
+Stefan
+Exiting
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <deque>
+#include <string>
+
+using namespace std;
+
+int main() {
+    deque<string> waitlist;
+
+    while (true) {
+        int choice;
+        cin >> choice;
+
+        if (choice == 1) {
+            string customer_name;
+            cin >> customer_name;
+            waitlist.push_back(customer_name);
+            cout << customer_name << " has been added to the waitlist." << endl;
+        } else if (choice == 2) {
+            if (!waitlist.empty()) {
+                cout << waitlist.front() << " has been removed from the waitlist." << endl;
+                waitlist.pop_front();
+            } else {
+                cout << "Error: Waitlist is empty" << endl;
+            }
+        } else if (choice == 3) {
+            if (!waitlist.empty()) {
+                string customer_name = waitlist.front();
+                waitlist.pop_front();
+                waitlist.push_back(customer_name);
+                cout << customer_name << " has been moved to the back of the waitlist." << endl;
+            } else {
+                cout << "Error: Waitlist is empty" << endl;
+            }
+        } else if (choice == 4) {
+            if (!waitlist.empty()) {
+                cout << "Current waitlist:" << endl;
+                for (const string& customer : waitlist) {
+                    cout << customer << endl;
+                }
+            } else {
+                cout << "Empty" << endl;
+            }
+        } else if (choice == 5) {
+            cout << "Exiting" << endl;
+            break;
+        } else {
+            cout << "Invalid option!" << endl;
+        }
+    }
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 Single File Programming Question
+
+Problem Statement
+
+
+Your task is to implement a double-ended queue data structure. A deque is a linear data structure that allows elements to be inserted or removed from both the front and the rear. 
+
+
+Your program should provide the following functionality:
+
+    Initialize an empty deque.
+    Push an element to the back of the deque.
+    Check if the deque is empty.
+    Find and print the maximum element in the deque.
+
+Input format :
+
+The input consists of the elements that should be inserted into the deque.
+
+The input is terminated by entering -1.
+Output format :
+
+The output prints the maximum element in the given deque.
+Sample test cases :
+Input 1 :
+
+1
+2
+3
+4
+-1
+
+Output 1 :
+
+4
+
+Input 2 :
+
+41
+36
+-1
+
+Output 2 :
+
+41
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <deque>
+
+using namespace std;
+
+int main() {
+    deque<int> myDeque;
+    int num;
+
+    while (true) {
+        cin >> num;
+        if (num == -1) {
+            break;
+        }
+        myDeque.push_back(num);
+    }
+
+    if (myDeque.empty()) {
+        cout << "Deque is empty" << endl;
+    } else {
+        int maxElement = myDeque.front();
+
+        for (int i : myDeque) {
+            if (i > maxElement) {
+                maxElement = i;
+            }
+        }
+
+        cout << maxElement << endl;
+    }
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+Your task is to create a program that implements a deque (double-ended queue) data structure. The program should count the number of alternate elements in the deque and return the result.
+Input format :
+
+The input consists of the elements of the dequeue.
+
+The input is terminated by entering -1.
+Output format :
+
+The output prints the count of the alternate elements.
+
+
+Refer to the sample output for the exact text and format.
+Sample test cases :
+Input 1 :
+
+1
+2
+3
+4
+-1
+
+Output 1 :
+
+Number of alternate elements in the deque: 2
+
+Input 2 :
+
+1
+2
+-1
+
+Output 2 :
+
+Number of alternate elements in the deque: 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <deque>
+
+using namespace std;
+
+int main() {
+    deque<int> myDeque;
+    int num;
+    int count = 0;
+    bool isAlternate = true;
+
+    while (true) {
+        cin >> num;
+        if (num == -1) {
+            break;
+        }
+        myDeque.push_back(num);
+    }
+
+    for (int i : myDeque) {
+        if (isAlternate) {
+            count++;
+            isAlternate = false;
+        } else {
+            isAlternate = true;
+        }
+    }
+
+    cout << "Number of alternate elements in the deque: " << count << endl;
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+You are tasked with implementing a double-ended queue, a data structure that allows elements to be added or removed from both ends. 
+
+
+You need to create a program that provides the following functionality:
+
+    Initialize an empty deque.
+    Insert elements at the front of the deque.
+    Insert elements at the back of the deque.
+    Print the elements of the deque.
+
+Input format :
+
+The first line of input consists of the first integer to insert at the front.
+
+The second line consists of the second integer to insert at the front.
+
+The third line consists of the first integer to insert at the back.
+
+The fourth line consists of the second integer to insert at the back.
+
+The fifth line consists of the third integer to insert at the front.
+
+The sixth line consists of the third integer to insert at the back.
+Output format :
+
+The output prints the dequeue elements, separated by space.
+Code constraints :
+
+number of inputs = 6
+Sample test cases :
+Input 1 :
+
+101
+201
+102
+202
+103
+204
+
+Output 1 :
+
+103 201 101 102 202 204 
+
+Input 2 :
+
+4 
+5
+6
+9
+2
+3
+
+Output 2 :
+
+2 5 4 6 9 3 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <deque>
+
+using namespace std;
+
+int main() {
+    deque<int> myDeque;
+    int num;
+
+    // Input elements to insert at the front
+    cin >> num;
+    myDeque.push_front(num);
+    cin >> num;
+    myDeque.push_front(num);
+
+    // Input elements to insert at the back
+    cin >> num;
+    myDeque.push_back(num);
+    cin >> num;
+    myDeque.push_back(num);
+
+    // Input more elements to insert at the front and back
+    cin >> num;
+    myDeque.push_front(num);
+    cin >> num;
+    myDeque.push_back(num);
+
+    // Print the elements of the deque
+    for (int element : myDeque) {
+        cout << element << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+Michael is developing a stock market analysis tool that processes historical stock prices. As part of his task, he needs to find and display the minimum stock price using a double-ended queue (deque).
+
+
+Michael has a deque that stores a collection of stock prices. The deque is initially empty. Write a program that Michael can use to find and print the minimum stock price from the deque. 
+Input format :
+
+The input consists of the elements of the dequeue.
+
+The input is terminated by entering -1.
+Output format :
+
+The output prints the minimum element in the given queue.
+Sample test cases :
+Input 1 :
+
+345
+287
+166
+747
+-1
+
+Output 1 :
+
+166
+
+Input 2 :
+
+711
+298
+-1
+
+Output 2 :
+
+298
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <deque>
+
+using namespace std;
+
+int main() {
+    deque<int> stockPrices;
+    int price;
+
+    while (true) {
+        cin >> price;
+        if (price == -1) {
+            break;
+        }
+        stockPrices.push_back(price);
+    }
+
+    if (stockPrices.empty()) {
+        cout << "No stock prices provided." << endl;
+    } else {
+        int minPrice = stockPrices.front();
+
+        for (int p : stockPrices) {
+            if (p < minPrice) {
+                minPrice = p;
+            }
+        }
+
+        cout << minPrice << endl;
+    }
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
