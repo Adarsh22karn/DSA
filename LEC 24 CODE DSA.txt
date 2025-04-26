@@ -1,0 +1,419 @@
+ Single File Programming Question
+
+Problem Statement
+
+
+Imagine you are a computer programmer tasked with creating a program to organize a collection of years in ascending order. This program will take a list of years as input and efficiently sort them using the Quick-Sort algorithm, ensuring that the years are arranged chronologically.
+Input format :
+
+The first line of input consists of an integer N, representing the number of years.
+
+The second line consists of N space-separated integers, representing the years.
+Output format :
+
+The output prints the sorted dates in chronological order.
+Code constraints :
+
+N > 0
+
+Each year is a 4-digit positive integer.
+Sample test cases :
+Input 1 :
+
+5
+2014 2009 2000 1997 1865
+
+Output 1 :
+
+1865 1997 2000 2009 2014 
+
+Input 2 :
+
+3
+1496 3015 2056
+
+Output 2 :
+
+1496 2056 3015 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+// Function to partition the array and return the pivot index
+int partition(std::vector<int> &years, int low, int high) {
+    int pivot = years[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; j++) {
+        if (years[j] < pivot) {
+            i++;
+            std::swap(years[i], years[j]);
+        }
+    }
+
+    std::swap(years[i + 1], years[high]);
+    return i + 1;
+}
+
+// Recursive function to perform Quick Sort
+void quickSort(std::vector<int> &years, int low, int high) {
+    if (low < high) {
+        int pivotIndex = partition(years, low, high);
+        quickSort(years, low, pivotIndex - 1);
+        quickSort(years, pivotIndex + 1, high);
+    }
+}
+
+int main() {
+    int N;
+    std::cin >> N;
+    std::vector<int> years(N);
+
+    for (int i = 0; i < N; i++) {
+        std::cin >> years[i];
+    }
+
+    quickSort(years, 0, N - 1);
+
+    for (int i = 0; i < N; i++) {
+        std::cout << years[i] << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Single File Programming Question
+
+Problem Statement
+
+
+Imagine you are a software developer working for a logistics company. Your task is to create a program that can efficiently sort a list of packages based on their weights using the Quick-Sort algorithm. Each package has a weight value associated with it.
+
+
+The program should take an array of package objects as input, where each object contains the weight of a package. The program should then sort the array in ascending order based on the weights of the packages.
+Input format :
+
+The first line of input consists of an integer N, representing the number of packages.
+
+The second line consists of N integers, representing the weight of the packages, separated by space.
+Output format :
+
+The output displays N integers representing the weights of the packages after they have been sorted in ascending order.
+Code constraints :
+
+N > 0
+
+weight > 0
+Sample test cases :
+Input 1 :
+
+4
+15 25 35 10
+
+Output 1 :
+
+10 15 25 35 
+
+Input 2 :
+
+3
+120 60 80
+
+Output 2 :
+
+60 80 120 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+// Function to partition the array and return the pivot index
+int partition(std::vector<int> &packages, int low, int high) {
+    int pivot = packages[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; j++) {
+        if (packages[j] < pivot) {
+            i++;
+            std::swap(packages[i], packages[j]);
+        }
+    }
+
+    std::swap(packages[i + 1], packages[high]);
+    return i + 1;
+}
+
+// Recursive function to perform Quick Sort
+void quickSort(std::vector<int> &packages, int low, int high) {
+    if (low < high) {
+        int pivotIndex = partition(packages, low, high);
+        quickSort(packages, low, pivotIndex - 1);
+        quickSort(packages, pivotIndex + 1, high);
+    }
+}
+
+int main() {
+    int N;
+    std::cin >> N;
+    std::vector<int> packages(N);
+
+    for (int i = 0; i < N; i++) {
+        std::cin >> packages[i];
+    }
+
+    quickSort(packages, 0, N - 1);
+
+    for (int i = 0; i < N; i++) {
+        std::cout << packages[i] << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+You've received a secret message encoded as an array of characters. Unfortunately, the characters are all jumbled up. 
+
+
+Your mission is to write a program that can unscramble the message by sorting the characters in ascending order using the Quick-Sort algorithm.
+Input format :
+
+The first line of input consists of an integer N, representing the number of characters.
+
+The second line consists of N space-separated characters.
+Output format :
+
+The output prints the sorted characters in ascending order.
+Code constraints :
+
+N > 0
+Sample test cases :
+Input 1 :
+
+5
+b n h u j
+
+Output 1 :
+
+b h j n u 
+
+Input 2 :
+
+6
+w e r h j k
+
+Output 2 :
+
+e h j k r w 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+// Function to partition the array and return the pivot index
+int partition(std::vector<char> &chars, int low, int high) {
+    char pivot = chars[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; j++) {
+        if (chars[j] < pivot) {
+            i++;
+            std::swap(chars[i], chars[j]);
+        }
+    }
+
+    std::swap(chars[i + 1], chars[high]);
+    return i + 1;
+}
+
+// Recursive function to perform Quick Sort
+void quickSort(std::vector<char> &chars, int low, int high) {
+    if (low < high) {
+        int pivotIndex = partition(chars, low, high);
+        quickSort(chars, low, pivotIndex - 1);
+        quickSort(chars, pivotIndex + 1, high);
+    }
+}
+
+int main() {
+    int N;
+    std::cin >> N;
+    std::vector<char> chars(N);
+
+    for (int i = 0; i < N; i++) {
+        std::cin >> chars[i];
+    }
+
+    quickSort(chars, 0, N - 1);
+
+    for (int i = 0; i < N; i++) {
+        std::cout << chars[i] << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+As a diligent teacher, you have conducted a challenging exam for your students. Now that the papers have been graded, you are eager to find out which students performed the best and identify those who might need extra support.
+
+
+To efficiently rank your students based on their marks, you decide to create a computer program that sorts their exam marks in descending order using the Quick-Sort algorithm.
+Input format :
+
+The first line of input consists of an integer N, representing the number of students.
+
+The second line consists of N floating-point numbers, representing the marks of the students.
+Output format :
+
+The output prints the marks in descending order, placing the highest mark first and the lowest mark last.
+Code constraints :
+
+N > 0
+
+Marks > 0.0
+Sample test cases :
+Input 1 :
+
+5
+78.3 54.7 96.4 32.7 53.1
+
+Output 1 :
+
+96.4 78.3 54.7 53.1 32.7 
+
+Input 2 :
+
+4
+50.6 65.1 84.3 36.4
+
+Output 2 :
+
+84.3 65.1 50.6 36.4 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+// Function to partition the array and return the pivot index
+int partition(std::vector<double> &marks, int low, int high) {
+    double pivot = marks[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; j++) {
+        if (marks[j] >= pivot) {
+            i++;
+            std::swap(marks[i], marks[j]);
+        }
+    }
+
+    std::swap(marks[i + 1], marks[high]);
+    return i + 1;
+}
+
+// Recursive function to perform Quick Sort
+void quickSort(std::vector<double> &marks, int low, int high) {
+    if (low < high) {
+        int pivotIndex = partition(marks, low, high);
+        quickSort(marks, low, pivotIndex - 1);
+        quickSort(marks, pivotIndex + 1, high);
+    }
+}
+
+int main() {
+    int N;
+    std::cin >> N;
+    std::vector<double> marks(N);
+
+    for (int i = 0; i < N; i++) {
+        std::cin >> marks[i];
+    }
+
+    quickSort(marks, 0, N - 1);
+
+    for (int i = 0; i < N; i++) {
+        std::cout << marks[i] << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000

@@ -1,0 +1,537 @@
+ Single File Programming Question
+
+Problem Statement
+
+
+At the "Fresh Mart" grocery store, they recently received a large shipment of various products, and they need to organize their inventory efficiently. They've hired you to help them sort the products in descending order based on their product IDs.
+
+
+Develop a program to aid the Fresh Mart team in organizing their inventory using a recursive function and implementing the merge sort logic. Each product in the store is identified by a distinct product ID, and the objective is to present the products to customers in descending order.
+Input format :
+
+The first line consists of an integer, n, representing the number of products in the inventory.
+
+The next line consists of n space-separated integers, each representing a unique Product ID.
+Output format :
+
+The output displays a single line containing the Product IDs sorted in descending order, separated by spaces.
+Code constraints :
+
+1 ≤ n ≤ 10
+
+1 ≤ Product ID ≤ 1000
+Sample test cases :
+Input 1 :
+
+5
+1 9 7 6 8
+
+Output 1 :
+
+9 8 7 6 1 
+
+Input 2 :
+
+4
+754 312 505 44
+
+Output 2 :
+
+754 505 312 44 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void merge(vector<int>& arr, int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    vector<int> leftArray(n1);
+    vector<int> rightArray(n2);
+
+    for (int i = 0; i < n1; i++) {
+        leftArray[i] = arr[left + i];
+    }
+
+    for (int j = 0; j < n2; j++) {
+        rightArray[j] = arr[mid + 1 + j];
+    }
+
+    int i = 0, j = 0, k = left;
+
+    while (i < n1 && j < n2) {
+        if (leftArray[i] >= rightArray[j]) {
+            arr[k] = leftArray[i];
+            i++;
+        } else {
+            arr[k] = rightArray[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        arr[k] = leftArray[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        arr[k] = rightArray[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(vector<int>& arr, int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+
+        merge(arr, left, mid, right);
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> products(n);
+
+    for (int i = 0; i < n; i++) {
+        cin >> products[i];
+    }
+
+    mergeSort(products, 0, n - 1);
+
+    for (int i = 0; i < n; i++) {
+        cout << products[i] << " ";
+    }
+
+    return 0;
+}
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+Alex is a young computer science enthusiast who loves solving coding problems. One day, Alex stumbled upon a unique challenge related to sorting numbers. The challenge involves sorting a list of integers with a unique twist: Alex aims to place the even numbers in their original input order first, followed by the odd numbers in the same input order.
+
+
+Your task is to help Alex implement a logic of merge sort and a recursive function to arrange the even and odd numbers separately.
+Input format :
+
+The first line contains an integer n, the number of integers in the list.
+
+The second line contains n space-separated integers, a[i], representing the elements of the list.
+Output format :
+
+The output displays a single line containing n space-separated integers, representing the sorted list, with even numbers appearing first in the given input order, followed by odd numbers in the given input order.
+
+
+Refer to the sample outputs for the exact format.
+Code constraints :
+
+1 ≤ n ≤ 30
+
+-100 <= a[i] <= 100
+Sample test cases :
+Input 1 :
+
+4
+1 2 3 4
+
+Output 1 :
+
+2 4 1 3 
+
+Input 2 :
+
+5
+1 5 3 -4 0
+
+Output 2 :
+
+-4 0 1 5 3 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> numbers(n);
+
+    for (int i = 0; i < n; i++) {
+        cin >> numbers[i];
+    }
+
+    vector<int> sortedNumbers;
+    
+    for (int i = 0; i < n; i++) {
+        if (numbers[i] % 2 == 0) {
+            sortedNumbers.push_back(numbers[i]);
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (numbers[i] % 2 != 0) {
+            sortedNumbers.push_back(numbers[i]);
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        cout << sortedNumbers[i] << " ";
+    }
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+John is a student who just received his test scores (floating-point numbers) for various subjects. He wants to organize his scores in descending order so that he can see his highest scores first. Can you help him write a program to sort his test scores in descending order?
+
+
+Your task is to write a program to sort John's test scores in descending order using the Merge Sort algorithm and a recursive function.
+Input format :
+
+The first line contains an integer, n, representing the number of test scores John has received.
+
+The next line contains n floating-point numbers separated by spaces, each representing John's test score.
+Output format :
+
+The output displays the sorted test scores in descending order, each rounded to two decimal places.
+
+
+Refer to the sample outputs for the exact format.
+Code constraints :
+
+1 ≤ n ≤ 15
+
+0.0 <= test score <= 100.0
+Sample test cases :
+Input 1 :
+
+4
+9.8 1.1 3.3 7.7
+
+Output 1 :
+
+Sorted Array:
+9.80 7.70 3.30 1.10 
+
+Input 2 :
+
+5
+3.14 1.1 2.71 0.5 1.618
+
+Output 2 :
+
+Sorted Array:
+3.14 2.71 1.62 1.10 0.50 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <iomanip>
+using namespace std;
+
+void merge(vector<double>& arr, int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    vector<double> leftArray(n1);
+    vector<double> rightArray(n2);
+
+    for (int i = 0; i < n1; i++) {
+        leftArray[i] = arr[left + i];
+    }
+
+    for (int j = 0; j < n2; j++) {
+        rightArray[j] = arr[mid + 1 + j];
+    }
+
+    int i = 0, j = 0, k = left;
+
+    while (i < n1 && j < n2) {
+        if (leftArray[i] >= rightArray[j]) {
+            arr[k] = leftArray[i];
+            i++;
+        } else {
+            arr[k] = rightArray[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        arr[k] = leftArray[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        arr[k] = rightArray[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(vector<double>& arr, int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+
+        merge(arr, left, mid, right);
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+    vector<double> testScores(n);
+
+    for (int i = 0; i < n; i++) {
+        cin >> testScores[i];
+    }
+
+    mergeSort(testScores, 0, n - 1);
+
+    cout << "Sorted Array:" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << fixed << setprecision(2) << testScores[i] << " ";
+    }
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ Single File Programming Question
+
+Problem Statement
+
+
+John is a linguistic enthusiast who is fascinated by the arrangement of letters based on their characteristics. He is particularly interested in sorting characters based on whether they are vowels or consonants.
+
+
+Write a program to sort a given set of characters. The characters should be sorted in such a way that vowels appear first, followed by consonants. Within the vowels and consonants, maintain the original input order of characters.
+
+
+Your task is to assist John in implementing the logic for merge sort and a recursive function to achieve the goal stated in the program.
+Input format :
+
+The first line consists of an integer n, representing the number of characters in the list.
+
+The next line consists of n space-separated characters, containing alphabetic characters (both uppercase and lowercase).
+Output format :
+
+The output displays the characters sorted first by vowels, maintaining the original order of input, followed by consonants in the same input order.
+Code constraints :
+
+1 ≤ n ≤ 15
+
+1 ≤ |characters| ≤ 15
+
+input characters should be lowercase or uppercase letters
+Sample test cases :
+Input 1 :
+
+8
+e A b a i o u D
+
+Output 1 :
+
+e A a i o u b D 
+
+Input 2 :
+
+8
+r a E y T m b N
+
+Output 2 :
+
+a E r y T m b N 
+
+Input 3 :
+
+3
+b h l
+
+Output 3 :
+
+b h l 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+bool is_vowel(char c) {
+    c = tolower(c);
+    return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u');
+}
+
+string merge(string left, string right) {
+    string result;
+    int i = 0, j = 0;
+    while (i < left.size() && j < right.size()) {
+        if (is_vowel(left[i]) && !is_vowel(right[j])) {
+            result += left[i];
+            i++;
+        }
+        else if (!is_vowel(left[i]) && is_vowel(right[j])) {
+            result += right[j];
+            j++;
+        }
+        else {
+            result += left[i];
+            i++;
+        }
+    }
+    while (i < left.size()) {
+        result += left[i];
+        i++;
+    }
+    while (j < right.size()) {
+        result += right[j];
+        j++;
+    }
+    return result;
+}
+
+string merge_sort(string str) {
+    if (str.size() <= 1) {
+        return str;
+    }
+    int mid = str.size() / 2;
+    string left = str.substr(0, mid);
+    string right = str.substr(mid);
+    left = merge_sort(left);
+    right = merge_sort(right);
+    return merge(left, right);
+}
+
+int main() {
+    int n;
+    cin >> n;
+    string str;
+    cin.ignore();
+    getline(cin, str);
+    string sorted_str = merge_sort(str);
+    cout << sorted_str << endl;
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

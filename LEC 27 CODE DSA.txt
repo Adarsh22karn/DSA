@@ -1,0 +1,578 @@
+Single File Programming Question
+Problem Statement
+
+﻿
+
+Joseph is learning about binary trees and post-order traversals in his computer science class.
+
+
+
+He is given an assignment to write a program that constructs the post-order traversal of a binary tree from a list of integers. Can you help him solve this problem?
+
+Input format :
+The first line of input contains an integer n, representing the number of integers Joseph will provide to construct the binary tree.
+
+The second line contains n space-separated integers, representing the values of the nodes in the binary tree.
+
+Output format :
+The output displays a single line containing n space-separated integers, representing the post-order traversal of the binary tree.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+1 <= n <= 20
+
+1 <= elements <= 1000
+
+Sample test cases :
+Input 1 :
+5
+1 3 4 5 2
+Output 1 :
+5 2 3 4 1 
+Input 2 :
+5
+1 7 9 5 6
+Output 2 :
+5 6 7 9 1 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* newNode(int data) {
+    struct Node* node = (struct Node*) malloc(sizeof(struct Node));
+    node->data = data;
+    node->left = NULL;
+    node->right = NULL;
+    return node;
+}
+
+struct Node* insertLevelOrder(int arr[], struct Node* root, int i, int n) 
+{
+    if (i < n) {
+        struct Node* temp = newNode(arr[i]);
+        root = temp;
+
+        // Insert left child
+        root->left = insertLevelOrder(arr, root->left, 2 * i + 1, n);
+
+        // Insert right child
+        root->right = insertLevelOrder(arr, root->right, 2 * i + 2, n);
+    }
+    return root;
+    //Type your code
+}
+
+void postorderTraversal(struct Node* root)
+{
+    if (root == NULL) {
+        return;
+    }
+    
+    // Traverse the left subtree
+    postorderTraversal(root->left);
+
+    // Traverse the right subtree
+    postorderTraversal(root->right);
+
+    // Visit the current node and print its data
+    printf("%d ", root->data);
+    //Type your code
+}
+
+int main() {
+    int n, i;
+    cin >> n;
+    int* arr = (int*) malloc(sizeof(int) * n);
+
+    for (i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    struct Node* root = insertLevelOrder(arr, NULL, 0, n);
+    postorderTraversal(root);
+
+    free(arr); 
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Single File Programming Question
+Problem Statement
+
+
+
+Madhu is responsible for developing a program to manage a task scheduler. Each task is identified by a unique task ID, which is a positive integer.
+
+
+
+Your task is to implement a program that reads task IDs as input until a sentinel value (-1) is entered, constructs a binary search tree with the task IDs, and then performs post-order traversal to display the tasks in the scheduler.
+
+Input format :
+The input consists of a series of positive integers representing the product IDs of items added to the shopping cart. The input ends when a negative integer (-1) is entered.
+
+Output format :
+The post-order traversal of the binary search tree displays the product IDs of items in the shopping cart.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+1 <= task ID <= 100
+
+The input will be terminated by entering '-1'.
+
+Sample test cases :
+Input 1 :
+6
+3
+1
+4
+2
+-1
+Output 1 :
+Post order Traversal:
+2 1 4 3 6 
+Input 2 :
+1
+7
+9
+5
+6
+-1
+Output 2 :
+Post order Traversal:
+6 5 9 7 1 
+Input 3 :
+100
+20
+200
+10
+30
+150
+300
+-1
+Output 3 :
+Post order Traversal:
+10 30 20 150 300 200 100 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+
+// Binary tree node definition
+struct TreeNode {
+    int taskID;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int id) : taskID(id), left(nullptr), right(nullptr) {}
+};
+
+// Function to insert a task ID into the binary search tree
+TreeNode* insert(TreeNode* root, int taskID) {
+    if (root == nullptr) {
+        return new TreeNode(taskID);
+    }
+    if (taskID < root->taskID) {
+        root->left = insert(root->left, taskID);
+    } else {
+        root->right = insert(root->right, taskID);
+    }
+    return root;
+}
+
+// Function for post-order traversal to display tasks
+void postOrderTraversal(TreeNode* root) {
+    if (root == nullptr) {
+        return;
+    }
+    postOrderTraversal(root->left);
+    postOrderTraversal(root->right);
+    std::cout << root->taskID << " ";
+}
+
+int main() {
+    TreeNode* root = nullptr;
+    int taskID;
+
+    while (true) {
+        std::cin >> taskID;
+        if (taskID == -1) {
+            break; // Terminate the input stream
+        }
+        root = insert(root, taskID);
+    }
+
+    std::cout << "Post order Traversal:" << std::endl;
+    postOrderTraversal(root);
+    std::cout << std::endl;
+
+    // Add code here to delete the tree nodes and free memory
+
+    return 0;
+}
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Single File Programming Question
+Problem Statement
+
+
+
+Rohith is a computer science student who is fascinated by data structures and algorithms. He recently learned about binary search trees and their traversal techniques. He wants to implement a program to create a binary search tree and perform post-order traversal on it, along with calculating the height of the tree.
+
+
+
+Note:
+
+The height of the tree is computed by finding the maximum height between the left and right subtrees of the root node and then adding 1 to that maximum height.
+
+Input format :
+The first line contains an integer, n, representing the number of elements to be inserted into the binary search tree.
+
+The second line contains n space-separated integers, each representing an element to be inserted into the binary search tree.
+
+Output format :
+The first line should display the post-order traversal of the binary search tree, with elements separated by spaces.
+
+The second line should display the height of the binary search tree.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+1 <= n <= 20
+
+1 <= elements <= 1000
+
+Sample test cases :
+Input 1 :
+7
+22 12 30 8 20 25 40
+Output 1 :
+Post-order traversal: 8 20 12 25 40 30 22 
+Height of the tree: 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+// Binary tree node definition
+struct TreeNode {
+    int value;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int val) : value(val), left(nullptr), right(nullptr) {}
+};
+
+// Function to insert a value into the binary search tree
+TreeNode* insert(TreeNode* root, int value) {
+    if (root == nullptr) {
+        return new TreeNode(value);
+    }
+    if (value < root->value) {
+        root->left = insert(root->left, value);
+    } else {
+        root->right = insert(root->right, value);
+    }
+    return root;
+}
+
+// Function to perform post-order traversal and calculate the height of the tree
+int postOrderTraversal(TreeNode* root) {
+    if (root == nullptr) {
+        return 0;
+    }
+    int leftHeight = postOrderTraversal(root->left);
+    int rightHeight = postOrderTraversal(root->right);
+    int height = std::max(leftHeight, rightHeight) + 1;
+    return height;
+}
+
+// Function to print the post-order traversal
+void printPostOrder(TreeNode* root) {
+    if (root == nullptr) {
+        return;
+    }
+    printPostOrder(root->left);
+    printPostOrder(root->right);
+    std::cout << root->value << " ";
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    std::vector<int> elements(n);
+    for (int i = 0; i < n; i++) {
+        std::cin >> elements[i];
+    }
+
+    TreeNode* root = nullptr;
+    for (int i = 0; i < n; i++) {
+        root = insert(root, elements[i]);
+    }
+
+    int treeHeight = postOrderTraversal(root);
+
+    std::cout << "Post-order traversal: ";
+    printPostOrder(root);
+    std::cout << std::endl;
+    std::cout << "Height of the tree: " << treeHeight-1 << std::endl;
+
+    // Add code here to delete the tree nodes and free memory
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Single File Programming Question
+Problem Statement
+
+
+
+Dharshan is working on a program that involves binary trees. He needs to implement a program that calculates the post-order traversal of a binary tree. Specifically, he needs to create a function that, given the root of a binary tree, returns an array containing the post-order traversal of the tree.
+
+
+
+Note:
+
+
+
+The binary tree can have a maximum of 100 nodes.
+All node values in the binary tree are unique.
+For a node at index i in the input array, Its left child is at index 2 * i + 1, and its right child is at index 2 * i + 2.
+The array represents the binary tree's structure, with each index corresponding to a node and its value.
+Input format :
+The first line contains an integer n, representing the number of elements in the array.
+
+The second line contains n space-separated integers, arr [i], representing the values of the nodes in the binary tree. The elements are given in the order of a binary tree, where the i-th element is the value of the i-th node.
+
+Output format :
+The output displays a single line containing n space-separated integers, which represent the postorder traversal of the binary tree constructed from the input array.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+1 ≤ n ≤ 15
+
+1 ≤ arr[i] ≤ 100
+
+Sample test cases :
+Input 1 :
+6
+1 2 3 4 5 6
+Output 1 :
+4 5 2 6 3 1 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+// Binary tree node definition
+struct TreeNode {
+    int value;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int val) : value(val), left(nullptr), right(nullptr) {}
+};
+
+// Function to construct the binary tree from the input array
+TreeNode* constructBinaryTree(const std::vector<int>& arr, int i, int n) {
+    if (i >= n) {
+        return nullptr;
+    }
+    TreeNode* root = new TreeNode(arr[i]);
+    root->left = constructBinaryTree(arr, 2 * i + 1, n);
+    root->right = constructBinaryTree(arr, 2 * i + 2, n);
+    return root;
+}
+
+// Function to perform post-order traversal and store the result in a vector
+void postOrderTraversal(TreeNode* root, std::vector<int>& result) {
+    if (root == nullptr) {
+        return;
+    }
+    postOrderTraversal(root->left, result);
+    postOrderTraversal(root->right, result);
+    result.push_back(root->value);
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    std::vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        std::cin >> arr[i];
+    }
+
+    // Construct the binary tree
+    TreeNode* root = constructBinaryTree(arr, 0, n);
+
+    std::vector<int> postOrderResult;
+    postOrderTraversal(root, postOrderResult);
+
+    // Print the post-order traversal
+    for (int i = 0; i < n; i++) {
+        std::cout << postOrderResult[i];
+        if (i < n - 1) {
+            std::cout << " ";
+        }
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+
+
