@@ -1,0 +1,1071 @@
+Question No: 1
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Ram is a software engineer working on a project that requires him to efficiently sort a list of names in non-decreasing order. He has decided to implement the heap sort algorithm to accomplish this task.
+
+
+
+Can you help him by writing a program that takes a list of names as input, sorts them using Heap Sort with max heap, and outputs the sorted names in non-decreasing order?
+
+Input format :
+The first line of input contains an integer 'n', representing the number of names to be sorted.
+
+The second line of input contains strings, each representing a name.
+
+Output format :
+The output displays a sorted name in non-decreasing order (ascending order), separated by a space.
+
+Code constraints :
+The testcases will fall under the following constraints:
+
+1 ≤ n ≤ 10
+
+The names are composed of lowercase and/or uppercase letters and have a maximum length of 50 characters.
+
+The input names are case-sensitive.
+
+Sample test cases :
+Input 1 :
+4
+Shirlene
+Dar
+Kevon
+Chadwick
+Output 1 :
+Chadwick Dar Kevon Shirlene 
+Input 2 :
+3
+Clementius
+Harriette
+Evelyn
+Output 2 :
+Clementius Evelyn Harriette 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+void maxHeapify(std::vector<std::string>& names, int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && names[left] > names[largest]) {
+        largest = left;
+    }
+
+    if (right < n && names[right] > names[largest]) {
+        largest = right;
+    }
+
+    if (largest != i) {
+        std::swap(names[i], names[largest]);
+        maxHeapify(names, n, largest);
+    }
+}
+
+void heapSort(std::vector<std::string>& names) {
+    int n = names.size();
+
+    // Build a max-heap
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        maxHeapify(names, n, i);
+    }
+
+    // Extract elements from the heap one by one
+    for (int i = n - 1; i > 0; i--) {
+        std::swap(names[0], names[i]);
+        maxHeapify(names, i, 0);
+    }
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    std::vector<std::string> names(n);
+    for (int i = 0; i < n; i++) {
+        std::cin >> names[i];
+    }
+
+    heapSort(names);
+
+    for (int i = 0; i < n; i++) {
+        std::cout << names[i];
+        if (i < n - 1) {
+            std::cout << " ";
+        }
+    }
+
+    std::cout << std::endl;
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 2
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+﻿Priya has a garden with different types of flowers, and they are arranged in a max heap based on their height, with the tallest flower at the top. Write a program that helps Priya delete the tallest flower from the garden for pruning and display the remaining heights of the flowers in the garden.
+
+Input format :
+The first consists of an integer n representing the number of flowers in the garden.
+
+The second line consists of n space-separated integers representing the heights of each flower.
+
+Output format :
+After pruning the tallest flower, the program displays the heights of the remaining flowers separated by spaces.
+
+Code constraints :
+In this scenario, the test cases fall under the following constraints:
+
+1 ≤ n ≤ 100
+
+1 ≤ Heights ≤ 100
+
+Sample test cases :
+Input 1 :
+7
+90 85 70 60 75 80 95
+Output 1 :
+90 85 80 60 75 70 
+Input 2 :
+5
+80 65 75 90 70
+Output 2 :
+80 70 75 65 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+void maxHeapify(std::vector<int>& arr, int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[left] > arr[largest]) {
+        largest = left;
+    }
+
+    if (right < n && arr[right] > arr[largest]) {
+        largest = right;
+    }
+
+    if (largest != i) {
+        std::swap(arr[i], arr[largest]);
+        maxHeapify(arr, n, largest);
+    }
+}
+
+void deleteMaxHeight(std::vector<int>& arr) {
+    int n = arr.size();
+    if (n == 0) {
+        return;
+    }
+
+    // Swap the root (max height) with the last element
+    std::swap(arr[0], arr[n - 1]);
+
+    // Remove the max height (last element)
+    arr.pop_back();
+
+    // Maintain the max heap property by heapifying the remaining elements
+    maxHeapify(arr, n - 1, 0);
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+    std::vector<int> heights(n);
+
+    for (int i = 0; i < n; i++) {
+        std::cin >> heights[i];
+    }
+
+    // Convert the list of heights into a max heap
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        maxHeapify(heights, n, i);
+    }
+
+    // Delete the tallest flower from the garden
+    deleteMaxHeight(heights);
+
+    // Display the remaining heights
+    for (int i = 0; i < heights.size(); i++) {
+        std::cout << heights[i] << " ";
+    }
+
+    return 0;
+}
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 3
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Given a group of students with varying scores, implement a program that constructs a max-heap to represent their scores. Serve an award to the student with the highest score and print the score of the student who receives the award.
+
+Input format :
+The first line consists of an integer n representing the number of students.
+
+The second line consists of n space-separated integers, each representing the score of a student.
+
+Output format :
+The output prints the highest score of the student who receives the award.
+
+Code constraints :
+In this scenario, the test cases fall under the following constraints:
+
+1 <= n <= 10
+
+1 <= score <= 100
+
+Sample test cases :
+Input 1 :
+8
+95 88 77 92 84 60 70 99
+Output 1 :
+99
+Input 2 :
+1
+100
+Output 2 :
+100
+Input 3 :
+4
+80 80 80 80
+Output 3 :
+80
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+void maxHeapify(std::vector<int>& arr, int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[left] > arr[largest]) {
+        largest = left;
+    }
+
+    if (right < n && arr[right] > arr[largest]) {
+        largest = right;
+    }
+
+    if (largest != i) {
+        std::swap(arr[i], arr[largest]);
+        maxHeapify(arr, n, largest);
+    }
+}
+
+void buildMaxHeap(std::vector<int>& arr) {
+    int n = arr.size();
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        maxHeapify(arr, n, i);
+    }
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+    std::vector<int> scores(n);
+
+    for (int i = 0; i < n; i++) {
+        std::cin >> scores[i];
+    }
+
+    // Build a max heap from the scores
+    buildMaxHeap(scores);
+
+    // The highest score is now at the root of the max-heap
+    std::cout << scores[0] << std::endl;
+
+    return 0;
+}
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Question No: 4
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Imagine you are building a software application for a prestigious school. The school conducts regular exams, and you need to develop a system to efficiently manage the scores of students in each subject.
+
+
+
+Your task is to create a program to manage student scores using Max Heap. Each student has a unique ID, and for each subject, you need to maintain a Max Heap of their scores. You should implement functions to add scores, remove the highest score, and display the remaining scores for a specific subject while maintaining the Max Heap order.
+
+Input format :
+The first line contains an integer n, which represents the number of student marks to be entered.
+
+The second line contains n space-separated integers, representing the unique scores of each student.
+
+Output format :
+The output displays a single line containing the scores of each student in the final max heap order after deleting the maximum score.
+
+
+
+Refer to the sample output for the exact format.
+
+Code constraints :
+the test cases will fall under the following constraints:
+
+1 ≤ n ≤ 15
+
+1 ≤ score ≤ 100
+
+Sample test cases :
+Input 1 :
+5
+12 76 17 34 72
+Output 1 :
+72 34 17 12 
+Input 2 :
+8
+83 78 53 59 51 59 54 30
+Output 2 :
+78 59 59 30 51 53 54
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Function to heapify the array to maintain the max heap property
+void heapify(int arr[], int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+
+    if (largest != i) {
+        int temp = arr[i];
+        arr[i] = arr[largest];
+        arr[largest] = temp;
+        heapify(arr, n, largest);
+    }
+}
+
+// Function to build a max heap from an array
+void buildMaxHeap(int arr[], int n) {
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        heapify(arr, n, i);
+    }
+}
+
+// Function to delete the maximum element (root) of the max heap
+void deleteMax(int arr[], int* n) {
+    
+    // Replace the root with the last element
+    arr[0] = arr[(*n) - 1];
+    (*n)--;
+
+    // Heapify the root to maintain the max heap property
+    heapify(arr, *n, 0);
+}
+
+// Function to display the elements of the array (max heap)
+void displayHeap(int arr[], int n) {
+   
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int n;
+
+    scanf("%d", &n);
+
+    if (n == 0) {
+        printf("Heap is empty\n");
+        return 0; // Exit the program
+    }
+
+    int* arr = (int*)malloc(n * sizeof(int));
+
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    buildMaxHeap(arr, n);
+    
+    deleteMax(arr, &n);
+    
+    displayHeap(arr, n);
+
+    // Free the dynamically allocated memory for the array
+    free(arr);
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Question No: 5
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Uma is working on a project where she needs to sort a list of strings lexicographically. She recently learned about Heap Sort and decided to implement it to solve her problem. However, she wants to sort the strings in ascending order using a Min Heap.
+
+
+
+Write a program that takes a list of strings as input and sorts them lexicographically in ascending order using a Min Heap.
+
+Input format :
+The first line of input consists of an integer n, the number of strings to be sorted.
+
+The second line of input consists of the strings. Each string contains only lowercase and uppercase letters, separated by a space.
+
+Output format :
+The output displays the sorted list of strings in lexicographically ascending order, separated by a space.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+1 ≤ n ≤ 10
+
+The maximum length of 100 characters.
+
+Sample test cases :
+Input 1 :
+7
+Morlee
+Zabrina
+Domeniga
+Alexandr
+Odelia
+Laura
+Sibyl
+Output 1 :
+Alexandr Domeniga Laura Morlee Odelia Sibyl Zabrina 
+Input 2 :
+5
+Foss
+Cele
+Dredi
+Bria
+Eve
+Output 2 :
+Bria Cele Dredi Eve Foss 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+// Function to perform Min Heapify
+void minHeapify(std::vector<std::string>& arr, int n, int i) {
+    int smallest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[left] < arr[smallest]) {
+        smallest = left;
+    }
+
+    if (right < n && arr[right] < arr[smallest]) {
+        smallest = right;
+    }
+
+    if (smallest != i) {
+        std::swap(arr[i], arr[smallest]);
+        minHeapify(arr, n, smallest);
+    }
+}
+
+// Function to build a Min Heap
+void buildMinHeap(std::vector<std::string>& arr) {
+    int n = arr.size();
+
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        minHeapify(arr, n, i);
+    }
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    std::vector<std::string> strings(n);
+
+    for (int i = 0; i < n; i++) {
+        std::cin >> strings[i];
+    }
+
+    buildMinHeap(strings);
+
+    std::sort(strings.begin(), strings.end());
+
+    for (int i = 0; i < n; i++) {
+        std::cout << strings[i] << " ";
+    }
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 6
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Mithu is given an array of integers and a threshold value. He wants to create a max-heap from the given array and then remove all elements from the heap that are greater than the given threshold. After performing these operations, Mithu wants to display the remaining elements in the max-heap.
+
+
+
+Write a program to help Mithu accomplish this task.
+
+Input format :
+The first line of input consists of an integer n, the number of elements in the array.
+
+The second line of input consists of n elements separated by spaces.
+
+The third line of input consists of an integer threshold.
+
+Output format :
+The output displays the elements of the max-heap after removing all elements greater than the threshold. Separate the elements by spaces.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+1 <= n <= 12
+
+1 <= elements <= 200
+
+1 <= threshold <= 200
+
+Sample test cases :
+Input 1 :
+9
+18 17 16 15 65 13 56 11 40
+39
+Output 1 :
+18 17 13 16 11 15 
+Input 2 :
+5
+10 20 30 40 50
+21
+Output 2 :
+10 20 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void maxHeapify(int arr[], int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+
+    if (largest != i) {
+        int temp = arr[i];
+        arr[i] = arr[largest];
+        arr[largest] = temp;
+        maxHeapify(arr, n, largest);
+    }
+}
+
+void buildMaxHeap(int arr[], int n) {
+    for (int i = n / 2 - 1; i >= 0; i--)
+        maxHeapify(arr, n, i);
+}
+
+void removeGreaterThanThreshold(int arr[], int *n, int threshold) {
+    int newSize = 0;
+
+    for (int i = 0; i < *n; i++) {
+        if (arr[i] <= threshold) {
+            arr[newSize] = arr[i];
+            newSize++;
+        }
+    }
+
+    *n = newSize;
+}
+
+int main() {
+    int n;
+    scanf("%d", &n);
+
+    int arr[n];
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    int threshold;
+    scanf("%d", &threshold);
+
+    // Build the max-heap
+    buildMaxHeap(arr, n);
+
+    // Remove elements greater than the threshold
+    removeGreaterThanThreshold(arr, &n, threshold);
+
+    // Display the remaining elements in the max-heap
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 7
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Krish wants to sort a list of integers using the heap sort algorithm. He needs your help to implement this algorithm and is looking for a program that can take a list of integers as input, sort them in descending order using heap sort with max heap, and then print the sorted list.
+
+Input format :
+The first line of input consists of an integer n, the number of elements in the array.
+
+The second line of input consists of n elements, separated by a space.
+
+Output format :
+The output displays a single line containing n space-separated integers, which represent the sorted list of integers in descending order.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+1 <= n <= 10
+
+1 <= elements <= 100
+
+Sample test cases :
+Input 1 :
+5
+47 78 84 50 94
+Output 1 :
+94 84 78 50 47 
+Input 2 :
+8
+65 95 74 12 36 84 20 67
+Output 2 :
+95 84 74 67 65 36 20 12 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void maxHeapify(vector<int> &arr, int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+
+    if (largest != i) {
+        swap(arr[i], arr[largest]);
+        maxHeapify(arr, n, largest);
+    }
+}
+
+void buildMaxHeap(vector<int> &arr) {
+    int n = arr.size();
+    for (int i = n / 2 - 1; i >= 0; i--)
+        maxHeapify(arr, n, i);
+}
+
+void heapSort(vector<int> &arr) {
+    int n = arr.size();
+
+    // Build a max-heap
+    buildMaxHeap(arr);
+
+    for (int i = n - 1; i > 0; i--) {
+        // Swap the root (maximum element) with the last element
+        swap(arr[0], arr[i]);
+
+        // Call maxHeapify on the reduced heap
+        maxHeapify(arr, i, 0);
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++)
+        cin >> arr[i];
+
+    // Sort the array using heap sort
+    heapSort(arr);
+
+    // Display the sorted array in descending order
+    for (int i = n - 1; i >= 0; i--) {
+        cout << arr[i];
+        if (i > 0)
+            cout << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Question No: 8
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Amirtha, a computer science student, is learning about heap data structures and wants to experiment with building a min-heap and deleting the minimum element from it. 
+
+
+
+She decides to write a program that allows her to create a min-heap from an array, build a min-heap from the given array, and delete the minimum element. Finally, it should display the resulting min-heap. Help her to design a program.
+
+Input format :
+The first line contains an integer, 'n', representing the size of the array.
+
+The second line contains 'n' space-separated integers, 'arr[i]', representing the elements of the array.
+
+Output format :
+The output displays the resulting min-heap after deleting the minimum element.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+The test cases will fall under the following constriants:
+
+1 ≤ n ≤ 12
+
+1 ≤ arr[i] ≤ 100
+
+Sample test cases :
+Input 1 :
+5
+12 54 90 21 60
+Output 1 :
+21 54 90 60 
+Input 2 :
+8
+270 210 530 120 890 220 650 560
+Output 2 :
+210 270 220 560 890 530 650 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void minHeapify(vector<int> &arr, int n, int i) {
+    int smallest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[left] < arr[smallest])
+        smallest = left;
+    if (right < n && arr[right] < arr[smallest])
+        smallest = right;
+
+    if (smallest != i) {
+        swap(arr[i], arr[smallest]);
+        minHeapify(arr, n, smallest);
+    }
+}
+
+void buildMinHeap(vector<int> &arr) {
+    int n = arr.size();
+    for (int i = n / 2 - 1; i >= 0; i--)
+        minHeapify(arr, n, i);
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++)
+        cin >> arr[i];
+
+    // Build a min-heap
+    buildMinHeap(arr);
+
+    // Delete the minimum element
+    if (!arr.empty()) {
+        swap(arr[0], arr.back());
+        arr.pop_back();
+        minHeapify(arr, arr.size(), 0);
+    }
+
+    // Display the resulting min-heap
+    for (int i = 0; i < arr.size(); i++) {
+        cout << arr[i];
+        if (i < arr.size() - 1)
+            cout << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+
+
+
+
+
+
+

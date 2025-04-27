@@ -1,0 +1,1086 @@
+Question No: 1
+
+Single File Programming Question
+Problem Statement
+
+
+
+As a developer in an IT company, your task is to schedule tasks depending on their time consumption, arranging them in descending order from highest to lowest time consumption. 
+
+
+
+Write code to convert the elements into a max heap and then print the sum of the first and last elements in the max heap.
+
+Input format :
+The first line of input consists of an integer value, n, representing the number of elements.
+
+The second line of input consists of n integer values, separated by space.
+
+Output format :
+The first line of the output prints the elements in the max-heap, separated by a space.
+
+The second line of the output displays the sum of the first and the last value of the max-heap.
+
+
+
+Refer to the sample output for exact format specifications.
+
+Code constraints :
+1<=number of elements<=10
+
+1<=elements in max heap<=150
+
+Sample test cases :
+Input 1 :
+5
+1 2 3 4 5
+Output 1 :
+5 4 3 1 2 
+7
+Input 2 :
+5
+9 8 7 6 5
+Output 2 :
+9 8 7 6 5 
+14
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+void maxHeapify(std::vector<int>& heap, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < heap.size() && heap[left] > heap[largest]) {
+        largest = left;
+    }
+
+    if (right < heap.size() && heap[right] > heap[largest]) {
+        largest = right;
+    }
+
+    if (largest != i) {
+        std::swap(heap[i], heap[largest]);
+        maxHeapify(heap, largest);
+    }
+}
+
+void buildMaxHeap(std::vector<int>& heap) {
+    int n = heap.size();
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        maxHeapify(heap, i);
+    }
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    std::vector<int> maxHeap(n);
+    for (int i = 0; i < n; i++) {
+        std::cin >> maxHeap[i];
+    }
+
+    buildMaxHeap(maxHeap);
+
+    for (int i = 0; i < n; i++) {
+        std::cout << maxHeap[i];
+        if (i < n - 1) {
+            std::cout << " ";
+        }
+    }
+    std::cout << std::endl;
+
+    if (n >= 2) {
+        int sum = maxHeap[0] + maxHeap[n - 1];
+        std::cout << sum << std::endl;
+    } else {
+        std::cout << maxHeap[0] << std::endl;
+    }
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 2
+
+Single File Programming Question
+Problem Statement
+
+
+
+Isabella is working on a scheduling algorithm for a job queue. Each job has an associated priority value, and she needs to create a function to insert a new job, represented by an integer priority, into a min heap.
+
+
+
+Write a code to help her insert a new job (an integer representing priority) into a min heap.
+
+Input format :
+The input consists of a series of space-separated integers, each representing the priority of a new job to be inserted into the min heap.
+
+Output format :
+The output displays the priorities of the jobs after each insertion into the min heap. The priorities are separated by spaces.
+
+Code constraints :
+The maximum number of jobs that can be inserted is 100, as the min heap has a maximum capacity of 100.
+
+Sample test cases :
+Input 1 :
+5 3 8 2 1 6 4 7 9
+Output 1 :
+1 2 4 5 3 8 6 7 9 
+Input 2 :
+10 15 20 17 25 30 40 35 50 45
+Output 2 :
+10 15 20 17 25 30 40 35 50 45 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+void minHeapify(std::vector<int>& heap, int i) {
+    int smallest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < heap.size() && heap[left] < heap[smallest]) {
+        smallest = left;
+    }
+
+    if (right < heap.size() && heap[right] < heap[smallest]) {
+        smallest = right;
+    }
+
+    if (smallest != i) {
+        std::swap(heap[i], heap[smallest]);
+        minHeapify(heap, smallest);
+    }
+}
+
+void insertIntoMinHeap(std::vector<int>& heap, int priority) {
+    heap.push_back(priority);
+    int index = heap.size() - 1;
+
+    while (index > 0) {
+        int parent = (index - 1) / 2;
+        if (heap[parent] <= heap[index]) {
+            break;
+        }
+        std::swap(heap[parent], heap[index]);
+        index = parent;
+    }
+}
+
+int main() {
+    std::vector<int> minHeap;
+
+    int priority;
+    while (std::cin >> priority) {
+        insertIntoMinHeap(minHeap, priority);
+    }
+
+    for (int i = 0; i < minHeap.size(); i++) {
+        std::cout << minHeap[i];
+        if (i < minHeap.size() - 1) {
+            std::cout << " ";
+        }
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 3
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+A basketball team consisting of N players is gathered at the court, eagerly awaiting their coach's arrival. When the coach finally arrives, he instruct the players to arrange themselves in ascending order of their respective weights. To efficiently check whether the players have complied with this instruction, the coach decides to use a min-heap data structure for verification.
+
+
+
+Explanation
+
+Min heap is the concept that the parent node should be greater than the left and right children nodes
+
+In an array, if a[i] is the parent value, a[(i*2)+1] is the left value and a[(i*2)+2] is the right value
+
+Hence, a[i] should be greater than a[(i*2)+1] and a[(i*2)+2]
+
+
+
+Example
+
+Input:
+
+5
+
+78 83 72 70 75 
+
+
+
+Output
+
+The players are not arranged in min heap order
+
+
+
+Input:
+
+5
+
+70 72 74 76 78 
+
+
+
+Output:
+
+The players are arranged in min heap order
+
+Input format :
+The first line of input consists of an integer n denoting the number of players
+
+The second line of input consists of the weights of n players, separated by a space.
+
+Output format :
+The output should print the following statement based on the order of the input values:
+
+If the values inserted satisfy the property of min-heap, then print "The players are arranged in min heap order".
+
+If the values inserted do not satisfy the property of min-heap, then print "The players are not arranged in min heap order".
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+The test cases fall under the following constraints:
+
+1<=n<=10
+
+Sample test cases :
+Input 1 :
+5
+78 76 74 72 70
+Output 1 :
+The players are not arranged in min heap order
+Input 2 :
+5
+70 72 74 76 78
+Output 2 :
+The players are arranged in min heap order
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+
+bool isMinHeap(int arr[], int n) {
+    for (int i = 0; i <= (n - 2) / 2; i++) {
+        // Check if the current element is greater than its left child
+        if (2 * i + 1 < n && arr[i] > arr[2 * i + 1])
+            return false;
+
+        // Check if the current element is greater than its right child
+        if (2 * i + 2 < n && arr[i] > arr[2 * i + 2])
+            return false;
+    }
+    return true;
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    int weights[n];
+    for (int i = 0; i < n; i++) {
+        std::cin >> weights[i];
+    }
+
+    if (isMinHeap(weights, n)) {
+        std::cout << "The players are arranged in min heap order" << std::endl;
+    } else {
+        std::cout << "The players are not arranged in min heap order" << std::endl;
+    }
+
+    return 0;
+}
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 4
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Jagan is tasked with creating a task scheduler for his system programming project. The tasks have a running time associated with them. When there is an issue with the execution of the tasks, he needs to analyze them, and the one with the longest running time needs to be forced to exit.
+
+
+
+Help Jagan automate the task by taking in the times of various tasks and arranging them in a max-heap format, which will help him identify the longest-running task easily.
+
+
+
+Note: This kind of question will be helpful in clearing TCS recruitment.
+
+Input format :
+The first line of your input consists of an integer n, which represents the total number of inputs.
+
+The second line consists of the n integer values, separated by a space.
+
+Output format :
+The output displays the given input data in max heap order.
+
+Code constraints :
+n > 0
+
+Sample test cases :
+Input 1 :
+5
+2 4 1 5 9
+Output 1 :
+9 5 1 2 4 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+void maxHeapify(std::vector<int>& heap, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < heap.size() && heap[left] > heap[largest]) {
+        largest = left;
+    }
+
+    if (right < heap.size() && heap[right] > heap[largest]) {
+        largest = right;
+    }
+
+    if (largest != i) {
+        std::swap(heap[i], heap[largest]);
+        maxHeapify(heap, largest);
+    }
+}
+
+void buildMaxHeap(std::vector<int>& heap) {
+    int n = heap.size();
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        maxHeapify(heap, i);
+    }
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    std::vector<int> maxHeap(n);
+    for (int i = 0; i < n; i++) {
+        std::cin >> maxHeap[i];
+    }
+
+    buildMaxHeap(maxHeap);
+
+    for (int i = 0; i < n; i++) {
+        std::cout << maxHeap[i] << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 5
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+The heap data structure is very useful if you want to create a video game, as it makes it easy to store future events that might occur at a specific time in the heap and retrieve them quickly.
+
+
+
+Write a program that takes the event times of the video game as input and creates a min-heap. The event times are represented as integers for now. Your program should produce the min-heap for the given input.
+
+Input format :
+The first line of input consists of an integer n, the total number of events. 
+
+The second line of input consists of n space-separated elements.
+
+Output format :
+The output prints the given array of events into a min-heap data structure.
+
+Code constraints :
+1<=n<=30
+
+1<=values of min-heap<=50
+
+Sample test cases :
+Input 1 :
+5
+2 4 1 5 9
+Output 1 :
+1 4 2 5 9 
+Input 2 :
+7
+8 7 6 4 5 1 2
+Output 2 :
+1 4 2 7 5 6 8 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+void min_heap(int *a, int m, int n){
+   int j, t;
+   t= a[m];
+   j = 2 * m;
+   while (j <= n) {
+      if (j < n && a[j+1] < a[j])
+         j = j + 1;
+      if (t < a[j])
+         break;
+      else if (t >= a[j]) {
+         a[j/2] = a[j];
+         j = 2 * j;
+      }
+   }
+   a[j/2] = t;
+   return;
+}
+void build_minheap(int *a, int n) {
+   int k;
+   for(k = n/2; k >= 1; k--) {
+      min_heap(a,k,n);
+   }
+}
+int main() {
+   int n, i;
+   cin>>n;
+  
+   int a[n];
+   for (i = 1; i <= n; i++) {
+     cin>>a[i];
+   }
+   build_minheap(a, n);
+   for (i = 1; i <= n; i++) {
+      cout<<a[i]<<" ";
+   }
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 6
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+The group of archaeologists studying ancient artifacts has presented Mark Antony with a perplexing challenge. They've come across an enigmatic array of elements that appear to depict a min-heap tree, but they are struggling to efficiently extract the largest element from this min-heap.
+
+
+
+Mark Antony's task is to assist them in transforming the provided min-heap array into a max-heap representation. This conversion will facilitate the straightforward retrieval of the largest element from the tree.
+
+
+
+Note: This kind of question will be helpful in clearing Accenture recruitment.
+
+Input format :
+The first line of input consists of an integer n, representing the number of elements in the min heap tree.
+
+The second line of input consists of n space-separated integer elements, forming the min heap sequence.
+
+Output format :
+The output prints the space-separated n integer values of the max heap array formed after the conversion.
+
+
+
+Refer to the sample output for further format specifications.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+1 < n < 30
+
+1 < array elements < 35
+
+Sample test cases :
+Input 1 :
+10
+3 5 9 6 8 20 10 12 18 9
+Output 1 :
+20 18 10 12 9 9 3 5 6 8 
+Input 2 :
+5
+5 6 8 11 15
+Output 2 :
+15 11 8 5 6 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// You are using GCC
+#include <iostream>
+using namespace std;
+
+// to heapify a subtree with root at given index
+void MaxHeapify(int arr[], int i, int N)
+{
+        int l = 2 * i + 1;
+            int r = 2 * i + 2;
+                int largest = i;
+                
+                    if (l < N && arr[l] > arr[i])
+                            largest = l;
+                                if (r < N && arr[r] > arr[largest])
+                                        largest = r;
+                                            if (largest != i) {
+                                                        swap(arr[i], arr[largest]);
+                                                                MaxHeapify(arr, largest, N);
+                                            }
+}
+
+// This function basically builds max heap
+void convertMaxHeap(int arr[], int N)
+{
+        // Start from bottommost and rightmost internal node and heapify all internal nodes in bottom up way
+            for (int i = (N - 2) / 2; i >= 0; --i)
+                    MaxHeapify(arr, i, N);
+}
+
+
+void printArray(int* arr, int size)
+{
+        for (int i = 0; i < size; ++i)
+                cout << arr[i] << " ";
+                    cout<<endl;
+}
+
+int main()
+{
+        int arrayCount;
+            cin>>arrayCount;
+                int arr[arrayCount];
+                    for (int i=0;i<arrayCount;i++){
+                                cin>>arr[i];
+                    }
+                    
+                        convertMaxHeap(arr, arrayCount);
+                        
+                            printArray(arr, arrayCount);
+                            
+                                return 0;
+}
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 7
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+David is designing a navigation system for a delivery drone. He wants to implement a function that allows him to insert new delivery locations into a min heap based on their distances from the current location.
+
+
+
+Write a code to help him insert new delivery locations into a min heap.
+
+Input format :
+The input consists of a sequence of space-separated integers representing the distances of delivery locations from the current location.
+
+Output format :
+The output consists of the distances of delivery locations stored in the min heap. Each distance is separated by a space.
+
+Code constraints :
+The maximum number of delivery locations is 100 (specified by the size of the min heap array).
+
+Sample test cases :
+Input 1 :
+5 3 8 2 9 1 7 6 4
+Output 1 :
+1 3 2 4 9 8 7 6 5 
+Input 2 :
+10 20 30 40 50
+Output 2 :
+10 20 30 40 50
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+void minHeapify(std::vector<int>& heap, int i) {
+    int smallest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < heap.size() && heap[left] < heap[smallest]) {
+        smallest = left;
+    }
+
+    if (right < heap.size() && heap[right] < heap[smallest]) {
+        smallest = right;
+    }
+
+    if (smallest != i) {
+        std::swap(heap[i], heap[smallest]);
+        minHeapify(heap, smallest);
+    }
+}
+
+void insertIntoMinHeap(std::vector<int>& heap, int value) {
+    heap.push_back(value);
+    int index = heap.size() - 1;
+
+    while (index > 0) {
+        int parent = (index - 1) / 2;
+        if (heap[parent] <= heap[index]) {
+            break;
+        }
+        std::swap(heap[parent], heap[index]);
+        index = parent;
+    }
+}
+
+int main() {
+    std::vector<int> minHeap;
+
+    int distance;
+    while (std::cin >> distance) {
+        insertIntoMinHeap(minHeap, distance);
+    }
+
+    for (int i = 0; i < minHeap.size(); i++) {
+        std::cout << minHeap[i] << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 8
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Alex is developing a program for a real-time online auction platform where users place bids on various items. He requires a function to assist him in inserting a new bid into a binary heap based on their bid amounts.
+
+
+
+Write a code to help him insert a new bid into a binary heap.
+
+Input format :
+The input consists of a series of space-separated integers, representing the bid amounts from users, and inserts them into a binary heap.
+
+Output format :
+The output prints the binary heap (represented by the bid amounts) after each bid insertion, showing the current state of the heap.
+
+Code constraints :
+The maximum heap size is defined by maxSize (here set to 100).
+
+Sample test cases :
+Input 1 :
+10 5 15 25 20
+Output 1 :
+25 20 10 5 15 
+Input 2 :
+8 12 30 40 22 18
+Output 2 :
+40 30 18 8 22 12 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+void maxHeapify(std::vector<int>& heap, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < heap.size() && heap[left] > heap[largest]) {
+        largest = left;
+    }
+
+    if (right < heap.size() && heap[right] > heap[largest]) {
+        largest = right;
+    }
+
+    if (largest != i) {
+        std::swap(heap[i], heap[largest]);
+        maxHeapify(heap, largest);
+    }
+}
+
+void insertIntoMaxHeap(std::vector<int>& heap, int value) {
+    heap.push_back(value);
+    int index = heap.size() - 1;
+
+    while (index > 0) {
+        int parent = (index - 1) / 2;
+        if (heap[parent] >= heap[index]) {
+            break;
+        }
+        std::swap(heap[parent], heap[index]);
+        index = parent;
+    }
+}
+
+int main() {
+    std::vector<int> maxHeap;
+
+    int bid;
+    while (std::cin >> bid) {
+        insertIntoMaxHeap(maxHeap, bid);
+    }
+    
+    for (int i = 0; i < maxHeap.size(); i++) {
+        std::cout << maxHeap[i] << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 9
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+In a mysterious cave, explorers discovered a hidden chamber filled with enchanted crystals of varying sizes. They want to organize these crystals into a min-heap to harness their power. 
+
+
+
+Write a program that helps them build the min-heap and find the kth smallest crystal's size, where k is a user-defined parameter.
+
+Input format :
+The first line contains an integer n, the number of crystals.
+
+The next n lines contain the sizes of the crystals. Each line contains a single integer representing the size of a crystal.
+
+The last line contains an integer k, indicating the position of the crystal you want to find.
+
+Output format :
+The first line prints the elements in the min-heap after construction.
+
+The second line prints the size of the kth smallest crystal.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+1 <= n <= 1000
+
+﻿1 <= k <= n
+
+Sample test cases :
+Input 1 :
+5
+3 5 2 6 8
+12
+Output 1 :
+Invalid entry
+Input 2 :
+5
+3 5 2 6 8
+3
+Output 2 :
+Min heap is: 2 5 3 6 8 
+The smallest crystal's size is 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+// Function to maintain the min-heap property
+void minHeapify(std::vector<int>& arr, int n, int i) {
+    int smallest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[left] < arr[smallest])
+        smallest = left;
+
+    if (right < n && arr[right] < arr[smallest])
+        smallest = right;
+
+    if (smallest != i) {
+        std::swap(arr[i], arr[smallest]);
+        minHeapify(arr, n, smallest);
+    }
+}
+
+// Function to build a min-heap from the given array
+void buildMinHeap(std::vector<int>& arr) {
+    int n = arr.size();
+    for (int i = n / 2 - 1; i >= 0; i--)
+        minHeapify(arr, n, i);
+}
+
+int main() {
+    int n, k;
+    std::cin >> n;
+
+    if (n < 1 || n > 1000) {
+        std::cout << "Invalid entry" << std::endl;
+        return 0;
+    }
+
+    std::vector<int> crystals(n);
+    for (int i = 0; i < n; i++) {
+        std::cin >> crystals[i];
+    }
+
+    std::cin >> k;
+
+    if (k < 1 || k > n) {
+        std::cout << "Invalid entry" << std::endl;
+        return 0;
+    }
+
+    buildMinHeap(crystals);
+
+    std::cout << "Min heap is: ";
+    for (int i = 0; i < n; i++) {
+        std::cout << crystals[i] << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "The smallest crystal's size is " << crystals[k - 1] << std::endl;
+
+    return 0;
+}
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
