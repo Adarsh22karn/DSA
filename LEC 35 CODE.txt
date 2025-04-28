@@ -1,0 +1,1635 @@
+Question No: 1
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Manoj is a ship captain on a mission to explore a network of islands. The islands are connected through various routes, and Manoj wants to plan his exploration using depth-first traversal.
+
+
+
+Given a map of the island network and a starting island, help Manoj write a program using depth-first traversal to explore the islands in a particular order.
+
+Input format :
+The first line of input consists of the number of islands in the network, represented by V, and the number of routes between islands, represented by E, separated by a space.
+
+The next E lines consist of two integers each: v and w, representing a route between island v and island w.
+
+The last line of input consists of the starting island for the depth-first traversal, represented by startVertex.
+
+Output format :
+The output displays "Depth First Traversal starting from vertex [startVertex]:" followed by a space-separated list of island indices representing the order in which Manoj explores the islands using DFS.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+2 ≤ V ≤ 10
+
+0 ≤ E ≤ V*(V-1)/2
+
+0 ≤ v, w < V
+
+0 ≤ startVertex < V
+
+Sample test cases :
+Input 1 :
+3 2
+0 1
+1 2
+0
+Output 1 :
+Depth First Traversal starting from vertex 0:
+0 1 2 
+Input 2 :
+4 5
+0 1
+0 2
+1 2
+2 0
+2 1
+1
+Output 2 :
+Depth First Traversal starting from vertex 1:
+1 2 0 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void dfs(vector<int> graph[], int startVertex, bool visited[], vector<int>& traversalOrder) {
+    visited[startVertex] = true;
+    traversalOrder.push_back(startVertex);
+    for (int i = 0; i < graph[startVertex].size(); i++) {
+        int adjacentVertex = graph[startVertex][i];
+        if (!visited[adjacentVertex]) {
+            dfs(graph, adjacentVertex, visited, traversalOrder);
+        }
+    }
+}
+
+int main() {
+    int V, E;
+    cin >> V >> E;
+    vector<int> graph[V];
+    for (int i = 0; i < E; i++) {
+        int v, w;
+        cin >> v >> w;
+        graph[v].push_back(w);
+        graph[w].push_back(v);
+    }
+    int startVertex;
+    cin >> startVertex;
+    bool visited[V] = {false};
+    vector<int> traversalOrder;
+    dfs(graph, startVertex, visited, traversalOrder);
+    cout << "Depth First Traversal starting from vertex " << startVertex << ":" << endl;
+    for (int i = 0; i < traversalOrder.size(); i++) {
+        cout << traversalOrder[i] << " ";
+    }
+    cout << endl;
+    return 0;
+}
+
+
+
+
+
+
+#include <stdio.h>
+
+#define MAX_VERTICES 100
+
+void addEdge(int adj[MAX_VERTICES][MAX_VERTICES], int v, int w) {
+    adj[v][w] = 1;
+}
+
+void DFS(int adj[MAX_VERTICES][MAX_VERTICES], int visited[MAX_VERTICES], int V, int v) {
+    visited[v] = 1;
+    printf("%d ", v);
+
+    for (int i = 0; i < V; ++i) {
+        if (adj[v][i] && !visited[i]) {
+            DFS(adj, visited, V, i);
+        }
+    }
+}
+
+int main() {
+    int V, E;
+    scanf("%d", &V);
+    scanf("%d", &E);
+
+    int adj[MAX_VERTICES][MAX_VERTICES] = {0};
+    int visited[MAX_VERTICES] = {0};
+
+    for (int i = 0; i < E; ++i) {
+        int v, w;
+        scanf("%d %d", &v, &w);
+        addEdge(adj, v, w);
+    }
+
+    int startVertex;
+    scanf("%d", &startVertex);
+
+    printf("Depth First Traversal starting from vertex %d:\n", startVertex);
+    DFS(adj, visited, V, startVertex);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+#define MAX_VERTICES 100
+
+void addEdge(int adj[MAX_VERTICES][MAX_VERTICES], int v, int w) {
+    adj[v][w] = 1;
+}
+
+void DFS(int adj[MAX_VERTICES][MAX_VERTICES], int visited[MAX_VERTICES], int V, int v) {
+    visited[v] = 1;
+    cout << v << " ";
+
+    for (int i = 0; i < V; ++i) {
+        if (adj[v][i] && !visited[i]) {
+            DFS(adj, visited, V, i);
+        }
+    }
+}
+
+int main() {
+    int V, E;
+    cin >> V;
+    cin >> E;
+
+    int adj[MAX_VERTICES][MAX_VERTICES] = {0};
+    int visited[MAX_VERTICES] = {0};
+
+    for (int i = 0; i < E; ++i) {
+        int v, w;
+        cin >> v >> w;
+        addEdge(adj, v, w);
+    }
+
+    int startVertex;
+    cin >> startVertex;
+
+    cout << "Depth First Traversal starting from vertex " << startVertex << ":\n";
+    DFS(adj, visited, V, startVertex);
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 2
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Kalpana, an avid space explorer, is on a mission to investigate the mysterious structures and connections on different planets in a distant galaxy. She needs a program to perform a Depth-First Traversal (DFS) on the network of vertices and edges representing these connections.
+
+
+
+You need to write a program that will help Kalpana in her exploration of these alien planets. The program will take as input the number of vertices, the number of edges, the connections between vertices, and the starting vertex for the DFS traversal.
+
+Input format :
+The first line of input consists of an integer V representing the number of vertices in the planet's network and an integer E representing the number of edges connecting the vertices.
+
+The next E lines consist of two integers each, v and w, indicating an edge between vertex v and vertex w.
+
+The last line of input consists of an integer startVertex, representing the starting vertex for DFS traversal.
+
+Output format :
+The output should print a message in the format "Depth First Traversal starting from vertex [startVertex]:", where [startVertex] is the integer representing the initial vertex. Following that next line, it should list the visited vertices in DFS traversal order, separated by spaces.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+2 ≤ V ≤ 10
+
+0 ≤ E ≤ V*(V-1)/2
+
+0 ≤ v, w < V
+
+0 ≤ startVertex < V
+
+Sample test cases :
+Input 1 :
+5 6
+0 1
+0 2
+1 3
+1 4
+2 4
+3 4
+0
+Output 1 :
+Depth First Traversal starting from vertex 0:
+0 1 3 4 2 
+Input 2 :
+4 6
+2 0
+0 2
+1 2
+0 1
+3 0
+1 3
+2
+Output 2 :
+Depth First Traversal starting from vertex 2:
+2 0 1 3 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void dfs(vector<vector<int>>& graph, int start, vector<bool>& visited) {
+    visited[start] = true;
+    cout << start << " ";
+
+    for (int neighbor : graph[start]) {
+        if (!visited[neighbor]) {
+            dfs(graph, neighbor, visited);
+        }
+    }
+}
+
+void depth_first_traversal(int vertices, int edges, vector<pair<int, int>>& connections, int start_vertex) {
+    vector<vector<int>> graph(vertices);
+
+    for (auto& edge : connections) {
+        graph[edge.first].push_back(edge.second);
+        graph[edge.second].push_back(edge.first);
+    }
+
+    vector<bool> visited(vertices, false);
+
+    cout << "Depth First Traversal starting from vertex " << start_vertex << ":\n";
+    dfs(graph, start_vertex, visited);
+    cout << endl;
+}
+
+int main() {
+    // Sample Input 1
+    int vertices1, edges1, start_vertex1;
+    cin >> vertices1 >> edges1;
+    vector<pair<int, int>> connections1(edges1);
+    for (int i = 0; i < edges1; ++i) {
+        cin >> connections1[i].first >> connections1[i].second;
+    }
+    cin >> start_vertex1;
+
+    // Sample Output 1
+    depth_first_traversal(vertices1, edges1, connections1, start_vertex1);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <stdio.h>
+
+#define MAX_VERTICES 100
+
+void addEdge(int adj[MAX_VERTICES][MAX_VERTICES], int v, int w) {
+    adj[v][w] = 1;
+}
+
+void DFS(int adj[MAX_VERTICES][MAX_VERTICES], int visited[MAX_VERTICES], int V, int v) {
+    visited[v] = 1;
+    printf("%d ", v);
+
+    for (int i = 0; i < V; ++i) {
+        if (adj[v][i] && !visited[i]) {
+            DFS(adj, visited, V, i);
+        }
+    }
+}
+
+int main() {
+    int V, E;
+    scanf("%d", &V);
+    scanf("%d", &E);
+
+    int adj[MAX_VERTICES][MAX_VERTICES] = {0};
+    int visited[MAX_VERTICES] = {0};
+
+    for (int i = 0; i < E; ++i) {
+        int v, w;
+        scanf("%d %d", &v, &w);
+        addEdge(adj, v, w);
+    }
+
+    int startVertex;
+    scanf("%d", &startVertex);
+
+    printf("Depth First Traversal starting from vertex %d:\n", startVertex);
+    DFS(adj, visited, V, startVertex);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void dfs(vector<vector<int>>& graph, int start, vector<bool>& visited) {
+    visited[start] = true;
+    cout << start << " ";
+
+    for (int neighbor : graph[start]) {
+        if (!visited[neighbor]) {
+            dfs(graph, neighbor, visited);
+        }
+    }
+}
+
+void depth_first_traversal(int vertices, int edges, vector<pair<int, int>>& connections, int start_vertex) {
+    vector<vector<int>> graph(vertices);
+
+    for (auto& edge : connections) {
+        graph[edge.first].push_back(edge.second);
+        graph[edge.second].push_back(edge.first);
+    }
+
+    vector<bool> visited(vertices, false);
+
+    cout << "Depth First Traversal starting from vertex " << start_vertex << ":\n";
+    dfs(graph, start_vertex, visited);
+    cout << endl;
+}
+
+int main() {
+    // Sample Input 1
+    int vertices1, edges1, start_vertex1;
+    cin >> vertices1 >> edges1;
+    vector<pair<int, int>> connections1(edges1);
+    for (int i = 0; i < edges1; ++i) {
+        cin >> connections1[i].first >> connections1[i].second;
+    }
+    cin >> start_vertex1;
+
+    // Sample Output 1
+    depth_first_traversal(vertices1, edges1, connections1, start_vertex1);
+
+    return 0;
+}
+
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 3
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Nila is in the process of developing a web crawling application aimed at mapping the structure of a website. In this representation, the website is depicted as a graph, where each webpage serves as a node and the hyperlinks connecting webpages act as edges.
+
+
+
+Your task is to create a program that utilizes Breadth-First Search (BFS) traversal to explore and map the structure of a website, starting from a given URL and discovering all linked pages within the website.
+
+Input format :
+The first line of input consists of two space-separated integers, V and E, representing the number of webpages and hyperlinks on the website.
+
+The next lines of input consists of two space-separated integers, Details about each hyperlink are represented by two integers u and v, indicating a hyperlink from webpage u to webpage v.
+
+Output format :
+The output displays the order in which webpages were visited during the BFS traversal, separated by spaces. The traversal order serves as a map of the website structure, indicating how webpages are connected.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+1 <= V <= 10
+
+0 <= E <= V*(V-1)/2
+
+0 <= u, v < V
+
+Sample test cases :
+Input 1 :
+4 4
+0 1
+0 2
+1 3
+2 3
+Output 1 :
+0 1 2 3 
+Input 2 :
+5 6
+0 1
+0 2
+1 3
+1 4
+2 3
+3 4
+Output 2 :
+0 1 2 3 4 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+void bfs(vector<vector<int>>& graph, int start, vector<bool>& visited) {
+    queue<int> q;
+    q.push(start);
+    visited[start] = true;
+
+    while (!q.empty()) {
+        int current = q.front();
+        cout << current << " ";
+        q.pop();
+
+        for (int neighbor : graph[current]) {
+            if (!visited[neighbor]) {
+                q.push(neighbor);
+                visited[neighbor] = true;
+            }
+        }
+    }
+}
+
+int main() {
+    int V, E;
+    cin >> V >> E;
+
+    vector<vector<int>> graph(V);
+
+    for (int i = 0; i < E; ++i) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    vector<bool> visited(V, false);
+
+    // Start BFS from the first webpage (assuming webpage 0 is the starting point)
+    bfs(graph, 0, visited);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <stdio.h>
+
+#define MAX_V 100
+
+void enqueue(int* queue, int* rear, int vertex) {
+    queue[++(*rear)] = vertex;
+}
+
+int dequeue(int* queue, int* front) {
+    return queue[++(*front)];
+}
+
+void bfsOfGraph(int V, int adjList[MAX_V][MAX_V]) {
+    int visited[MAX_V] = {0};
+    int queue[MAX_V];
+    int front = 0, rear = 0;
+
+    int startVertex = 0;
+    enqueue(queue, &rear, startVertex);
+    visited[startVertex] = 1;
+
+    while (front < rear) {
+        int currVertex = dequeue(queue, &front);
+
+        printf("%d ", currVertex);
+
+        for (int i = 0; i < V; ++i) {
+            if (adjList[currVertex][i] == 1 && visited[i] == 0) {
+                enqueue(queue, &rear, i);
+                visited[i] = 1;
+            }
+        }
+    }
+}
+
+int main() {
+    int V, E;
+    scanf("%d %d", &V, &E);
+
+    int adjList[MAX_V][MAX_V] = {0};
+
+    for (int i = 0; i < E; ++i) {
+        int u, v;
+        scanf("%d %d", &u, &v);
+        adjList[u][v] = 1;
+    }
+
+    bfsOfGraph(V, adjList);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+#define MAX_V 100
+
+void enqueue(int* queue, int& rear, int vertex) {
+    queue[++rear] = vertex;
+}
+
+int dequeue(int* queue, int& front) {
+    return queue[++front];
+}
+
+void bfsOfGraph(int V, int adjList[MAX_V][MAX_V]) {
+    int visited[MAX_V] = {0};
+    int queue[MAX_V];
+    int front = 0, rear = 0;
+
+    int startVertex = 0;
+    enqueue(queue, rear, startVertex);
+    visited[startVertex] = 1;
+
+    while (front < rear) {
+        int currVertex = dequeue(queue, front);
+
+        cout << currVertex << " ";
+
+        for (int i = 0; i < V; ++i) {
+            if (adjList[currVertex][i] == 1 && visited[i] == 0) {
+                enqueue(queue, rear, i);
+                visited[i] = 1;
+            }
+        }
+    }
+}
+
+int main() {
+    int V, E;
+    cin >> V >> E;
+
+    int adjList[MAX_V][MAX_V] = {0};
+
+    for (int i = 0; i < E; ++i) {
+        int u, v;
+        cin >> u >> v;
+        adjList[u][v] = 1;
+    }
+
+    bfsOfGraph(V, adjList);
+
+    return 0;
+}
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Question No: 4
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Raja is in the process of developing a program that aims to analyze a social network and discover the longest chain of connections among its users.
+
+
+
+Your task is to help him design a program that utilizes the Depth-First Search (DFS) algorithm to identify the most extended chain of friendships within the network.
+
+Input format :
+The first line of input consists of two integers "n" and "m", representing the number of users and the number of friendship connections in the social network, respectively.
+
+The second line of input consists of each contain two integers, "u" and "v," where "u" and "v" are the user IDs of two users in the network who are friends.
+
+Output format :
+The output displays a single integer representing the length of the longest friendship chain within the network.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+2 ≤ n ≤ 10
+
+0 ≤ m ≤ n*(n-1)/2
+
+1 ≤ u, v ≤ n, u ≠ v
+
+Sample test cases :
+Input 1 :
+4 5
+1 2
+1 3
+3 2
+2 4
+3 4
+Output 1 :
+3
+Input 2 :
+3 4
+1 2
+2 1
+2 3
+1 3
+Output 2 :
+2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+void dfs(int node, vector<vector<int>>& graph, vector<bool>& visited, int& maxLength, int currentLength) {
+    visited[node] = true;
+    currentLength++;
+
+    maxLength = max(maxLength, currentLength);
+
+    for (int neighbor : graph[node]) {
+        if (!visited[neighbor]) {
+            dfs(neighbor, graph, visited, maxLength, currentLength);
+        }
+    }
+}
+
+int main() {
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<int>> graph(n + 1);
+    vector<bool> visited(n + 1, false);
+
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    int maxLength = 0;
+
+    for (int i = 1; i <= n; ++i) {
+        if (!visited[i]) {
+            dfs(i, graph, visited, maxLength, 0);
+        }
+    }
+
+    cout << maxLength-1 << endl;
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <stdio.h>
+
+#define MAXN 100
+
+int dfs(int node, int adj[][MAXN], int dp[], int vis[], int n) {
+    if (vis[node]) {
+        return dp[node];
+    }
+
+    vis[node] = 1;
+    int maxPath = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (adj[node][i]) {
+            int temp = 1 + dfs(i, adj, dp, vis, n);
+            if (temp > maxPath) {
+                maxPath = temp;
+            }
+        }
+    }
+
+    dp[node] = maxPath;
+    return maxPath;
+}
+
+void addEdge(int adj[][MAXN], int u, int v) {
+    adj[u][v] = 1;
+}
+
+int findLongestPath(int adj[][MAXN], int n) {
+    int dp[MAXN] = {0};
+    int vis[MAXN] = {0};
+
+    int longestPath = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (!vis[i]) {
+            int temp = dfs(i, adj, dp, vis, n);
+            if (temp > longestPath) {
+                longestPath = temp;
+            }
+        }
+    }
+
+    return longestPath;
+}
+
+int main() {
+    int n, m;  
+    scanf("%d", &n);
+    
+    int adj[MAXN][MAXN] = {0};
+    scanf("%d", &m);
+
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        scanf("%d %d", &u, &v);
+        addEdge(adj, u - 1, v - 1); 
+    }
+
+    printf("%d", findLongestPath(adj, n));
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+
+#define MAXN 100
+
+using namespace std;
+
+int dfs(int node, int adj[][MAXN], int dp[], bool vis[], int n) {
+    if (vis[node]) {
+        return dp[node];
+    }
+
+    vis[node] = true;
+    int maxPath = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (adj[node][i]) {
+            maxPath = max(maxPath, 1 + dfs(i, adj, dp, vis, n));
+        }
+    }
+
+    dp[node] = maxPath;
+    return maxPath;
+}
+
+void addEdge(int adj[][MAXN], int u, int v) {
+    adj[u][v] = 1;
+}
+
+int findLongestPath(int adj[][MAXN], int n) {
+    int dp[MAXN] = {0};
+    bool vis[MAXN] = {false};
+
+    int longestPath = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (!vis[i]) {
+            longestPath = max(longestPath, dfs(i, adj, dp, vis, n));
+        }
+    }
+
+    return longestPath;
+}
+
+int main() {
+    int n, m;  
+    cin >> n;
+    
+    int adj[MAXN][MAXN] = {0};
+    cin >> m;
+
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        addEdge(adj, u - 1, v - 1); 
+    }
+
+    cout << findLongestPath(adj, n);
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 5
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Dhaya is currently navigating through a maze, and your objective is to assist him in locating the shortest path from the entrance to the exit. The maze is depicted as a grid, with each cell being either a wall or an open path.
+
+
+
+Your task involves creating a program that utilizes the Breadth-First Search (BFS) algorithm to systematically explore the maze and identify the shortest route to reach the exit.
+
+Input format :
+The first line of input consists of the two integers, V and E, separated by a space, where V represents the number of cells in the maze, and E represents the number of connections (edges) between cells.
+
+The next E lines each contain two integers, u and v, separated by a space, indicating a connection (edge) between cell u and cell v. A connection represents an open path in the maze.
+
+Output format :
+The output prints the BFS traversal order of the maze, separated by spaces. This represents the sequence of cells explored to find the shortest path from the entrance to the exit.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+1 <= V <= 10
+
+0 <= E <= V*(V-1)/2
+
+0 <= u, v < V
+
+Sample test cases :
+Input 1 :
+5 4
+0 1
+0 2 
+0 3
+2 4
+Output 1 :
+0 1 2 3 4 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+void bfs(vector<vector<int>>& graph, int start, vector<bool>& visited) {
+    queue<int> q;
+    q.push(start);
+    visited[start] = true;
+
+    while (!q.empty()) {
+        int current = q.front();
+        cout << current << " ";
+        q.pop();
+
+        for (int neighbor : graph[current]) {
+            if (!visited[neighbor]) {
+                q.push(neighbor);
+                visited[neighbor] = true;
+            }
+        }
+    }
+}
+
+int main() {
+    int V, E;
+    cin >> V >> E;
+
+    vector<vector<int>> graph(V);
+
+    for (int i = 0; i < E; ++i) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    vector<bool> visited(V, false);
+
+    // Start BFS from the entrance (assuming entrance is at node 0)
+    bfs(graph, 0, visited);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+#define MAX_V 100
+
+void enqueue(int* queue, int& rear, int vertex) {
+    queue[++rear] = vertex;
+}
+
+int dequeue(int* queue, int& front) {
+    return queue[++front];
+}
+
+void bfsOfGraph(int V, int adjList[MAX_V][MAX_V]) {
+    int visited[MAX_V] = {0};
+    int queue[MAX_V];
+    int front = 0, rear = 0;
+
+    int startVertex = 0;
+    enqueue(queue, rear, startVertex);
+    visited[startVertex] = 1;
+
+    while (front < rear) {
+        int currVertex = dequeue(queue, front);
+
+        cout << currVertex << " ";
+
+        for (int i = 0; i < V; ++i) {
+            if (adjList[currVertex][i] == 1 && visited[i] == 0) {
+                enqueue(queue, rear, i);
+                visited[i] = 1;
+            }
+        }
+    }
+}
+
+int main() {
+    int V, E;
+    cin >> V >> E;
+
+    int adjList[MAX_V][MAX_V] = {0};
+
+    for (int i = 0; i < E; ++i) {
+        int u, v;
+        cin >> u >> v;
+        adjList[u][v] = 1;
+    }
+
+    bfsOfGraph(V, adjList);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <stdio.h>
+
+#define MAX_V 100
+
+void enqueue(int* queue, int* rear, int vertex) {
+    queue[++(*rear)] = vertex;
+}
+
+int dequeue(int* queue, int* front) {
+    return queue[++(*front)];
+}
+
+void bfsOfGraph(int V, int adjList[MAX_V][MAX_V]) {
+    int visited[MAX_V] = {0};
+    int queue[MAX_V];
+    int front = 0, rear = 0;
+
+    int startVertex = 0;
+    enqueue(queue, &rear, startVertex);
+    visited[startVertex] = 1;
+
+    while (front < rear) {
+        int currVertex = dequeue(queue, &front);
+
+        printf("%d ", currVertex);
+
+        for (int i = 0; i < V; ++i) {
+            if (adjList[currVertex][i] == 1 && visited[i] == 0) {
+                enqueue(queue, &rear, i);
+                visited[i] = 1;
+            }
+        }
+    }
+}
+
+int main() {
+    int V, E;
+    scanf("%d %d", &V, &E);
+
+    int adjList[MAX_V][MAX_V] = {0};
+
+    for (int i = 0; i < E; ++i) {
+        int u, v;
+        scanf("%d %d", &u, &v);
+        adjList[u][v] = 1;
+    }
+
+    bfsOfGraph(V, adjList);
+
+    return 0;
+}
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 6
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Raju, a computer analyst, is working on a project that involves examining how different points in a network are connected. He needs to figure out if there's a valid way to get from one point to another based on the network setup. To solve this problem, Raju decided to create a program.
+
+
+
+His job is to develop a program that takes a network described as a set of connections between nodes and checks if there's a way to go from a starting point to an ending point in the network. For this task, he's chosen to use the Depth-First Search (DFS) algorithm.
+
+Input format :
+The first line of input consists of two integers, n representing the number of nodes in the network and m representing the number of edges, separated by a space.
+
+The next m lines each contain two integers, u and v, indicating an edge between nodes u and v in the network.
+
+The last two lines of input consist of two integers, start and end, representing the starting and ending nodes for which Raju wants to find a valid path.
+
+Output format :
+The output displays one of the following two lines:
+
+
+
+"There is a path from [start] to [end]" if a valid path exists from the starting node to the ending node.
+
+"There is no path from [start] to [end]" if no valid path exists.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The test cases fall under the following constraints:
+
+1 ≤ n ≤ 10, 0 ≤ m ≤ n*(n-1)/2
+
+0 ≤ u, v ≤ n, u ≠ v
+
+0 ≤ start, end ≤ n, start ≠ end
+
+Sample test cases :
+Input 1 :
+5 6
+0 1
+1 2
+2 3
+3 4
+0 3
+2 4
+0
+4
+Output 1 :
+There is a path from 0 to 4
+Input 2 :
+4 4
+0 1
+1 2
+2 3
+3 0
+0
+4
+Output 2 :
+There is no path from 0 to 4
+Input 3 :
+6 7
+0 1
+0 2
+1 3
+2 3
+3 4
+4 5
+5 2
+0
+5
+Output 3 :
+There is a path from 0 to 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include<iostream>
+#include<list>
+#include<vector>
+
+using namespace std;
+
+class Graph {
+    int V;
+    list<int> *adj;
+
+public:
+    Graph(int V);
+    void addEdge(int u, int v);
+    bool isPathExists(int start, int end);
+    bool DFS(int start, int end, vector<bool>& visited);
+};
+
+Graph::Graph(int V) {
+    this->V = V;
+    adj = new list<int>[V];
+}
+
+void Graph::addEdge(int u, int v) {
+    adj[u].push_back(v);
+}
+
+bool Graph::DFS(int start, int end, vector<bool>& visited) {
+    if (start == end) {
+        return true;
+    }
+
+    visited[start] = true;
+
+    for (auto i = adj[start].begin(); i != adj[start].end(); ++i) {
+        if (!visited[*i] && DFS(*i, end, visited)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Graph::isPathExists(int start, int end) {
+    vector<bool> visited(V, false);
+
+    return DFS(start, end, visited);
+}
+
+int main() {
+    int n, m;
+    cin >> n >> m;
+
+    Graph g(n);
+
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        g.addEdge(u, v);
+    }
+
+    int start, dest;
+    cin >> start >> dest;
+
+    if (g.isPathExists(start, dest)) {
+        cout << "There is a path from " << start << " to " << dest << "\n";
+    } else {
+        cout << "There is no path from " << start << " to " << dest << "\n";
+    }
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+Question No: 7
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Shailu is developing a navigation application designed to assist users in locating the shortest route between two points within a city. The city's layout is represented as a graph, where each location serves as a vertex and the roads connecting them are represented as edges.
+
+
+
+Your objective is to create a program that employs the Breadth-First Search (BFS) algorithm to determine the shortest path between a specified source location and a destination location.									
+
+Input format :
+The first line consists of two integers v and e, representing the number of locations (vertices) in the city and the number of roads (edges) connecting the locations.
+
+The next e lines contain two space-separated integers src and dest, denoting a road (edge) between location src and location dest.
+
+The next line consists of an integer source, indicating the starting location.
+
+The last line consists of an integer destination, indicating the destination location.
+
+Output format :
+The output is displayed in the following format:
+
+
+
+The first line consists of "Shortest path length is: X", where X represents the shortest path length.
+
+The second line consists of "Path is: ", followed by the nodes in the shortest path, space-separated.
+
+
+
+Refer to the sample output for the exact format.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+1 ≤ v ≤ 10
+
+0 ≤ e ≤ v * (v - 1) / 2
+
+0 ≤ source, destination < v
+
+Sample test cases :
+Input 1 :
+6 7
+1 1
+1 2
+1 3
+1 4
+2 4
+3 5
+4 5
+4 
+5
+Output 1 :
+Shortest path length is: 1
+Path is: 4 5 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+void bfs_shortest_path(vector<vector<int>>& graph, int source, int destination) {
+    vector<int> distance(graph.size(), -1);
+    vector<int> parent(graph.size(), -1);
+    queue<int> q;
+
+    q.push(source);
+    distance[source] = 0;
+
+    while (!q.empty()) {
+        int current = q.front();
+        q.pop();
+
+        for (int neighbor : graph[current]) {
+            if (distance[neighbor] == -1) {
+                q.push(neighbor);
+                distance[neighbor] = distance[current] + 1;
+                parent[neighbor] = current;
+            }
+        }
+    }
+
+    // Output shortest path length
+    cout << "Shortest path length is: " << distance[destination] << endl;
+
+    // Output the path in correct order
+    cout << "Path is: ";
+    vector<int> path;
+    for (int node = destination; node != -1; node = parent[node]) {
+        path.push_back(node);
+    }
+    for (int i = path.size() - 1; i >= 0; --i) {
+        cout << path[i] << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+    // Sample Input
+    int v, e;
+    cin >> v >> e;
+
+    vector<vector<int>> graph(v);
+    for (int i = 0; i < e; ++i) {
+        int src, dest;
+        cin >> src >> dest;
+        graph[src].push_back(dest);
+        graph[dest].push_back(src); // Include this line for undirected graph
+    }
+
+    int source, destination;
+    cin >> source >> destination;
+
+    // Perform BFS for shortest path
+    bfs_shortest_path(graph, source, destination);
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+

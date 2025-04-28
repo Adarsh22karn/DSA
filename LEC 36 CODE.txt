@@ -1,0 +1,637 @@
+Question No: 1
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Aaron is a project manager responsible for organizing a series of tasks to complete a complex project. Each task has a task ID, and some tasks have dependencies on others, meaning they can only be started once their prerequisite tasks are completed. 
+
+
+
+Write a program to assist Aaron in determining if it is possible to create a project schedule that completes all tasks based on their dependencies using Warshall's Algorithm.
+
+
+
+Example 1
+
+
+
+Input:
+
+4
+
+0 1
+
+0 2
+
+1 2
+
+2 3
+
+
+
+Output:
+
+Possible
+
+
+
+Explanation:
+
+Task 0 depends on Task 1 and Task 2. Task 1 depends on Task 2. Task 2 depends on Task 3. There are no circular dependencies or cycles, so a project schedule can be created.
+
+
+
+Example 2
+
+
+
+Input:
+
+3
+
+1 0
+
+2 1
+
+0 2
+
+
+
+Output:
+
+Impossible
+
+
+
+Explanation:
+
+Task 1 depends on Task 0, Task 2 depends on Task 1, and Task 0 depends on Task 2, creating a cycle. This cycle makes it impossible to create a valid project schedule.
+
+Input format :
+The first line of input consists of an integer N, representing the number of tasks in the project.
+
+The following N lines consist of two space-separated integers each, representing the task ID and the task ID it depends on.
+
+Output format :
+If it is possible to create a project schedule that completes all tasks based on the given dependencies, print "Possible."
+
+Otherwise, print "Impossible".
+
+Code constraints :
+The test cases will under the following constraints:
+
+1 ≤ N ≤ 10
+
+Sample test cases :
+Input 1 :
+4
+0 1
+0 2
+1 2
+2 3
+Output 1 :
+Possible
+Input 2 :
+3
+1 0
+2 1
+0 2
+Output 2 :
+Impossible
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void warshall(int n, vector<vector<int>>& matrix) {
+    // Warshall's Algorithm to detect cycles
+    for (int k = 0; k < n; ++k) {
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                matrix[i][j] = matrix[i][j] || (matrix[i][k] && matrix[k][j]);
+            }
+        }
+    }
+}
+
+bool hasCycle(int n, vector<vector<int>>& matrix) {
+    // Check for cycles in the graph
+    for (int i = 0; i < n; ++i) {
+        if (matrix[i][i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+int main() {
+    // Sample Input
+    int n;
+    cin >> n;
+
+    vector<vector<int>> matrix(n, vector<int>(n, 0));
+    for (int i = 0; i < n; ++i) {
+        int task, dependency;
+        cin >> task >> dependency;
+        matrix[task][dependency] = 1;
+    }
+
+    // Detect cycles using Warshall's Algorithm
+    warshall(n, matrix);
+
+    // Check if there is a cycle
+    if (hasCycle(n, matrix)) {
+        cout << "Impossible" << endl;
+    } else {
+        cout << "Possible" << endl;
+    }
+
+    return 0;
+}
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Question No: 2
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Megna is assigned a project consisting of multiple tasks, and each task may depend on other tasks. Your goal is to help Megna write a program that determines whether there exists a chain of dependencies that connects one task to another within the project.
+
+
+
+Write a program using Warshall's Algorithm to find out if there exists a chain of dependencies that connects two tasks.
+
+Input format :
+The first line of input consists of an integer N, representing the number of tasks in the project.
+
+The following N lines consist of N space-separated integers (0 or 1), representing the matrix of task dependencies.
+
+The last line consists of two space-separated integers, task1 and task2, for which the presence of a chain of dependencies needs to be determined.
+
+Output format :
+If there exists a chain of dependencies from task1 to task2, print "There is a chain of dependencies."
+
+Otherwise, print "There is no chain of dependencies."
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+1 ≤ N ≤ 10
+
+Each element of the adjacency matrix is either 0 or 1.
+
+0 ≤ task1, task2 < N
+
+Sample test cases :
+Input 1 :
+6
+0 1 0 1 0 0
+0 0 1 0 0 1
+0 0 0 0 1 0
+0 0 0 0 0 1
+0 0 0 0 0 1
+0 0 0 0 0 0
+2 4
+Output 1 :
+There is a chain of dependencies.
+Input 2 :
+5
+0 1 1 0 0
+0 0 0 1 0
+1 0 0 1 0
+1 0 0 0 1
+0 0 1 0 0
+2 5
+Output 2 :
+There is no chain of dependencies.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void warshall(int n, vector<vector<int>>& matrix) {
+    // Warshall's Algorithm to find chain of dependencies
+    for (int k = 0; k < n; ++k) {
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                matrix[i][j] = matrix[i][j] || (matrix[i][k] && matrix[k][j]);
+            }
+        }
+    }
+}
+
+int main() {
+    // Sample Input
+    int n;
+    cin >> n;
+
+    vector<vector<int>> matrix(n, vector<int>(n, 0));
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            cin >> matrix[i][j];
+        }
+    }
+
+    int task1, task2;
+    cin >> task1 >> task2;
+
+    // Compute dependencies matrix using Warshall's Algorithm
+    warshall(n, matrix);
+
+    // Check if there is a chain of dependencies between task1 and task2
+    if (matrix[task1][task2]) {
+        cout << "There is a chain of dependencies." << endl;
+    } else {
+        cout << "There is no chain of dependencies." << endl;
+    }
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 3
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Virat is given a group of individuals, and he wants to identify if there is an influential individual within the group. An influential individual is defined as someone who is followed by more people than they follow.
+
+
+
+He is provided with a list of follow-up relationships among the individuals in the form of a matrix. Your task is to help Virat determine if there is an influential individual and, if so, find their index within the group.
+
+
+
+Write a program to solve this problem using Warshall's Algorithm. 
+
+Input format :
+The first line of input consists of an integer N, representing the number of individuals in the group.
+
+The following N lines will contain N space-separated integers, representing the following relationship matrix for the individuals.
+
+Output format :
+If an influential individual is found, print "Influential Individual: X," where X is the index (0-based) of the influential individual.
+
+Otherwise, print "There is no influential individual in the group".
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+1 ≤ N ≤ 10
+
+Each element of the relationship matrix is either 0 or 1.
+
+Sample test cases :
+Input 1 :
+4
+0 1 1 0
+0 0 1 0
+0 0 0 0
+0 0 1 0
+Output 1 :
+Influential Individual: 2
+Input 2 :
+5
+0 1 1 0 0
+0 0 0 0 0
+0 0 0 1 0
+0 0 0 0 1
+0 0 0 0 0
+Output 2 :
+There is no influential individual in the group
+Input 3 :
+3
+0 1 1
+0 0 0
+0 1 0
+Output 3 :
+Influential Individual: 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void warshall(int n, vector<vector<int>>& matrix) {
+    // Warshall's Algorithm to find influential individual
+    for (int k = 0; k < n; ++k) {
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                matrix[i][j] = matrix[i][j] || (matrix[i][k] && matrix[k][j]);
+            }
+        }
+    }
+}
+
+int findInfluentialIndividual(int n, vector<vector<int>>& matrix) {
+    for (int i = 0; i < n; ++i) {
+        int followers = 0, following = 0;
+        for (int j = 0; j < n; ++j) {
+            followers += matrix[j][i];
+            following += matrix[i][j];
+        }
+        if (followers == n - 1 && following == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int main() {
+    // Sample Input
+    int n;
+    cin >> n;
+
+    vector<vector<int>> matrix(n, vector<int>(n, 0));
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            cin >> matrix[i][j];
+        }
+    }
+
+    // Compute relationship matrix using Warshall's Algorithm
+    warshall(n, matrix);
+
+    // Find influential individual
+    int influentialIndividual = findInfluentialIndividual(n, matrix);
+
+    // Output result
+    if (influentialIndividual != -1) {
+        cout << "Influential Individual: " << influentialIndividual << endl;
+    } else {
+        cout << "There is no influential individual in the group" << endl;
+    }
+
+    return 0;
+}
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Question No: 4
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+You are working on a software module that deals with graph algorithms. 
+
+
+
+Your task is to implement a program to determine the reachability between vertices in an unweighted graph. The graph is represented as an adjacency matrix.
+
+
+
+You are given a connected graph with N vertices. Each vertex is labelled with a unique integer from 0 to N-1. The graph is represented as an NxN adjacency matrix, where graph[i][j] is 1 if there is an edge between vertex i and vertex j and 0 otherwise.
+
+
+
+Your program should compute the reachability between all pairs of vertices using Warshall's Algorithm. 
+
+
+
+The reachability matrix is obtained by applying the Warshall algorithm to the given adjacency matrix. For each pair of vertices u and v, you need to determine if there is a path from vertex u to vertex v in the graph.
+
+Input format :
+The first line of input contains an integer N, representing the number of vertices in the graph.
+
+The next N lines contain N space-separated integers, forming the adjacency matrix graph, where graph[i][j] is either 0 or 1.
+
+The last line contains two integers, u and v, representing the pair of vertices for which you need to check the reachability.
+
+Output format :
+The output displays an NxN matrix, where the element graph[i][j] is 1 if there is a path from vertex i to vertex j and 0 otherwise.
+
+After printing the matrix, the program should check if there is a path from vertex u to vertex v and print the result accordingly.
+
+If there is a path, print: "There is a path from vertex [u] to vertex [v]."
+If there is no path, print: "There is no path from vertex [u] to vertex [v]."
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+1 ≤ N ≤ 10 (number of vertices).
+
+Each element of the adjacency matrix is either 0 or 1.
+
+0 ≤ u, v < n (source and destination vertices).
+
+Sample test cases :
+Input 1 :
+4
+0 1 0 0
+0 0 1 0
+0 0 0 1
+0 0 0 0
+1 3
+Output 1 :
+0 1 1 1 
+0 0 1 1 
+0 0 0 1 
+0 0 0 0 
+There is a path from vertex 1 to vertex 3.
+Input 2 :
+4
+0 1 0 0
+0 0 1 0
+0 0 0 1
+0 0 0 0
+3 1
+Output 2 :
+0 1 1 1 
+0 0 1 1 
+0 0 0 1 
+0 0 0 0 
+There is no path from vertex 3 to vertex 1.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void warshall(int n, vector<vector<int>>& graph) {
+    // Warshall's Algorithm to compute reachability matrix
+    for (int k = 0; k < n; ++k) {
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                graph[i][j] = graph[i][j] || (graph[i][k] && graph[k][j]);
+            }
+        }
+    }
+}
+
+void printMatrix(int n, vector<vector<int>>& graph) {
+    // Print the reachability matrix
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            cout << graph[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+void checkPath(int u, int v, vector<vector<int>>& graph) {
+    // Check if there is a path from vertex u to vertex v
+    if (graph[u][v]) {
+        cout << "There is a path from vertex " << u << " to vertex " << v << "." << endl;
+    } else {
+        cout << "There is no path from vertex " << u << " to vertex " << v << "." << endl;
+    }
+}
+
+int main() {
+    // Sample Input
+    int n;
+    cin >> n;
+
+    vector<vector<int>> graph(n, vector<int>(n, 0));
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            cin >> graph[i][j];
+        }
+    }
+
+    int u, v;
+    cin >> u >> v;
+
+    // Compute reachability matrix using Warshall's Algorithm
+    warshall(n, graph);
+
+    // Print reachability matrix
+    printMatrix(n, graph);
+
+    // Check if there is a path from vertex u to vertex v
+    checkPath(u, v, graph);
+
+    return 0;
+}
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+

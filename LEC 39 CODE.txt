@@ -1,0 +1,547 @@
+Question No: 1
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Jessica is overseeing a supermarket and needs to create a custom hash function to store and organize the names of fruits in her inventory. She has already implemented a hash function and wants to validate its correctness using different fruit names. 
+
+
+
+Your task is to implement the hash function and help Jessica calculate the hash values for various fruit names.
+
+
+
+Note
+
+hashValue = (hashValue * 29) + ch, where 'ch' represents the integer value of the character.
+hashValue% HASH_TABLE_SIZE is an operation involving the modulo operator (%).
+Input format :
+The input consists of strings of fruit names, separated by a line.
+
+The input continues until Jessica enters 'exit' as a string, indicating the end of the input.
+
+Output format :
+For each input fruit name (excluding 'exit'), the program should output its corresponding hash value calculated using the hash function.
+
+Each hash value should be printed on a new line.
+
+Code constraints :
+Hash table size = 10000
+
+Length of the string = 100 characters
+
+Each input string consists of lowercase and uppercase letters
+
+Sample test cases :
+Input 1 :
+Apple
+Banana
+Strawberry
+exit
+Output 1 :
+2258
+9745
+8553
+Input 2 :
+Dragonfruit
+Guava
+Mango
+Papaya
+Lychee
+Persimmon
+exit
+Output 2 :
+69
+5560
+1978
+4928
+3330
+6978
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+const int HASH_TABLE_SIZE = 10000;
+
+unsigned int customHash(string& key) {
+    unsigned int hashValue = 0;
+
+    for (char ch : key) {
+        hashValue = (hashValue * 29) + ch;
+    }
+
+    return hashValue % HASH_TABLE_SIZE;
+}
+
+int main() {
+    string key;
+    while (true) {
+        cin >> key;
+
+        if (key == "exit") {
+            break;
+        }
+
+        unsigned int hashValue = customHash(key);
+        cout << hashValue << endl;
+    }
+
+    return 0;
+}
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 2
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Deva works at a bustling supermarket, and he's looking for an efficient way to manage the products on the store shelves.
+
+
+
+He wants to use a hash table with linear probing to keep track of the available slots on the shelves and optimize product placement. Help him write a program that manages the product slots using this approach.
+
+
+
+Example
+
+
+
+Input 
+
+6 
+
+5
+
+15 30 9 21 12
+
+Output 
+
+3 0 4 5 1 
+
+
+
+Explanation
+
+
+
+In the product code allocation process, key 15 is hashed to index 3, resulting in "3" as it's stored in an empty slot. Similarly, key 30 is placed in index 0, yielding "0." Key 9 and 21 both map to index 3, invoking linear probing. Key 9 finds a slot at index 4, resulting in "4," while key 21 is stored at index 5, producing "5." Lastly, key 12 is hashed to index 0, leading to linear probing, and it's managed at index 1, printing "1."
+
+
+
+Note
+
+
+
+A hash function to determine the initial index for each key in a hash table, utilizing the modulo operation (key%size).
+
+Input format :
+The first line of input consists of an integer N, representing the size of the hash table.
+
+The second line of input consists of an integer K, representing the number of product slots.
+
+The third line of input consists of K integers, representing the product slots, separated by a space.
+
+Output format :
+The output displays product slots as space-separated integers, each representing the hash index of a product slot.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+1 ≤ N ≤ 10
+
+1 ≤ K ≤ 100
+
+Sample test cases :
+Input 1 :
+6 
+5
+15 30 9 21 12
+Output 1 :
+3 0 4 5 1 
+Input 2 :
+10
+5
+123 456 789 321 654
+Output 2 :
+3 6 9 1 4 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int hashFunction(int key, int size) {
+    return key % size;
+}
+
+void allocateProductSlots(int N, int K, vector<int>& slots) {
+    vector<int> hashTable(N, -1);
+    vector<int> indices(K, -1);
+
+    for (int i = 0; i < K; i++) {
+        int key = slots[i];
+        int index = hashFunction(key, N);
+
+        while (hashTable[index] != -1) {
+            index = (index + 1) % N;
+        }
+
+        hashTable[index] = key;
+        indices[i] = index;
+    }
+
+    for (int i = 0; i < K; i++) {
+        cout << indices[i] << " ";
+    }
+}
+
+int main() {
+    int N, K;
+    cin >> N >> K;
+
+    vector<int> slots(K);
+    for (int i = 0; i < K; i++) {
+        cin >> slots[i];
+    }
+
+    allocateProductSlots(N, K, slots);
+
+    return 0;
+}
+
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 3
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Sindhu is working on implementing a hash table with linear probing to efficiently store a set of unique integer keys. She is seeking your help to develop a program that accomplishes this.
+
+
+
+Your task is to write a program that takes a series of integers as input, hashes them into a hash table, resolves any collisions using linear probing, and then displays the keys and their corresponding indices in ascending order of their original insertion.
+
+
+
+Example
+
+
+
+Input 
+
+5
+
+5
+
+14 16 17 26 10
+
+Output 
+
+index: 0, value: 10
+
+index: 1, value: 16
+
+index: 2, value: 17
+
+index: 3, value: 26
+
+index: 4, value: 14
+
+
+
+Explanation
+
+
+
+The keys are inserted into the hash table division method using linear probing to resolve any collisions.
+
+
+
+Key 14 is inserted at index 4.
+Key 16 is inserted at index 1.
+Key 17 is inserted at index 2.
+Key 26 initially collides with index 1 but is inserted at the next available slot, which is index 3, using linear probing.
+Key 10 is inserted at index 0.
+
+
+The keys and their respective indices are sorted in ascending order of their original insertion.
+
+Input format :
+The first line of input consists of an integer size, which represents the size of the hash table.
+
+The second line of input consists of an integer n, which represents the number of keys to be inserted.
+
+The third line of input consists of n integers separated by a space, representing the keys to be inserted.
+
+Output format :
+For each key, the output displays a line with the following format: "index: [index], value: [value]".
+
+
+
+where [index] is the index in the hash table in ascending order, where the key is stored after resolving collisions, and [value] is the corresponding key value.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+1 ≤ size ≤ 10
+
+1 ≤ n ≤ 10
+
+1 ≤ keys ≤ 100
+
+Sample test cases :
+Input 1 :
+5
+5
+14 16 17 26 10
+Output 1 :
+index: 0, value: 10
+index: 1, value: 16
+index: 2, value: 17
+index: 3, value: 26
+index: 4, value: 14
+Input 2 :
+10
+5
+10 43 68 90 13
+Output 2 :
+index: 0, value: 10
+index: 1, value: 90
+index: 3, value: 43
+index: 4, value: 13
+index: 8, value: 68
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <stdio.h>
+
+#define SIZE 100
+
+int calHash(int key, int size) 
+{
+    return key % size;
+}
+
+int main() {
+    int size, numKeys;
+    scanf("%d", &size);
+    scanf("%d", &numKeys);
+
+    int keys[numKeys];
+    int hashTable[SIZE];
+    for (int i = 0; i < SIZE; i++) {
+        hashTable[i] = -1;
+    }
+
+    for (int i = 0; i < numKeys; ++i) {
+        scanf("%d", &keys[i]);
+    }
+
+    int minIndices[numKeys];
+
+    for (int i = 0; i < numKeys; ++i) {
+        int key = keys[i];
+        int index = calHash(key, size);
+
+        while (hashTable[index] != -1) {
+            index = (index + 1) % size;
+        }
+
+        hashTable[index] = key;
+
+        int mIndex = index;
+        while (keys[i] != hashTable[mIndex]) {
+            mIndex = (mIndex + 1) % size;
+        }
+
+        minIndices[i] = mIndex;
+    }
+
+    for (int i = 0; i < numKeys; ++i) {
+        for (int j = i + 1; j < numKeys; ++j) {
+            if (minIndices[i] > minIndices[j]) {
+                int temp = minIndices[i];
+                minIndices[i] = minIndices[j];
+                minIndices[j] = temp;
+                temp = keys[i];
+                keys[i] = keys[j];
+                keys[j] = temp;
+            }
+        }
+
+        printf("index: %d, value: %d\n", minIndices[i], keys[i]);
+    }
+
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 4
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Ram is working on a project that requires implementing a string hashing function. He needs to create a program that can calculate a hash value for a given string and a specified table size using the provided hashing function. Help him design this program.
+
+
+
+Note:
+
+Initialize 'hashVal' to 0.
+For each character key[i] in the string:
+Multiply the current 'hashVal' by 37.
+Add the ASCII value of the character key[i] to hashVal.
+Finally, return 'hashVal % tSize', which ensures that the hash value falls within the range of the hash table size.
+Input format :
+The first line of input consists of a string, text.
+
+The second line consists of an integer, tSize, representing the size of the hash table.
+
+Output format :
+The output displays a single integer, which is the hash value of the input string modulo tSize.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+1 ≤ |text| ≤ 102
+
+1 ≤ tSize ≤ 109
+
+The text contains lowercase and uppercase letters without any space.
+
+Sample test cases :
+Input 1 :
+Welcome
+10000
+Output 1 :
+680
+Input 2 :
+Hello
+10
+Output 2 :
+4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+unsigned int hashCalc(string key, int tableSize) {
+    unsigned int hashVal = 0;
+
+    for (int i = 0; i < key.length(); i++)
+        hashVal = 37 * hashVal + key[i];
+
+    return hashVal % tableSize;
+}
+
+int main() {
+    string text;
+    int tSize;
+    cin >> text;
+    cin >> tSize;
+
+    cout << hashCalc(text, tSize);
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+

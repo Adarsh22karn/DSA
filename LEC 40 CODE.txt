@@ -1,0 +1,851 @@
+Question No: 1
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Harish is working on implementing a hash table with collision resolution using the division method.
+
+
+
+He needs your help to write a program that takes a series of integer keys, hashes them into a table, resolves collisions by linear probing, and then finds and reports the middle element from the table.
+
+
+
+You are required to create a program to assist Harish in this task.
+
+Input format :
+The first line of input consists of an integer, n, indicating the number of keys to be inserted into the hash table.
+
+The second line of input consists of n space-separated integers, representing the keys to be inserted.
+
+Output format :
+The output displays two types in the following format:
+
+
+
+For each non-empty slot in the hash table, print "Index i: x", where i is the index and x is the key stored at that index.
+Finally, print "Middle Index: i, Middle Value: x", where i is the index of the middle element and x is the value of the middle element.
+Code constraints :
+table size = 10
+
+n should be odd.
+
+Sample test cases :
+Input 1 :
+5
+2000 3000 3553 4233 3122
+Output 1 :
+Index 0: 2000
+Index 1: 3000
+Index 2: 3122
+Index 3: 3553
+Index 4: 4233
+Middle Index: 2, Middle Value: 3122
+Input 2 :
+7
+1245 2365  4125 3215 5214 4658 2314
+Output 2 :
+Index 0: 2314
+Index 4: 5214
+Index 5: 1245
+Index 6: 2365
+Index 7: 4125
+Index 8: 3215
+Index 9: 4658
+Middle Index: 6, Middle Value: 2365
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+int myHash(int key, int tableSize) {
+    return key % tableSize;
+}
+
+int main() {
+    int tableSize = 10;
+    int numKeys;
+    cin >> numKeys;
+
+    int keys[numKeys];
+    for (int i = 0; i < numKeys; i++) {
+        cin >> keys[i];
+    }
+
+    int hashTable[tableSize];
+    for (int i = 0; i < tableSize; i++) {
+        hashTable[i] = -1;
+    }
+
+    for (int i = 0; i < numKeys; i++) {
+        int key = keys[i];
+        int hashIndex = myHash(key, tableSize); 
+
+        while (hashTable[hashIndex] != -1) {
+            hashIndex = (hashIndex + 1) % tableSize;
+        }
+
+        hashTable[hashIndex] = key;
+    }
+
+    int mid = (numKeys / 2) + 1;
+    int middleIndex, middleValue;
+    int c = 0;
+
+    for (int i = 0; i < tableSize; i++) {
+        if (hashTable[i] != -1) {
+            c++;
+            if (c == mid) {
+                middleIndex = i;
+                middleValue = hashTable[i];
+            }
+            cout << "Index " << i << ": " << hashTable[i] << endl;
+        }
+    }
+
+    cout << "Middle Index: " << middleIndex << ", Middle Value: " << middleValue;
+
+    return 0;
+}
+
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 2
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Aaron, a computer science student, is working on a project that involves implementing a hash table using the division method for linear probing and resolving collisions.
+
+
+
+He needs to create a program that will efficiently store customer IDs in a hash table with a fixed size of 10. His program must handle cases where multiple customer IDs might map to the same index in the table due to the hash function.
+
+Input format :
+The first line of input consists of an integer N, representing the number of customers.
+
+The second line of input consists of N space-separated integers, representing the customer IDs.
+
+Output format :
+The output display for each slot in the hash table, if it's occupied by a customer ID, prints the following line:
+
+"Table number <<X>>: Customer ID <<Y>>"
+
+
+
+Where:
+
+X is the slot number (0 to 9).
+
+Y is the customer ID stored in that slot.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+table size = 10
+
+1 <= customer ID <= 1000
+
+Sample test cases :
+Input 1 :
+5
+102 201 210 310 410
+Output 1 :
+Table number 0: Customer ID 210
+Table number 1: Customer ID 201
+Table number 2: Customer ID 102
+Table number 3: Customer ID 310
+Table number 4: Customer ID 410
+Input 2 :
+6
+120 115 102 203 110 130
+Output 2 :
+Table number 0: Customer ID 120
+Table number 1: Customer ID 110
+Table number 2: Customer ID 102
+Table number 3: Customer ID 203
+Table number 4: Customer ID 130
+Table number 5: Customer ID 115
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+int divisionMethod(int key, int tableSize)
+{
+    return key % tableSize;
+}
+
+int main() {
+    int tableSize = 10;
+    int numKeys;
+    cin >> numKeys;
+    int keys[numKeys];
+    for (int i = 0; i < numKeys; i++) {
+        cin >> keys[i];
+    }
+    int hashTable[tableSize];
+    for (int i = 0; i < tableSize; i++) {
+        hashTable[i] = -1;
+    }
+    for (int i = 0; i < numKeys; i++) {
+        int key = keys[i];
+        int hashIndex = divisionMethod(key, tableSize);
+        while (hashIndex < tableSize) {
+            if (hashTable[hashIndex] == -1) {
+                hashTable[hashIndex] = key;
+                break;
+            } else {
+                hashIndex = (hashIndex + 1) % tableSize;
+            }
+        }
+    }
+    for (int i = 0; i < tableSize; i++) {
+        if (hashTable[i] != -1) {
+            cout << "Table number " << i << ": Customer ID " << hashTable[i] << endl;
+        }
+    }
+    return 0;
+}
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 3
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Chandra is a cyclist who loves collecting data about her bike rides. She has a collection of bike ride data in the form of speeds (in km/h) that she wants to store in a hash table. However, she is concerned about efficiently storing this data using quadratic probing, a collision resolution technique.
+
+
+
+Write a program to help Chandra find the fastest bike speed along with its index in the hash table (table size 10). For each bike, calculate a hash index using the modulo operation (% tableSize).
+
+Input format :
+The first line of input consists of an integer, N, representing the number of bikes.
+
+The second line input consists of N space-separated integers representing the bike ride speeds.
+
+Output format :
+The output displays the fastest bike speed and the index (0-based) in the hash table where this speed is stored.
+
+
+
+Refer to the sample output for the exact text and format.
+
+Code constraints :
+tableSize = 10
+
+Sample test cases :
+Input 1 :
+5
+30 50 40 60 70
+Output 1 :
+Fastest bike speed: 70, Index: 6
+Input 2 :
+4
+72 45 30 90
+Output 2 :
+Fastest bike speed: 90, Index: 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    int tableSize = 10;
+    int numKeys, i;
+    cin >> numKeys;
+    int keys[numKeys];
+
+    for (i = 0; i < numKeys; i++) {
+        cin >> keys[i];
+    }
+
+    int hashTable[tableSize];
+
+    for (i = 0; i < tableSize; i++) {
+        hashTable[i] = -1;
+    }
+
+    for (i = 0; i < numKeys; i++) {
+        int key = keys[i];
+        int hashIndex = key % tableSize;
+        int j = 0;
+
+        while (hashTable[hashIndex] != -1) {
+            j++;
+            hashIndex = (hashIndex + j * j) % tableSize;
+        }
+
+        hashTable[hashIndex] = key;
+    }
+
+    int min = hashTable[0];
+    int in = 0;
+
+    for (i = 1; i < tableSize; i++) {
+        if (hashTable[i] != -1) {
+            if (min < hashTable[i]) {
+                min = hashTable[i];
+                in = i;
+            }
+        }
+    }
+
+    cout << "Fastest bike speed: " << min << ", Index: " << in ;
+
+    return 0;
+}
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 4
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Imagine you have started a high-class hotel. The menu card contains N dishes, and each dish has been priced uniquely. Use quadratic probing to store and retrieve the dish price in an optimized manner.
+
+
+
+Write the code to retrieve the price of the dishes in prime positions after hashing. For each dish's price, calculate a hash index using the modulo operation (% tableSize).
+
+Input format :
+The first line of input consists of an integer N, representing the number of dishes.
+
+The second line consists of N space-separated integers, representing the price of each dish.
+
+Output format :
+The output prints the prices of the dishes in prime positions.
+
+If there is no dish that is placed in prime position after hashing, print "No dish is placed in prime position"
+
+
+
+Refer to the sample output for the exact text and format.
+
+Code constraints :
+tableSize = 10
+
+Sample test cases :
+Input 1 :
+5
+12 32 45 90 156
+Output 1 :
+The price of the dish in prime position: 2 is Rs.12
+The price of the dish in prime position: 3 is Rs.32
+The price of the dish in prime position: 5 is Rs.45
+Input 2 :
+3
+14 56 88
+Output 2 :
+No dish is placed in prime position
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+
+bool isPrime(int num) {
+    if (num <= 1) {
+        return false;
+    }
+
+    for (int i = 2; i <= sqrt(num); i++) {
+        if (num % i == 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int hashFunction(int key, int size) {
+    return key % size;
+}
+
+void retrieveDishPrices(int N, vector<int>& dishPrices) {
+    vector<int> hashTable(10, -1);
+
+    for (int i = 0; i < N; i++) {
+        int key = dishPrices[i];
+        int index = hashFunction(key, 10);
+
+        int j = 1;
+        while (hashTable[index] != -1) {
+            index = (index + j * j) % 10;
+            j++;
+        }
+
+        hashTable[index] = key;
+    }
+
+    bool primePositionFound = false;
+
+    for (int i = 2; i < 10; i++) {
+        if (isPrime(i) && hashTable[i] != -1) {
+            cout << "The price of the dish in prime position: " << i << " is Rs." << hashTable[i] << endl;
+            primePositionFound = true;
+        }
+    }
+
+    if (!primePositionFound) {
+        cout << "No dish is placed in prime position" << endl;
+    }
+}
+
+int main() {
+    int N;
+    cin >> N;
+
+    vector<int> dishPrices(N);
+    for (int i = 0; i < N; i++) {
+        cin >> dishPrices[i];
+    }
+
+    retrieveDishPrices(N, dishPrices);
+
+    return 0;
+}
+
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 5
+reportIcon
+Single File Programming Question
+Problem Statement 
+
+
+
+Rajesh is a computer science enthusiast who wants to implement a hash table using the mid-square hashing technique to efficiently store a set of integer keys.
+
+
+
+He is looking for a program that can handle a specified number of keys and avoid collisions when inserting them into the hash table.
+
+
+
+Apply the Mid-Square Hashing algorithm to each key and insert it into the hash table, ensuring that there are no collisions. If a collision occurs, use linear probing to find the next available slot.
+
+
+
+Note:
+
+
+
+The Mid-Square Hashing algorithm is as follows:
+
+Square the key.
+Extract the middle two digits of the square. For example, if the square is 16384, you should take 38 (84 is in the middle).
+Perform a modulo operation with the table size (100) to obtain the hash index.
+The formula (squared / 100) extracts the last two digits, while % 100 ensures middleDigit falls within 0 to 99, obtaining a valid hash index.
+Input format :
+The first line of input consists of an integer, n, representing the number of keys to insert.
+
+The second line of input consists of n space-separated integers, each representing a key.
+
+Output format :
+The output displays, for each non-empty slot in the hash table, the format "Index [index]: Key [key]".
+
+
+
+Refer to the sample output for the exact text and format.
+
+Code constraints :
+table size = 100
+
+1 <= n <= 10
+
+100 <= keys <= 1000
+
+Linear probing should be used to handle collisions, meaning the next available slot is chosen if the calculated hash index is already occupied.
+
+Sample test cases :
+Input 1 :
+5
+350 400 450 500 550
+Output 1 :
+Index 0: Key 400
+Index 1: Key 500
+Index 25: Key 350
+Index 26: Key 450
+Index 27: Key 550
+Input 2 :
+8
+102 103 453 768 329 786 329 786
+Output 2 :
+Index 4: Key 102
+Index 6: Key 103
+Index 52: Key 453
+Index 77: Key 786
+Index 78: Key 786
+Index 82: Key 329
+Index 83: Key 329
+Index 98: Key 768
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+#define TABLE_SIZE 100
+
+int hashTable[TABLE_SIZE];
+
+int midSquareHash(int key) {
+    int square = key * key;
+    int middleDigits = (square / 100) % 100;
+    return middleDigits % TABLE_SIZE;
+}
+
+int insert(int key) {
+    int index = midSquareHash(key);
+
+    if (hashTable[index] == 0) {
+        hashTable[index] = key;
+        return index;
+    }
+
+    // Linear probing to find the next available slot
+    int newIndex = (index + 1) % TABLE_SIZE;
+    while (newIndex != index) {
+        if (hashTable[newIndex] == 0) {
+            hashTable[newIndex] = key;
+            return newIndex;
+        }
+        newIndex = (newIndex + 1) % TABLE_SIZE;
+    }
+
+    // Table is full
+    return -1;
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        int key;
+        cin >> key;
+
+        int index = insert(key);
+    }
+
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        if (hashTable[i] != 0) {
+            cout << "Index " << i << ": Key " << hashTable[i] << endl;
+        }
+    }
+
+    return 0;
+}
+
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Question No: 6
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Rithika, an aspiring computer scientist, is diving into the world of hash functions and their practical applications. She recently learned about a hash function called "Mid-Square Hashing".
+
+
+
+Rithika is implementing the Mid-Square Hashing algorithm to store integer keys in a hash table. She's using linear probing to resolve collisions by finding the next available slot.
+
+
+
+Your task is to help her write the code and find the key with the highest value in the hash table, along with its index.
+
+
+
+Example
+
+
+
+Input 
+
+6
+
+42 58 37 29 85 89
+
+Output 
+
+Weight: 89, Index: 92
+
+
+
+Explanation
+
+
+
+A hash table of size 100 is initialized with all entries set to -1, representing an empty array.
+The Mid-Square Hashing algorithm is used to calculate hash indices for keys.
+Key 42 squared to 1764, and middle digits (76) were used as its hash index.
+Key 58 resulted in a hash index of 36.
+Key 37 faced a collision and was stored at index 37 using linear probing.
+Key 29 had an index of 41.
+Key 85 also experienced a collision, which was resolved by placing it at index 42. The key with the maximum value, 89 (square value 92), was stored at index 92 after a linear search, demonstrating collision resolution for finding the maximum-weighted key.
+
+
+Note: The formula (squared / 10) extracts the last two digits, and % 100 ensures middleDigit is within 0 to 99, limiting the hash index to the table size.
+
+Input format :
+The first line of input consists of an integer, n, representing the number of integer keys to be stored in the hash table.
+
+The second line of input consists of n space-separated integers, where each integer key represents a unique key to be hashed and stored in the table.
+
+Output format :
+The output displays a single line with two space-separated integers in the following format:
+
+"Weight: <<X>>, Index: <<Y>>".
+
+where:
+
+"X" represents the weight (value) of the key with the maximum weight in the hash table.
+
+"Y" represents the index (position) in the hash table where the key with the maximum weight is stored.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+table size = 100
+
+10 <= key <= 100
+
+Sample test cases :
+Input 1 :
+5
+60 65 70 75 80
+Output 1 :
+Weight: 80, Index: 40
+Input 2 :
+6
+42 58 37 29 85 89
+Output 2 :
+Weight: 89, Index: 92
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+int midSquareHash(int key, int tableSize) 
+{
+    int squared = key * key;
+    int middleDigit = (squared / 10) % 100; 
+    int hashIndex = middleDigit % tableSize;
+    return hashIndex;
+}
+
+int main() {
+    int tableSize = 100, in, max; 
+    int numKeys;   
+    cin >> numKeys;
+    int keys[numKeys];
+    for (int i = 0; i < numKeys; i++) {
+        cin >> keys[i];
+    }
+    int hashTable[tableSize];
+    for (int i = 0; i < tableSize; i++) {
+        hashTable[i] = -1;
+    }
+    for (int i = 0; i < numKeys; i++) {
+        int key = keys[i];
+        int hashIndex = midSquareHash(key, tableSize);
+        
+        while (hashTable[hashIndex] != -1) {
+            hashIndex = (hashIndex + 1) % tableSize;
+        }
+        hashTable[hashIndex] = key;
+    }
+    
+    max = hashTable[0];
+    in = 0;
+    for (int i = 1; i < tableSize; i++) {
+        if (hashTable[i] != -1 && hashTable[i] > max) {
+            max = hashTable[i];
+            in = i;
+        }
+    }
+    cout << "Weight: " << max << ", Index: " << in;
+    return 0;
+}
+
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
